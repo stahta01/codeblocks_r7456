@@ -31,11 +31,10 @@
 					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
 					<Add option="-DBOOST_SYSTEM_NO_DEPRECATED" />
-					<Add directory="../../../include" />
-					<Add directory="../../../sdk/wxscintilla/include" />
+					<Add directory="../../../sdk/include" />
+					<Add directory="../../../wxscintilla/include" />
 					<Add directory="$(#wx.include)" />
 					<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-					<Add directory="$(#wx)/contrib/include" />
 					<Add directory="$(#boost)" />
 				</Compiler>
 				<Linker>

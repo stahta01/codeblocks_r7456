@@ -52,9 +52,7 @@
 			<Add option="-DSUPPORT_UTF8" />
 			<Add directory="$(#WX.include)" />
 			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-			<Add directory="$(#WX)/contrib/include" />
-			<Add directory="../../../include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
+			<Add directory="../../../sdk/include" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#WX.include)" />

@@ -70,8 +70,8 @@
 					<Add option="-DCB_PRECOMP" />
 					<Add option="-DcbDEBUG" />
 					<Add option="-DwxPG_USE_WXMODULE=1" />
-					<Add directory="../../../include" />
-					<Add directory="../../../sdk/wxscintilla/include" />
+					<Add directory="../../../sdk/include" />
+					<Add directory="../../../wxscintilla/include" />
 				</Compiler>
 				<Linker>
 					<Add library="codeblocks" />

@@ -48,19 +48,18 @@
 			<Add option="-Winvalid-pch" />
 			<Add option="-mthreads" />
 			<Add option="-fexceptions" />
+			<Add option="-fpermissive" />
 			<Add option="-DBUILDING_PLUGIN" />
 			<Add option="-DHAVE_W32API_H" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DcbDEBUG" />
 			<Add option="-DwxUSE_UNICODE" />
-			<Add directory="../../../include" />
-			<Add directory="../../../include/scripting/include" />
-			<Add directory="../../../include/scripting/sqplus" />
-			<Add directory="../../../include/scripting/bindings" />
-			<Add directory="../../../sdk/wxscintilla/include" />
+			<Add directory="../../../sdk/include" />
+			<Add directory="../../../sdk/include/scripting/include" />
+			<Add directory="../../../sdk/include/scripting/sqplus" />
+			<Add directory="../../../sdk/include/scripting/bindings" />
 			<Add directory="$(#WX.INCLUDE)" />
-			<Add directory="$(#WX)/contrib/include" />
 			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 		</Compiler>
 		<ResourceCompiler>

@@ -51,6 +51,7 @@
 					<Add option="-mthreads" />
 					<Add option="-fmessage-length=0" />
 					<Add option="-fexceptions" />
+					<Add option="-fpermissive" />
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add option="-DCB_PRECOMP" />
 					<Add option="-DWX_PRECOMP" />
@@ -63,6 +64,10 @@
 					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="bzip2" />
 					<Add directory="zlib" />
+					<Add directory="../../../sdk/include" />
+					<Add directory="../../../sdk/include/scripting/include" />
+					<Add directory="../../../sdk/include/scripting/sqplus" />
+					<Add directory="../../../wxscintilla/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-mthreads" />
@@ -85,12 +90,6 @@
 		<Compiler>
 			<Add directory="$(#WX.include)" />
 			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-			<Add directory="$(#WX)/contrib/include" />
-			<Add directory="../../../include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
-			<Add directory="../../../include/scripting/bindings" />
-			<Add directory="../../../include/scripting/include" />
-			<Add directory="../../../include/scripting/sqplus" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#WX.include)" />

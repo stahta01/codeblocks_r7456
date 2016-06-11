@@ -33,6 +33,7 @@
 			<Add option="-fexceptions" />
 			<Add option="-Winvalid-pch" />
 			<Add option="-mthreads" />
+			<Add option="-fpermissive" />
 			<Add option="-DcbDEBUG" />
 			<Add option="-DCB_PRECOMP" />
 			<Add option="-DHAVE_W32API_H" />
@@ -45,16 +46,13 @@
 			<Add option="-DwxPG_USE_WXMODULE=0" />
 			<Add directory="$(#WX.include)" />
 			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-			<Add directory="$(#WX)/contrib/include" />
-			<Add directory="../../../include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
-			<Add directory="../../../include/tinyxml" />
-			<Add directory="../../../include/scripting/include" />
-			<Add directory="../../../include/scripting/sqplus" />
-			<Add directory="../../../include/scripting/squirrel" />
-			<Add directory="../../../include/scripting/bindings" />
+			<Add directory="../../../sdk/include" />
+			<Add directory="../../../wxscintilla/include" />
+			<Add directory="../../../sdk/include/scripting/include" />
+			<Add directory="../../../sdk/include/scripting/sqplus" />
+			<Add directory="../../../sdk/include/scripting/bindings" />
 			<Add directory="../wxSmithContribItems/wxflatnotebook/wxFlatNotebook/include" />
-			<Add directory="../../../include/mozilla_chardet" />
+			<Add directory="../../../sdk/include/mozilla_chardet" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#WX.include)" />

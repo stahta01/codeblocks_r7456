@@ -32,11 +32,10 @@
 					<Add option="-DwxUSE_UNICODE" />
 					<Add option="-DWXMAKINGDLL_PROPGRID" />
 					<Add option="-DwxPG_USE_WXMODULE=0" />
-					<Add directory="../../../include" />
-					<Add directory="../../../sdk/wxscintilla/include" />
+					<Add directory="../../../sdk/include" />
+					<Add directory="../../../wxscintilla/include" />
 					<Add directory="$(#WX.include)" />
 					<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-					<Add directory="$(#WX)/contrib/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-mthreads" />

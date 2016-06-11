@@ -33,6 +33,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../../../include/tinyxml" />
 				</Compiler>
 			</Target>
 			<Environment>
@@ -41,7 +42,7 @@
 			</Environment>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="Plugin - Win32;App - Win32;" />
+			<Add alias="All" targets="Plugin - Win32;" />
 		</VirtualTargets>
 		<Compiler>
 			<Add option="-Wall" />
@@ -58,16 +59,15 @@
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DBUILDING_PLUGIN" />
 			<Add option="-DNO_LOGGING" />
-			<Add directory="../../../include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
+			<Add directory="../../../sdk/include" />
+			<Add directory="../../../wxscintilla/include" />
 			<Add directory="../../../src" />
 			<Add directory="$(#WX.include)" />
 			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="Search" />
 			<Add directory="editor" />
 			<Add directory="." />
-			<Add directory="../../../include/tinyxml" />
-			<Add directory="../../../include/mozilla_chardet" />
+			<Add directory="../../../sdk/include/mozilla_chardet" />
 		</Compiler>
 		<Linker>
 			<Add option="-Wl,--enable-auto-import" />

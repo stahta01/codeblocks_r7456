@@ -79,10 +79,9 @@
 					<Add option="-DCB_PRECOMP" />
 					<Add option="-DWXMAKINGDLL_PROPGRID" />
 					<Add option="-DwxPG_USE_WXMODULE=0" />
-					<Add directory="../../../include" />
-					<Add directory="../../../sdk/wxscintilla/include" />
+					<Add directory="../../../sdk/include" />
+					<Add directory="../../../wxscintilla/include" />
 					<Add directory="$(#wx.include)" />
-					<Add directory="$(#wx)/contrib/include" />
 					<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 					<Add directory="wxspellchecker/include" />
 				</Compiler>

@@ -48,6 +48,7 @@
 			<Add option="-fexceptions" />
 			<Add option="-Winvalid-pch" />
 			<Add option='[[if (GetCompilerFactory().GetCompilerVersionString(_T(&quot;gcc&quot;)) &gt;= _T(&quot;4.0.0&quot;)) print(_T(&quot;-Wno-attributes&quot;));]]' />
+			<Add option="-fpermissive" />
 			<Add option="-DHAVE_W32API_H" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
@@ -60,14 +61,14 @@
 			<Add option="-DwxPG_USE_WXMODULE=0" />
 			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="$(#WX.include)" />
-			<Add directory="../../../include" />
-			<Add directory="../../../sdk/wxpropgrid/include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
-			<Add directory="../../../include/scripting/include" />
-			<Add directory="../../../include/scripting/squirrel" />
-			<Add directory="../../../include/scripting/sqplus" />
-			<Add directory="../../../include/scripting/bindings" />
-			<Add directory="../../../include/mozilla_chardet" />
+			<Add directory="../../../sdk/include" />
+			<Add directory="../../../wxpropgrid/include" />
+			<Add directory="../../../wxscintilla/include" />
+			<Add directory="../../../sdk/include/scripting/include" />
+			<Add directory="../../../sdk/include/scripting/squirrel" />
+			<Add directory="../../../sdk/include/scripting/sqplus" />
+			<Add directory="../../../sdk/include/scripting/bindings" />
+			<Add directory="../../../sdk/include/mozilla_chardet" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#WX.include)" />
