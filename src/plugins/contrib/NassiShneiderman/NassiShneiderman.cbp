@@ -8,12 +8,13 @@
 		<Build>
 			<Target title="default">
 				<Option platforms="Windows;" />
-				<Option output="..\..\..\devel\share\CodeBlocks\plugins\NassiShneiderman" prefix_auto="1" extension_auto="1" />
-				<Option object_output="..\..\..\.objs\plugins\contrib\NassiShneiderman" />
+				<Option output="../../../devel/share/CodeBlocks/plugins/NassiShneiderman" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../../.objs/plugins/contrib/NassiShneiderman" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance --no-check-associations -ns -nd" />
-				<Option host_application="..\..\..\devel\codeblocks.exe" />
+				<Option host_application="../../../devel/codeblocks.exe" />
+				<Option run_host_application_in_terminal="0" />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-pipe" />
@@ -29,27 +30,27 @@
 					<Add option="-DCB_PRECOMP" />
 					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
-					<Add directory="..\..\..\include" />
-					<Add directory="..\..\..\sdk\wxscintilla\include" />
+					<Add directory="../../../include" />
+					<Add directory="../../../sdk/wxscintilla/include" />
 					<Add directory="$(#wx.include)" />
-					<Add directory="$(#wx.lib)\gcc_dll$(WX_CFG)\msw$(WX_SUFFIX)" />
-					<Add directory="$(#wx)\contrib\include" />
+					<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#wx)/contrib/include" />
 					<Add directory="$(#boost)" />
 				</Compiler>
 				<Linker>
 					<Add option="-enable-auto-import" />
 					<Add library="codeblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="..\..\..\devel" />
-					<Add directory="$(#wx.lib)\gcc_dll$(WX_CFG)" />
+					<Add directory="../../../devel" />
+					<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9 ..\..\..\devel\share\CodeBlocks\NassiShneiderman.zip manifest.xml" />
 				</ExtraCommands>
 				<Environment>
+					<Variable name="WX_CFG" value="" />
 					<Variable name="WX_SUFFIX" value="u" />
 					<Variable name="WX_VERSION" value="28" />
-					<Variable name="WX_CFG" value="" />
 				</Environment>
 			</Target>
 		</Build>
