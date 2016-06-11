@@ -289,7 +289,7 @@ class QMap : public std::map<Key, T>
 
             if (i.second == false && overwrite)
             {
-                find(k)->second = t;
+                this->find(k)->second = t;
             }
 
             return i.first;
@@ -297,7 +297,7 @@ class QMap : public std::map<Key, T>
 
         int remove(const Key &k)
         {
-            return erase(k);
+            return this->erase(k);
         }
 };
 
