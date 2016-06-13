@@ -602,6 +602,7 @@
 			<Add directory="wxscintilla/include" />
 			<Add directory="wxpropgrid/include" />
 			<Add directory="sdk/include/tinyxml" />
+			<Add directory="wxcode/treelistctrl/include" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#WX.include)" />
