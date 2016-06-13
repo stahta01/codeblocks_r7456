@@ -27,3 +27,14 @@
 *.exe
 *.out
 *.app
+
+# Common Code::Blocks files
+*.depend
+*.layout
+
+# This CB Project folders
+/src/.objs*
+/src/devel*
+/src/output*
+/downloads/
+/patches/
