@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      language_def.h
- * Purpose:   Code::Blocks CodeStat plugin: Language definition class
+ * Purpose:   Em::Blocks CodeStat plugin: Language definition class
  * Author:    Zlika
  * Created:   11/09/2005
  * Copyright: (c) Zlika

@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      codestat.cpp
- * Purpose:   Code::Blocks CodeStat plugin: main functions
+ * Purpose:   Em::Blocks CodeStat plugin: main functions
  * Author:    Zlika
  * Created:   11/09/2005
  * Copyright: (c) Zlika
@@ -55,7 +55,7 @@ void CodeStat::OnAttach()
 void CodeStat::OnRelease(bool /*appShutDown*/)
 {
     // do de-initialization for your plugin
-    // if appShutDown is false, the plugin is unloaded because Code::Blocks is being shut down,
+    // if appShutDown is false, the plugin is unloaded because Em::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // IsAttached() will be FALSE...

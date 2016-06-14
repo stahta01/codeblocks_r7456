@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      codestat.h
- * Purpose:   Code::Blocks CodeStat plugin: main functions
+ * Purpose:   Em::Blocks CodeStat plugin: main functions
  * Author:    Zlika
  * Created:   11/09/2005
  * Copyright: (c) Zlika

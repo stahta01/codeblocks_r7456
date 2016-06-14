@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      codestatexec.cpp
- * Purpose:   Code::Blocks CodeStat plugin: main window
+ * Purpose:   Em::Blocks CodeStat plugin: main window
  * Author:    Zlika
  * Created:   11/09/2005
  * Copyright: (c) Zlika

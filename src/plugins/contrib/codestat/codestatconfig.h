@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      codestatconfig.h
- * Purpose:   Code::Blocks CodeStat plugin: configuration window
+ * Purpose:   Em::Blocks CodeStat plugin: configuration window
  * Author:    Zlika
  * Created:   11/09/2005
  * Copyright: (c) Zlika
@@ -39,8 +39,8 @@ class CodeStatConfigDlg : public cbConfigurationPanel
       void SaveCurrentLanguage();
       void ReInitDialog();
 
-      virtual wxString GetTitle() const { return _("Code statistics settings"); }
-      virtual wxString GetBitmapBaseName() const { return _T("codestats"); }
+      virtual wxString GetTitle() const { return _("Code statistics"); }
+      virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_codestats"));}
       virtual void OnApply(){SaveSettings();};
       virtual void OnCancel(){}
 

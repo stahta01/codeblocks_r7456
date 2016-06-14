@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      codestatconfig.cpp
- * Purpose:   Code::Blocks CodeStat plugin: configuration window
+ * Purpose:   Em::Blocks CodeStat plugin: configuration window
  * Author:    Zlika
  * Created:   11/09/2005
  * Copyright: (c) Zlika
