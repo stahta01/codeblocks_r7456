@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-// RCS-ID: $Id$
+// RCS-ID: $Id: BrowseTracker.cpp 4 2013-11-02 15:53:52Z gerard $
 
 // Notes:
 //
@@ -1692,8 +1692,6 @@ void BrowseTracker::OnEditorOpened(CodeBlocksEvent& event)
         cbEditor* cbed = Manager::Get()->GetEditorManager()->GetBuiltinEditor(eb);
         if (not cbed) return;
 
-        cbStyledTextCtrl* control = 0;
-        if (cbed) control = cbed->GetControl();
         // validate cbProject has been set
         cbProject* pcbProject = GetProject( eb );
         #if defined(LOGGING)
