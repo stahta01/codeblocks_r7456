@@ -219,6 +219,7 @@
 					<Add directory="sdk/include/scripting/include" />
 					<Add directory="sdk/include/scripting/sqplus" />
 					<Add directory="sdk/include/mozilla_chardet" />
+					<Add directory="sdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
@@ -2398,12 +2399,6 @@
 		<Unit filename="src/infopane.h">
 			<Option target="src" />
 		</Unit>
-		<Unit filename="src/ipc.cpp">
-			<Option target="src" />
-		</Unit>
-		<Unit filename="src/ipc.h">
-			<Option target="src" />
-		</Unit>
 		<Unit filename="src/main.cpp">
 			<Option target="src" />
 		</Unit>
@@ -2422,6 +2417,10 @@
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/printdlg.h">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/resources.rc">
+			<Option compilerVar="WINDRES" />
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/resources/ask_assocs.xrc">
@@ -2452,10 +2451,6 @@
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/resources/print_dialog.xrc">
-			<Option target="src" />
-		</Unit>
-		<Unit filename="src/resources/resources.rc">
-			<Option compilerVar="WINDRES" />
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/resources/scripting_settings.xrc">
@@ -2504,6 +2499,8 @@
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/xtra_res.cpp">
+			<Option compile="0" />
+			<Option link="0" />
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/xtra_res.h">
