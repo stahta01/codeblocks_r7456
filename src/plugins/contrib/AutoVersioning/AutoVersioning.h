@@ -1,6 +1,6 @@
 //{Info
 /*
- ** Purpose:   Code::Blocks - AutoVersioning Plugin
+ ** Purpose:   Em::Blocks - AutoVersioning Plugin
  ** Author:    JGM
  ** Created:   06/27/07 11:19:56 a.m.
  ** Copyright: (c) JGM
@@ -29,7 +29,7 @@ public: //Constructor and Destructor
     int Configure(){ return -1; }
     void BuildMenu(wxMenuBar* menuBar);
     void BuildModuleMenu(const ModuleType /*type*/, wxMenu* /*menu*/, const FileTreeData* /*data*/ = 0){}
-    bool BuildToolBar(wxToolBar* /*toolBar*/){return false;}
+    bool BuildToolBar(wxAuiToolBar* /*toolBar*/){return false;}
     void UpdateVersionHeader();
     // GJH 03/03/10 Added manifest updating.
 	void UpdateManifest();
@@ -75,4 +75,3 @@ private:
 };
 
 #endif // AUTOVERSIONING_H
-
