@@ -1,4 +1,4 @@
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     #include <wx/process.h>
 
@@ -19,7 +19,7 @@
 #include "CscopeParserThread.h"
 #include "CscopeProcess.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -65,12 +65,7 @@ void CscopePlugin::OnAttach()
     // (see: does not need) this plugin...
 
     m_view = new CscopeView(m_cfg);
-
-    //Creates log image
-//    wxString prefix = ConfigManager::GetDataFolder() + _T("/images/16x16/");
-//    wxBitmap * bmp = new wxBitmap(cbLoadBitmap(prefix + _T("cscope.png"), wxBITMAP_TYPE_PNG));
-
-    CodeBlocksLogEvent evt(cbEVT_ADD_LOG_WINDOW, m_view, _T("Cscope")/*, bmp*/);
+    CodeBlocksLogEvent evt(cbEVT_ADD_LOG_WINDOW, m_view, _T("Cscope"), new wxBitmap(wxXmlResource::Get()->LoadBitmap(_T("bmp_cscope_log"))));
     Manager::Get()->ProcessEvent(evt);
 
 //    Connect(idOnFindSymbol, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(CscopePlugin::OnFind), NULL, (wxEvtHandler*)this);
@@ -92,7 +87,7 @@ void CscopePlugin::OnAttach()
 void CscopePlugin::OnRelease(bool appShutDown)
 {
     // do de-initialization for your plugin
-    // if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
+    // if appShutDown is true, the plugin is unloaded because Em::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...
@@ -385,7 +380,8 @@ void CscopePlugin::OnFind(wxCommandEvent &event)
 }
 wxString CscopePlugin::GetCscopeBinaryName()
 {
-	return _T("cscope");
+    wxString plugIns = Manager::Get()->GetConfigManager(_T("app"))->GetPluginsFolder(true);
+	return plugIns + _T("\\..\\cscope\\cscope");
 }
 void CscopePlugin::OnCscopeUI(wxUpdateUIEvent &event)
 {

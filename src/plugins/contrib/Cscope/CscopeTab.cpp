@@ -1,3 +1,5 @@
+#include "sdk.h"
+
 #include "CscopeConfig.h"
 #include "CscopeTab.h"
 #include <manager.h>
@@ -85,6 +87,19 @@ void CscopeTab::BuildTable(CscopeResultTable *table)
 	//
 	for ( i = 0 ; i < 4; ++i )
 	    m_pListCtrl->SetColumnWidth(i, wxLIST_AUTOSIZE );
+
+	if ( m_pListCtrl->GetColumnWidth(0) < 100)
+        m_pListCtrl->SetColumnWidth(0, 100 );
+
+	if ( m_pListCtrl->GetColumnWidth(1) < 50)
+        m_pListCtrl->SetColumnWidth(1, 50 );
+
+	if ( m_pListCtrl->GetColumnWidth(2) < 50)
+        m_pListCtrl->SetColumnWidth(2, 50 );
+
+	if ( m_pListCtrl->GetColumnWidth(3) < 50)
+        m_pListCtrl->SetColumnWidth(3, 50 );
+
 }
 
 void CscopeTab::OnListItemActivated(wxListEvent &event)
@@ -95,9 +110,15 @@ void CscopeTab::OnListItemActivated(wxListEvent &event)
 
     CscopeEntryData data = m_table->at(idx);
 
+    CodeBlocksEvent evt(cbEVT_CURSOR_POS_SAVE);
+    Manager::Get()->GetPluginManager()->NotifyPlugins(evt);
+
     cbEditor *ed = Manager::Get()->GetEditorManager()->Open( data.GetFile() );
     if ( ed )
         ed->GotoLine(data.GetLine()-1);
+
+    Manager::Get()->GetPluginManager()->NotifyPlugins(evt);
+
     event.Skip();
 }
 
