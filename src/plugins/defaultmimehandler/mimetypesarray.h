@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -29,9 +29,9 @@ struct cbMimeType
     // used only if useEditor == false
     wxString program;
 
-    // if true, open it in the Code::Blocks editor, else use "program" (or associated app)
+    // if true, open it in the Em::Blocks editor, else use "program" (or associated app)
     bool useEditor;
-    
+
     // if true, open it with the associated app
     bool useAssoc;
 

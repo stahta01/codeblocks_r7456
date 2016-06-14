@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: defaultmimehandler.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/defaultmimehandler/defaultmimehandler.cpp $
  */
 
 #include "sdk.h"
@@ -67,25 +67,11 @@ void DefaultMimeHandler::OnAttach()
 
         cbMimeType* mt = new cbMimeType;
 
-        // older formats:
-        // array.GetCount() == 3 or 4 (3 no ext. program, 4 yes)
-        bool isOld = array.GetCount() == 3 || array.GetCount() == 4;
-        if (isOld)
-        {
-            mt->useEditor = array[0] == _T("true");
-            mt->useAssoc = false;
-            mt->programIsModal = array[1] == _T("true");
-            mt->wildcard = array[2];
-            mt->program = array.GetCount() == 4 ? array[3] : _T("");
-        }
-        else
-        {
-            mt->useEditor = array[0] == _T("true");
-            mt->useAssoc = array[1] == _T("true");
-            mt->programIsModal = array[2] == _T("true");
-            mt->wildcard = array[3];
-            mt->program = array.GetCount() == 5 ? array[4] : _T("");
-        }
+        mt->useEditor       = (array[0] == _T("true"));
+        mt->useAssoc        = (array[1] == _T("true"));
+        mt->programIsModal  = (array[2] == _T("true"));
+        mt->wildcard        = array[3];
+        mt->program         = (array.GetCount() == 5 ? array[4] : _T(""));
         mt->program.Trim();
 
         if (!mt->useEditor && !mt->useAssoc && mt->program.IsEmpty())
@@ -163,10 +149,6 @@ int DefaultMimeHandler::OpenFile(const wxString& filename)
 {
     wxFileName the_file(filename);
 
-    // don't check for existence because URLs can't be checked this way
-//    if (!the_file.FileExists())
-//        return -1;
-
     cbMimeType* mt = FindMimeTypeFor(filename);
     if (mt)
         return DoOpenFile(mt, filename);
@@ -185,9 +167,9 @@ int DefaultMimeHandler::OpenFile(const wxString& filename)
         // not yet supported. ask the user how to open it.
         wxString choices[3] = {_("Select an external program to open it"),
                                _("Open it with the associated application"),
-                               _("Open it inside the Code::Blocks editor")};
+                               _("Open it inside the Em::Blocks editor")};
         wxSingleChoiceDialog dlg(Manager::Get()->GetAppWindow(),
-                                _("Code::Blocks does not yet know how to open this kind of file.\n"
+                                _("Em::Blocks does not yet know how to open this kind of file.\n"
                                   "Please select what you want to do with it:"),
                                 _("What to do?"),
                                 sizeof(choices) / sizeof(choices[0]),
@@ -214,7 +196,7 @@ int DefaultMimeHandler::OpenFile(const wxString& filename)
                         mt->useEditor = false;
                         mt->useAssoc = false;
                         mt->program = prg;
-                        mt->programIsModal = cbMessageBox(_("Do you want Code::Blocks to be disabled while the external program is running?"), _("Question"), wxICON_QUESTION | wxYES_NO) == wxID_YES;
+                        mt->programIsModal = cbMessageBox(_("Do you want Em::Blocks to be disabled while the external program is running?"), _("Question"), wxICON_QUESTION | wxYES_NO) == wxID_YES;
                         m_MimeTypes.Add(mt);
                         return DoOpenFile(mt, filename);
                     }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resource>
+    <object class="wxBitmap" name="bmp_mime">images/mime.png</object>
 	<object class="wxPanel" name="dlgEditFilesHandling">
 		<object class="wxBoxSizer">
 			<orient>wxVERTICAL</orient>
@@ -57,7 +58,7 @@
 									<content>
 										<item>Launch an external program</item>
 										<item>Launch the associated application</item>
-										<item>Open it in a Code::Blocks editor</item>
+										<item>Open it in a Em::Blocks editor</item>
 									</content>
 									<style>wxRA_SPECIFY_COLS</style>
 								</object>
