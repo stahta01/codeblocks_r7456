@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: searchtree.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/codecompletion/parser/searchtree.cpp $
  */
 
 #include <sdk.h>
@@ -722,7 +722,6 @@ size_t BasicSearchTree::FindMatches(const wxString& s, std::set<size_t>& result,
     // than an exhaustive search.
     result.clear();
     wxString s2,curcmp,s3;
-    nSearchTreeNode ncurnode;
     SearchTreeNode* curnode = 0;
     BasicSearchTreeIterator it(this);
     SearchTreeItemsMap::iterator it2;
@@ -737,7 +736,6 @@ size_t BasicSearchTree::FindMatches(const wxString& s, std::set<size_t>& result,
     while (!it.Eof())
     {
         matches = false;
-        ncurnode = *it;
         curnode = m_Nodes[*it];
         if (!curnode)
             break; // Error! Found a NULL Node

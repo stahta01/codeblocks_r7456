@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -37,6 +37,7 @@ public:
     const ParserBase* GetParserPtr() { return m_Parser; }
     void UpdateView(bool checkHeaderSwap = false);
     void UpdateSash();
+    void SetFocus();
 
 private:
     void OnTreeItemDoubleClick(wxTreeEvent& event);
@@ -78,8 +79,9 @@ private:
     wxString                   m_ActiveFilename;
     cbProject*                 m_ActiveProject;
 
-    wxSemaphore                m_Semaphore;
+    wxSemaphore                m_BrowserBuidSemaphore;
     ClassBrowserBuilderThread* m_BuilderThread;
+    bool                       m_NeedsUpdate;
 
     DECLARE_EVENT_TABLE()
 };

@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: ccoptionsdlg.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/codecompletion/ccoptionsdlg.cpp $
  */
 
 #include <sdk.h>
@@ -128,13 +128,7 @@ CCOptionsDlg::CCOptionsDlg(wxWindow* parent, NativeParser* np, CodeCompletion* c
     XRCCTRL(*this, "chkPreprocessor",          wxCheckBox)->SetValue(m_Parser.Options().wantPreprocessor);
     XRCCTRL(*this, "chkComplexMacros",         wxCheckBox)->SetValue(m_Parser.Options().parseComplexMacros);
     // NOTE (Morten#1#): Keep this in sync with files in the XRC file (settings.xrc) and nativeparser.cpp
-    XRCCTRL(*this, "txtPriorityHeaders",       wxTextCtrl)->SetValue(cfg->Read(_T("/priority_headers"),
-        _T("<cstddef>, <w32api.h>, ")
-        _T("<wx/defs.h>, <wx/dlimpexp.h>, <wx/toplevel.h>, ")
-        _T("<boost/config.hpp>, <boost/filesystem/config.hpp>, ")
-        _T("\"pch.h\", \"sdk.h\", \"stdafx.h\"")));
-    XRCCTRL(*this, "spnThreadsNum",            wxSpinCtrl)->SetValue(cfg->ReadInt(_T("/max_threads"), 1));
-    XRCCTRL(*this, "spnThreadsNum",            wxSpinCtrl)->Enable(false);
+    XRCCTRL(*this, "txtPriorityHeaders",       wxTextCtrl)->SetValue(cfg->Read(_T("/priority_headers"), _T("\"pch.h\"")));
     XRCCTRL(*this, "rdoOneParserPerWorkspace", wxRadioButton)->SetValue( m_NativeParsers->IsParserPerWorkspace() );
     XRCCTRL(*this, "rdoOneParserPerProject",   wxRadioButton)->SetValue( !m_NativeParsers->IsParserPerWorkspace() );
     XRCCTRL(*this, "spnParsersNum",            wxSpinCtrl)->SetValue(cfg->ReadInt(_T("/max_parsers"), 5));
@@ -153,7 +147,7 @@ CCOptionsDlg::CCOptionsDlg(wxWindow* parent, NativeParser* np, CodeCompletion* c
     XRCCTRL(*this, "chkExpandNS",    wxCheckBox)->SetValue(m_Parser.ClassBrowserOptions().expandNS);
     XRCCTRL(*this, "chkFloatCB",     wxCheckBox)->SetValue(cfg->ReadBool(_T("/as_floating_window"), false));
     XRCCTRL(*this, "chkTreeMembers", wxCheckBox)->SetValue(m_Parser.ClassBrowserOptions().treeMembers);
-    XRCCTRL(*this, "chkScopeFilter", wxCheckBox)->SetValue(cfg->ReadBool(_T("/scope_filter"), true));
+    XRCCTRL(*this, "chkScopeFilter", wxCheckBox)->SetValue(cfg->ReadBool(_T("/scope_filter"), false));
 
 //    m_Parser.ParseBuffer(g_SampleClasses, true);
 //    m_Parser.BuildTree(*XRCCTRL(*this, "treeClasses", wxTreeCtrl));
@@ -169,8 +163,6 @@ void CCOptionsDlg::OnApply()
 
     // Page "Code Completion"
     cfg->Write(_T("/use_code_completion"),  (bool)!XRCCTRL(*this, "chkNoCC",                  wxCheckBox)->GetValue());
-    // Put here all options that are being be read by m_Parser.ReadOptions();
-    cfg->Write(_T("/max_threads"),          (int)  XRCCTRL(*this, "spnThreadsNum",            wxSpinCtrl)->GetValue());
 
     // Force parser to read its options that we write in the config
     // Also don't forget to the / update the Parser option according UI!

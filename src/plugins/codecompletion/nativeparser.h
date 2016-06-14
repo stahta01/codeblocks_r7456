@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -25,6 +25,7 @@ class cbEditor;
 class EditorBase;
 class cbProject;
 class ClassBrowser;
+class Compiler;
 class Token;
 
 WX_DECLARE_HASH_MAP(cbProject*, ParserBase*, wxPointerHash, wxPointerEqual, ParsersMap);
@@ -146,6 +147,9 @@ public:
     /** Get current project by actived editor or just return actived project */
     cbProject* GetCurrentProject();
 
+    /** Get current compiler actived project */
+    Compiler* GetActiveCompiler(cbProject* project);
+
     /** Return true if all the parser's batch-parse stages finished, otherwise return false*/
     bool Done();
 
@@ -182,7 +186,7 @@ public:
      * @param project C::B project.
      * @return true if success.
      */
-    bool DeleteParser(cbProject* project);
+    bool DeleteParser(cbProject* project, bool shutdown = false);
 
     /** Single file re-parse.
      * This was happening when you add a single file to project, or a file was modified.
@@ -195,7 +199,7 @@ public:
      * @param project C::B project
      * @param filename filename with full path in the C::B project
      */
-    bool AddFileToParser(cbProject* project, const wxString& filename, ParserBase* parser = nullptr);
+    bool AddFileToParser(cbProject* project, const wxString& filename, ParserBase* parser = _nullptr);
 
     /** remove a file from C::B project and Parser
      * @param project C::B project
@@ -290,7 +294,7 @@ protected:
     void SetParser(ParserBase* parser);
 
     /** Clear all Parser object*/
-    void ClearParsers();
+    void ClearParsers(bool shutdown = false);
 
     /** Remove all the obsolete Parser object
      * if the number exceeds the limited number (can be set in the CC's option), then all the
@@ -576,7 +580,7 @@ private:
     void AddProjectToParser(cbProject* project);
 
     /** Remove all project files from parser */
-    bool RemoveProjectFromParser(cbProject* project);
+    bool RemoveProjectFromParser(cbProject* project, bool shutdown);
 
 private:
     typedef std::pair<cbProject*, ParserBase*> ProjectParserPair;
@@ -617,4 +621,3 @@ private:
 };
 
 #endif // NATIVEPARSER_H
-

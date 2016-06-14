@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -43,6 +43,7 @@ struct ParserThreadOptions
         followLocalIncludes(true),
         followGlobalIncludes(true),
         isTemp(false),
+        isPredefine(false),
         handleFunctions(true),
         handleVars(true),
         handleClasses(true),
@@ -51,7 +52,7 @@ struct ParserThreadOptions
         parseComplexMacros(true),
         parentIdxOfBuffer(-1),
         initLineOfBuffer(1),
-        loader(nullptr)
+        loader(_nullptr)
         {}
 
     /* useBuffer specifies that we're not parsing a file,  but a temporary
@@ -65,6 +66,7 @@ struct ParserThreadOptions
     bool        followLocalIncludes;
     bool        followGlobalIncludes;
     bool        isTemp;
+    bool        isPredefine;
 
     bool        handleFunctions;
     bool        handleVars;

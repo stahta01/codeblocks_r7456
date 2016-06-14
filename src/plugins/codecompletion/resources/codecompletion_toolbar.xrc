@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <resource>
   <object class="wxToolBarAddOn" name="codecompletion_toolbar">
-    <object class="wxChoice" name="chcCodeCompletionScope">
-      <content/>
-	  <size>286,-1</size>
-    </object>
+  <remove_style>wxAUI_TB_OVERFLOW</remove_style>
     <object class="wxChoice" name="chcCodeCompletionFunction">
       <content/>
 	  <size>660,-1</size>

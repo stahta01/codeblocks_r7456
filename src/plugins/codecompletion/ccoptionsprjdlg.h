@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -21,7 +21,7 @@ public:
     virtual ~CCOptionsProjectDlg();
 
     virtual wxString GetTitle() const          { return _("C/C++ parser options"); }
-    virtual wxString GetBitmapBaseName() const { return _T("generic-plugin"); }
+    virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_codecompletion"));}
     virtual void OnApply();
     virtual void OnCancel(){}
 

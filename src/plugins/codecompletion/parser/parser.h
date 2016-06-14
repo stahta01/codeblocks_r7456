@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -94,7 +94,7 @@ enum BrowserDisplayFilter
     bdfFile = 0,
     bdfProject,
     bdfWorkspace,
-    bdfEverything
+    bdfCompiler
 };
 
 enum BrowserSortType
@@ -142,7 +142,7 @@ public:
     virtual bool UpdateParsingProject(cbProject* project) { return false; }
 
     virtual bool ParseBuffer(const wxString& buffer, bool isLocal, bool bufferSkipBlocks = false,
-                             bool isTemp = false, const wxString& filename = wxEmptyString,
+                             bool isTemp = false, bool isPredefine = false, const wxString& filename = wxEmptyString,
                              int parentIdx = -1, int initLine = 0) { return false; }
     virtual bool ParseBufferForFunctions(const wxString& buffer) { return false; }
     virtual bool ParseBufferForNamespaces(const wxString& buffer, NameSpaceVec& result) { return false; }
@@ -243,7 +243,7 @@ public:
      * e.g. wxCriticalSectionLocker locker(s_TokensTreeCritical);
      */
     virtual bool ParseBuffer(const wxString& buffer, bool isLocal, bool bufferSkipBlocks = false,
-                             bool isTemp = false, const wxString& filename = wxEmptyString,
+                             bool isTemp = false, bool isPredefine = false, const wxString& filename = wxEmptyString,
                              int parentIdx = -1, int initLine = 0);
     virtual bool ParseBufferForFunctions(const wxString& buffer);
     virtual bool ParseBufferForNamespaces(const wxString& buffer, NameSpaceVec& result);

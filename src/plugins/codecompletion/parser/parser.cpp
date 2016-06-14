@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: parser.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/codecompletion/parser/parser.cpp $
  */
 
 #include <sdk.h>
@@ -76,7 +76,7 @@ static const int reparse_timer_delay = 100;
 int idParserStart = wxNewId();
 int idParserEnd   = wxNewId();
 
-static volatile Parser* s_CurrentParser = nullptr;
+static volatile Parser* s_CurrentParser = _nullptr;
 static wxCriticalSection s_ParserCritical;
 
 class AddParseThread : public cbThreadedTask
@@ -96,7 +96,7 @@ public:
         s_ParserCritical.Leave();
 
         if (!preDefs.IsEmpty())
-            m_Parser.ParseBuffer(preDefs, false, false);
+            m_Parser.ParseBuffer(preDefs, false, false, false, true);
 
         {
             TRACK_THREAD_LOCKER(s_ParserCritical);
@@ -422,7 +422,7 @@ Parser::~Parser()
     TerminateAllThreads();
 
     if (s_CurrentParser == this)
-        s_CurrentParser = nullptr;
+        s_CurrentParser = _nullptr;
 }
 
 void Parser::ConnectEvents()
@@ -689,7 +689,7 @@ bool Parser::Parse(const wxString& filename, bool isLocal, bool locked, LoaderBa
     return result;
 }
 
-bool Parser::ParseBuffer(const wxString& buffer, bool isLocal, bool bufferSkipBlocks, bool isTemp,
+bool Parser::ParseBuffer(const wxString& buffer, bool isLocal, bool bufferSkipBlocks, bool isTemp, bool isPredefine,
                          const wxString& filename, int parentIdx, int initLine)
 {
     ParserThreadOptions opts;
@@ -700,6 +700,7 @@ bool Parser::ParseBuffer(const wxString& buffer, bool isLocal, bool bufferSkipBl
     opts.parseComplexMacros   = false;
     opts.useBuffer            = true;
     opts.isTemp               = isTemp;
+    opts.isPredefine          = isPredefine;
     opts.bufferSkipBlocks     = bufferSkipBlocks;
     opts.handleFunctions      = false;
     opts.fileOfBuffer         = filename;
@@ -964,6 +965,7 @@ bool Parser::ReadFromCache(wxInputStream* f)
     return result;
 }
 
+
 bool Parser::WriteToCache(wxOutputStream* f)
 {
     bool result = false;
@@ -1131,7 +1133,7 @@ void Parser::OnAllThreadsDone(CodeBlocksEvent& event)
 
         ProcessParserEvent(m_ParsingType, idParserEnd, parseEndLog);
         m_ParsingType = ptUndefined;
-        s_CurrentParser = nullptr;
+        s_CurrentParser = _nullptr;
     }
 }
 
@@ -1183,7 +1185,9 @@ void Parser::EndStopWatch()
 
 void Parser::OnReparseTimer(wxTimerEvent& event)
 {
+    CCLogger::Get()->DebugLog(_T("Native parser start"));
     ReparseModifiedFiles();
+    CCLogger::Get()->DebugLog(_T("Native parser done"));
     event.Skip();
 }
 
@@ -1273,7 +1277,7 @@ void Parser::ReparseModifiedFiles()
         for (it = m_TokensTree->m_FilesToBeReparsed.begin(); it != m_TokensTree->m_FilesToBeReparsed.end(); ++it)
         {
             wxString filename = m_TokensTree->m_FilenamesMap.GetString(*it);
-            if (FileTypeOf(filename) == ftSource) // ignore source files (*.cpp etc)
+            if (FileTypeOf(filename) == ftSource || FileTypeOf(filename) == ftAssembler) // ignore source files (*.cpp etc)
                 continue;
             files_list.push(filename);
             m_TokensTree->RemoveFile(*it);
@@ -1281,7 +1285,7 @@ void Parser::ReparseModifiedFiles()
         for (it = m_TokensTree->m_FilesToBeReparsed.begin(); it != m_TokensTree->m_FilesToBeReparsed.end(); ++it)
         {
             wxString filename = m_TokensTree->m_FilenamesMap.GetString(*it);
-            if (FileTypeOf(filename) != ftSource) // ignore non-source files (*.h etc)
+            if (FileTypeOf(filename) != ftSource && FileTypeOf(filename) != ftAssembler) // ignore non-source files (*.h etc)
                 continue;
             files_list.push(filename);
             m_TokensTree->RemoveFile(*it);

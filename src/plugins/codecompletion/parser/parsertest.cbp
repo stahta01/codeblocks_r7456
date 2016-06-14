@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="parsertest">
-				<Option output="..\..\..\devel\parsertest" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\..\build\parsertest" prefix_auto="1" extension_auto="1" />
 				<Option object_output="..\..\..\.objs\plugins\codecompletion\parsertest" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -35,7 +35,7 @@
 			<Add option="-DCC_PARSER_TEST" />
 			<Add directory="$(#WX.include)" />
 			<Add directory="$(#WX.lib)\gcc_dll\mswu" />
-			<Add directory="..\..\..\include" />
+			<Add directory="..\..\..\sdk\include" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#WX.include)" />
@@ -47,7 +47,7 @@
 			<Add library="wxmsw28$(WX_SUFFIX)" />
 			<Add library="codeblocks" />
 			<Add directory="$(#WX.lib)\gcc_dll" />
-			<Add directory="..\..\..\devel" />
+			<Add directory="..\..\..\build" />
 		</Linker>
 		<Unit filename="app.cpp" />
 		<Unit filename="expression.cpp" />
@@ -84,4 +84,4 @@
 			</wxsmith>
 		</Extensions>
 	</Project>
-</CodeBlocks_project_file>
+</CodeBlocks_project_file>

@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -82,12 +82,14 @@ public:
     /** offer for Context menu */
     virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0);
     /** offer for the Toolbar */
-    virtual bool BuildToolBar(wxToolBar* toolBar);
+    virtual bool BuildToolBar(wxAuiToolBar* toolBar);
 
     // TODO unused, should be removed probably
     virtual wxArrayString GetCallTips() { return wxArrayString(); }
     virtual int CodeComplete();
     virtual void ShowCallTip();
+
+    virtual wxArrayString GetPreprocessorList(int opcode, const wxString& relativeFile);
 
     /** give auto suggestions on preprocessor directives*/
     void CodeCompletePreprocessor();
@@ -115,6 +117,7 @@ public:
     /** read CC's options, mostly happens the user change some setting and press APPLY*/
     void RereadOptions(); // called by the configuration panel
 
+    void OnBuildTargetSelected(CodeBlocksEvent& event);
 private:
     /** Update CC's ToolBar*/
     void UpdateToolBar();
@@ -274,7 +277,7 @@ private:
     bool                    m_IsAutoPopup;
     // The variables below were related to CC's toolbar
     /** the CC's toolbar */
-    wxToolBar*              m_ToolBar;
+    wxAuiToolBar*           m_ToolBar;
     /** function choice control of CC's toolbar, it is the second choice */
     wxChoice*               m_Function;
     /** namespace/scope choise control, it is the first choice control*/

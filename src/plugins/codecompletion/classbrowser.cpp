@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: classbrowser.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/codecompletion/classbrowser.cpp $
  */
 
 #include <sdk.h>
@@ -36,6 +36,7 @@
     #include <projectmanager.h>
 #endif
 
+#include <annoyingdialog.h>
 #include <wx/tokenzr.h>
 
 #include <cbstyledtextctrl.h>
@@ -124,15 +125,18 @@ BEGIN_EVENT_TABLE(ClassBrowser, wxPanel)
     EVT_MENU(idCBBottomTree, ClassBrowser::OnCBViewMode)
 END_EVENT_TABLE()
 
+
 // class constructor
 ClassBrowser::ClassBrowser(wxWindow* parent, NativeParser* np) :
     m_NativeParser(np),
     m_TreeForPopupMenu(0),
     m_Parser(0L),
     m_ActiveProject(0),
-    m_Semaphore(0, 1),
-    m_BuilderThread(0)
+    m_BrowserBuidSemaphore(0, 1),
+    m_BuilderThread(0),
+    m_NeedsUpdate(false)
 {
+
     ConfigManager* cfg = Manager::Get()->GetConfigManager(_T("code_completion"));
 
     wxXmlResource::Get()->LoadPanel(this, parent, _T("pnlCB"));
@@ -165,7 +169,7 @@ ClassBrowser::~ClassBrowser()
 
     if (m_BuilderThread)
     {
-        m_Semaphore.Post();
+        m_BrowserBuidSemaphore.Post();
         m_BuilderThread->Delete();
         m_BuilderThread->Wait();
     }
@@ -463,7 +467,7 @@ void ClassBrowser::OnJumpTo(wxCommandEvent& event)
         else
             fname.Assign(ctd->m_Token->GetFilename());
 
-        cbProject* project = nullptr;
+        cbProject* project = _nullptr;
         if (!m_NativeParser->IsParserPerWorkspace())
             project = m_NativeParser->GetProjectByParser(m_Parser);
         else
@@ -540,7 +544,7 @@ void ClassBrowser::OnTreeItemDoubleClick(wxTreeEvent& event)
         else
             fname.Assign(ctd->m_Token->GetFilename());
 
-        cbProject* project = nullptr;
+        cbProject* project = _nullptr;
         if (!m_NativeParser->IsParserPerWorkspace())
             project = m_NativeParser->GetProjectByParser(m_Parser);
         else
@@ -812,6 +816,19 @@ void ClassBrowser::OnSearch(wxCommandEvent& event)
     }
 }
 
+// If the page get's focus we will catch this event.
+void ClassBrowser::SetFocus()
+{
+  if(m_NeedsUpdate)
+  {
+    m_BrowserBuidSemaphore.Post();
+//    wxSetCursor( wxCursor( wxCURSOR_WAIT ));
+  }
+
+  m_NeedsUpdate = false;
+}
+
+
 void ClassBrowser::BuildTree()
 {
     if (Manager::IsAppShuttingDown() || !m_Parser)
@@ -823,13 +840,20 @@ void ClassBrowser::BuildTree()
     // create the thread if needed
     if (!m_BuilderThread)
     {
-        m_BuilderThread = new ClassBrowserBuilderThread(m_Semaphore, &m_BuilderThread);
+        m_BuilderThread = new ClassBrowserBuilderThread(m_BrowserBuidSemaphore, &m_BuilderThread);
         m_BuilderThread->Create();
         m_BuilderThread->Run();
         create_tree = true; // new builder thread - need to create new tree
     }
 
-    // initialise it
+    // If the thread is busy right now skip an update.
+    if(m_BuilderThread->IsBusy())
+    {
+        CCLogger::Get()->DebugLog(F(_T("Browser thread is busy....")));
+        return;
+    }
+
+    // initialise a new thread run for building
     m_BuilderThread->Init(m_NativeParser,
                           m_Tree,
                           m_TreeBottom,
@@ -839,10 +863,20 @@ void ClassBrowser::BuildTree()
                           m_Parser->GetTokensTree(),
                           create_tree);
 
-    // and launch it
+    // If the window is not shown then we don't need to update but as soon
+    // as we are in focus again we will rebuild.
+    if(IsWindowReallyShown(this) == false)
+    {
+        m_NeedsUpdate = true;
+        return;
+    }
+
+    // and launch the new tree build (be rerunning the thread).
     if (!create_tree)
     {
-        m_Semaphore.Post();
+       // wxSetCursor( wxCursor( wxCURSOR_WAIT ));
+        m_NeedsUpdate = false;
+        m_BrowserBuidSemaphore.Post();
     }
 }
 

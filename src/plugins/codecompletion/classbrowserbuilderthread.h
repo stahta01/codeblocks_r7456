@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -102,12 +102,14 @@ public:
     void CollapseItem(wxTreeItemId item);
 #endif // CC_NO_COLLAPSE_ITEM
     void SelectItem(wxTreeItemId item);
+    bool IsBusy() { return m_IsBusy;}
 
 protected:
     virtual void* Entry();
 
     void BuildTree();
     void RemoveInvalidNodes(CBTreeCtrl* tree, wxTreeItemId parent);
+    void RemoveInvalidNodesTreeBottom();
     wxTreeItemId AddNodeIfNotThere(CBTreeCtrl* tree, wxTreeItemId parent, const wxString& name, int imgIndex = -1, CBTreeData* data = 0);
     bool AddChildrenOf(CBTreeCtrl* tree, wxTreeItemId parent, int parentTokenIdx, short int tokenKindMask = 0xffff, int tokenScopeMask = 0);
     bool AddAncestorsOf(CBTreeCtrl* tree, wxTreeItemId parent, int tokenIdx);
@@ -146,6 +148,7 @@ private:
     ExpandedItemVect m_ExpandedVect;
     SelectedItemPath m_SelectedPath;
     bool             m_initDone;
+    volatile bool    m_IsBusy;
 };
 
 #endif // CLASSBROWSERBUILDERTHREAD_H

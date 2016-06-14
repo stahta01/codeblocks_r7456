@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -161,7 +161,7 @@ public:
     }
 
 protected:
-    CCLogger() : m_Parent(nullptr), m_LogId(0) {}
+    CCLogger() : m_Parent(_nullptr), m_LogId(0) {}
     virtual ~CCLogger() {}
     CCLogger(const CCLogger&) {}
     CCLogger& operator= (const CCLogger&) { return *this; }
@@ -331,6 +331,7 @@ public:
     bool                         m_IsOperator;
     bool                         m_IsLocal;       // found in a local file?
     bool                         m_IsTemp;        // local variable
+    bool                         m_IsPredefine;   // Compiler predefine
     bool                         m_IsConst;       // the member method is const (yes/no)
 
     int                          m_Index;         // current index in the tree

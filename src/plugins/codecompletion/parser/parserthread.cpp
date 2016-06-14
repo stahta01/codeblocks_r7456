@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: parserthread.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/codecompletion/parser/parserthread.cpp $
  */
 
 #include <sdk.h>
@@ -69,6 +69,9 @@
 #define IS_ALIVE !TestDestroy()
 #endif
 
+
+//#define _TRACE(format, args...) CCLogger::Get()->DebugLog(F(format, ##args))
+
 const wxString g_UnnamedSymbol = _T("__Unnamed");
 
 namespace ParserConsts
@@ -131,6 +134,7 @@ namespace ParserConsts
     const wxString kw_else         (_T("else"));
     const wxString kw_enum         (_T("enum"));
     const wxString kw_elif         (_T("elif"));
+    const wxString kw_case         (_T("case"));
     // length: 5
     const wxString kw__CPP_        (_T("\"C++\""));
     const wxString kw___asm        (_T("__asm"));
@@ -687,6 +691,11 @@ void ParserThread::DoParse()
                     HandleEnum();
                 else
                     SkipToOneOfChars(ParserConsts::semicolonclbrace, true);
+            }
+            else if (token == ParserConsts::kw_case)
+            {
+                m_Str.Clear();
+                SkipToOneOfChars(ParserConsts::colon, true);
             }
             else
                 switchHandled = false;
@@ -1311,9 +1320,10 @@ Token* ParserThread::DoAddToken(TokenKind kind,
         newToken->m_ActualType = actualTokenType;
     }
 
-    newToken->m_IsLocal    = m_IsLocal;
-    newToken->m_IsTemp     = m_Options.isTemp;
-    newToken->m_IsOperator = isOperator;
+    newToken->m_IsLocal     = m_IsLocal;
+    newToken->m_IsTemp      = m_Options.isTemp;
+    newToken->m_IsPredefine = m_Options.isPredefine;
+    newToken->m_IsOperator  = isOperator;
 
     if (!isImpl)
     {
@@ -1493,7 +1503,7 @@ void ParserThread::HandleUndefs()
 void ParserThread::HandleNamespace()
 {
     wxString ns = m_Tokenizer.GetToken();
-    Token* tk = TokenExists(ns, nullptr, tkPreprocessor);
+    Token* tk = TokenExists(ns, _nullptr, tkPreprocessor);
     if (tk && tk->m_Name != tk->m_Type)
     {
         if (m_Tokenizer.ReplaceBufferForReparse(tk->m_Type))
@@ -2596,7 +2606,7 @@ wxString ParserThread::GetClassFromMacro(const wxString& macro)
 bool ParserThread::GetRealTypeIfTokenIsMacro(wxString& tokenName)
 {
     bool tokenIsMacro = false;
-    Token* tk = nullptr;
+    Token* tk = _nullptr;
     int count = 10;
     while (IS_ALIVE && --count > 0)
     {

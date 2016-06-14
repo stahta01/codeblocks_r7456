@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: classbrowserbuilderthread.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/codecompletion/classbrowserbuilderthread.cpp $
  */
 
 #include <sdk.h>
@@ -188,7 +188,8 @@ ClassBrowserBuilderThread::ClassBrowserBuilderThread(wxSemaphore& sem, ClassBrow
     m_Options(),
     m_TokensTree(0),
     m_ThreadVar(threadVar),
-    m_initDone(false)
+    m_initDone(false),
+    m_IsBusy(false)
 {
     //ctor
 }
@@ -207,6 +208,9 @@ void ClassBrowserBuilderThread::Init(NativeParser* nativeParser,
                                     TokensTree* pTokensTree,
                                     bool build_tree)
 {
+    if(m_IsBusy)
+        return;
+
     TRACK_THREAD_LOCKER(m_BuildMutex);
     wxMutexLocker lock(m_BuildMutex);
     THREAD_LOCKER_SUCCESS(m_BuildMutex);
@@ -244,6 +248,23 @@ void ClassBrowserBuilderThread::Init(NativeParser* nativeParser,
                 m_CurrentFileSet.insert(*it);
         }
     }
+//GZA:xxxxxxxxxxx
+    else if (m_Options.displayFilter == bdfCompiler )
+    {
+        TRACK_THREAD_LOCKER(s_TokensTreeCritical);
+        wxCriticalSectionLocker locker(s_TokensTreeCritical);
+        THREAD_LOCKER_SUCCESS(s_TokensTreeCritical);
+
+        m_CurrentTokenSet.clear();
+        m_CurrentGlobalTokensSet.clear();
+        for (int idx =0; idx < (int)tree->size(); idx++)
+        {
+            Token* curtoken = tree->at(idx);
+            if ( curtoken && curtoken->m_IsPredefine )
+                m_CurrentGlobalTokensSet.insert(idx);
+        }
+    }
+//xxxxxxxxxxx
     else if (m_Options.displayFilter == bdfProject && (user_data != 0))
     {
         TRACK_THREAD_LOCKER(s_TokensTreeCritical);
@@ -278,7 +299,7 @@ void ClassBrowserBuilderThread::Init(NativeParser* nativeParser,
             for (TokenIdxSet::iterator it2 = curset->begin(); it2 != curset->end(); ++it2)
             {
                 Token* curtoken = tree->at(*it2);
-                if (curtoken)
+                if (curtoken && !curtoken->m_IsPredefine) // Don't show compiler predefined tokens
                 {
                     m_CurrentTokenSet.insert(*it2);
                     if (curtoken->m_ParentIndex == -1)
@@ -299,12 +320,15 @@ void* ClassBrowserBuilderThread::Entry()
     while (!TestDestroy() && !Manager::IsAppShuttingDown())
     {
         // wait until the classbrowser signals
+        m_IsBusy = false;
         m_Semaphore.Wait();
+
 //        CCLogger::Get()->DebugLog(F(_T(" - - - - - -")));
 
         if (TestDestroy() || Manager::IsAppShuttingDown())
             break;
 
+        m_IsBusy = true;
         if (platform::gtk)
         {
             // this code (PART 1/2) seems to be good on linux
@@ -415,7 +439,8 @@ void ClassBrowserBuilderThread::BuildTree()
 #endif
     if (m_Options.treeMembers)
     {
-        RemoveInvalidNodes(m_TreeBottom, m_TreeBottom->GetRootItem());
+ //GZa       RemoveInvalidNodes(m_TreeBottom, m_TreeBottom->GetRootItem());
+        RemoveInvalidNodesTreeBottom();
 #ifdef CC_BUILDTREE_MEASURING
     CCLogger::Get()->DebugLog(F(_T("Removing invalid nodes (bottom tree) took : %ld ms"),sw.Time()));
     sw.Start();
@@ -430,10 +455,6 @@ void ClassBrowserBuilderThread::BuildTree()
 #endif
 
 #ifndef CC_NO_COLLAPSE_ITEM
-    // the tree is completely dynamic: it is populated when a node expands/collapses.
-    // so, by expanding the root node, we already instruct it to fill the top level :)
-    //
-    // this technique makes it really fast to draw (we only draw what's expanded) and
     // has very minimum memory overhead since it contains as few items as possible.
     // plus, it doesn't flicker because we 're not emptying it and re-creating it each time ;)
 
@@ -494,7 +515,7 @@ void ClassBrowserBuilderThread::BuildTree()
     CCLogger::Get()->DebugLog(F(_T("Thaw top tree took : %ld ms"),sw.Time()));
     sw.Start();
 #endif
-    // Bottleneck: Takes ~4 secs on C::B workspace:
+    // Bottleneck: Takes ~4 secs on E::B workspace:
     m_TreeTop->Show();
 #ifdef CC_BUILDTREE_MEASURING
     CCLogger::Get()->DebugLog(F(_T("Show top tree took : %ld ms"),sw.Time()));
@@ -524,7 +545,7 @@ void ClassBrowserBuilderThread::RemoveInvalidNodes(CBTreeCtrl* tree, wxTreeItemI
         }
         else if (data && data->m_Token)
         {
-            Token* token = nullptr;
+            Token* token = _nullptr;
             {
                 TRACK_THREAD_LOCKER(s_TokensTreeCritical);
                 wxCriticalSectionLocker locker(s_TokensTreeCritical);
@@ -574,6 +595,15 @@ void ClassBrowserBuilderThread::RemoveInvalidNodes(CBTreeCtrl* tree, wxTreeItemI
     }
 }
 
+void ClassBrowserBuilderThread::RemoveInvalidNodesTreeBottom()
+{
+    if ( (!::wxIsMainThread() && TestDestroy()) || Manager::IsAppShuttingDown() )
+        return;
+
+    if( m_TreeBottom)
+        m_TreeBottom->DeleteAllItems();
+}
+
 wxTreeItemId ClassBrowserBuilderThread::AddNodeIfNotThere(CBTreeCtrl* tree, wxTreeItemId parent, const wxString& name, int imgIndex, CBTreeData* data)
 {
     compatibility::tree_cookie_t cookie = 0;
@@ -613,7 +643,7 @@ bool ClassBrowserBuilderThread::AddChildrenOf(CBTreeCtrl* tree, wxTreeItemId par
         wxCriticalSectionLocker locker(s_TokensTreeCritical);
         THREAD_LOCKER_SUCCESS(s_TokensTreeCritical);
 
-        if (m_Options.displayFilter == bdfWorkspace || m_Options.displayFilter == bdfEverything)
+        if (m_Options.displayFilter == bdfWorkspace /*|| m_Options.displayFilter == bdfCompiler */)
             tokens = &m_TokensTree->m_GlobalNameSpace;
         else
             tokens = &m_CurrentGlobalTokensSet;
@@ -633,7 +663,8 @@ bool ClassBrowserBuilderThread::AddChildrenOf(CBTreeCtrl* tree, wxTreeItemId par
         tokens = &parentToken->m_Children;
     }
 
-    return AddNodes(tree, parent, *tokens, tokenKindMask, tokenScopeMask, m_Options.displayFilter == bdfEverything);
+    return AddNodes(tree, parent, *tokens, tokenKindMask, tokenScopeMask, ((m_Options.displayFilter == bdfWorkspace)||
+                                                                           (m_Options.displayFilter == bdfCompiler)    ) );
 }
 
 bool ClassBrowserBuilderThread::AddAncestorsOf(CBTreeCtrl* tree, wxTreeItemId parent, int tokenIdx)
@@ -641,7 +672,7 @@ bool ClassBrowserBuilderThread::AddAncestorsOf(CBTreeCtrl* tree, wxTreeItemId pa
     if ((!::wxIsMainThread() && TestDestroy()) || Manager::IsAppShuttingDown())
         return false;
 
-    Token* token = nullptr;
+    Token* token = _nullptr;
     {
         TRACK_THREAD_LOCKER(s_TokensTreeCritical);
         wxCriticalSectionLocker locker(s_TokensTreeCritical);
@@ -669,7 +700,7 @@ bool ClassBrowserBuilderThread::AddDescendantsOf(CBTreeCtrl* tree, wxTreeItemId 
     if ((!::wxIsMainThread() && TestDestroy()) || Manager::IsAppShuttingDown())
         return false;
 
-    Token* token = nullptr;
+    Token* token = _nullptr;
     {
         TRACK_THREAD_LOCKER(s_TokensTreeCritical);
         wxCriticalSectionLocker locker(s_TokensTreeCritical);
@@ -722,7 +753,7 @@ bool ClassBrowserBuilderThread::AddNodes(CBTreeCtrl* tree, wxTreeItemId parent, 
     TokenIdxSet::iterator end = tokens.end();
     for (TokenIdxSet::iterator start = tokens.begin(); start != end; ++start)
     {
-        Token* token = nullptr;
+        Token* token = _nullptr;
         {
             TRACK_THREAD_LOCKER(s_TokensTreeCritical);
             wxCriticalSectionLocker locker(s_TokensTreeCritical);
@@ -734,8 +765,7 @@ bool ClassBrowserBuilderThread::AddNodes(CBTreeCtrl* tree, wxTreeItemId parent, 
         if (token &&
             (token->m_TokenKind & tokenKindMask) &&
             (tokenScopeMask == 0 || token->m_Scope == tokenScopeMask) &&
-            (allowGlobals || token->m_IsLocal ||
-            TokenMatchesFilter(token)))
+            ( /*allowGlobals || token->m_IsLocal || */TokenMatchesFilter(token)))
         {
             if (tree == m_TreeTop && tickets.find(token->GetTicket()) != tickets.end())
                 continue; // dupe
@@ -757,6 +787,13 @@ bool ClassBrowserBuilderThread::AddNodes(CBTreeCtrl* tree, wxTreeItemId parent, 
 
             wxTreeItemId child = tree->AppendItem(parent, str, img, img, new CBTreeData(sfToken, token, tokenKindMask));
 
+if(child == -1)
+{
+    //XXXXXXX
+  CCLogger::Get()->DebugLog(_T("Fail"));
+}
+else
+{
             // mark as expanding if it is a container
             int kind = tkClass | tkNamespace | tkEnum;
             if (token->m_TokenKind == tkClass)
@@ -771,6 +808,7 @@ bool ClassBrowserBuilderThread::AddNodes(CBTreeCtrl* tree, wxTreeItemId parent, 
                     kind |= tkTypedef | tkFunction | tkVariable | tkEnumerator | tkMacro;
                 tree->SetItemHasChildren(child, TokenContainsChildrenOfKind(token, kind));
             }
+}
         }
     }
 
@@ -787,9 +825,14 @@ bool ClassBrowserBuilderThread::TokenMatchesFilter(Token* token, bool locked)
     if (token->m_IsTemp)
         return false;
 
-    if (    m_Options.displayFilter == bdfEverything
-        || (m_Options.displayFilter == bdfWorkspace && token->m_IsLocal) )
+    if ( m_Options.displayFilter == bdfWorkspace  && !token->m_IsPredefine)
         return true;
+
+    if ( m_Options.displayFilter == bdfCompiler && token->m_IsPredefine)
+        return true;
+
+    if (m_Options.displayFilter == bdfProject && m_UserData)
+        return token->m_UserData == m_UserData;
 
     if (m_Options.displayFilter == bdfFile && !m_CurrentTokenSet.empty())
     {
@@ -819,10 +862,7 @@ bool ClassBrowserBuilderThread::TokenMatchesFilter(Token* token, bool locked)
                 return true;
         }
     }
-    else if (m_Options.displayFilter == bdfProject && m_UserData)
-    {
-        return token->m_UserData == m_UserData;
-    }
+
 
     return false;
 }
@@ -990,7 +1030,7 @@ bool ClassBrowserBuilderThread::CreateSpecialFolders(CBTreeCtrl* tree, wxTreeIte
         for (TokenIdxSet::iterator it = tt->m_GlobalNameSpace.begin(); it != tt->m_GlobalNameSpace.end(); ++it)
         {
             Token* token = tt->at(*it);
-            if (token && token->m_IsLocal && TokenMatchesFilter(token, true))
+            if (token /*&& token->m_IsLocal */&& TokenMatchesFilter(token, true))
             {
                 if      (!hasGF && token->m_TokenKind == tkFunction)
                     hasGF = true;
@@ -1016,20 +1056,65 @@ bool ClassBrowserBuilderThread::CreateSpecialFolders(CBTreeCtrl* tree, wxTreeIte
     wxTreeItemId gmacro  = AddNodeIfNotThere(m_TreeTop, parent, _("Global macros"),        PARSER_IMG_MACRO_FOLDER,   new CBTreeData(sfMacro, 0, tkMacro, -1));
 
     bool bottom = m_Options.treeMembers;
+
+    // Make the different categories visible if we have items for them otherwise hide them
+    if(!hasGF)
+        m_TreeTop->Delete(gfuncs);
+    else
+    {
+        m_TreeTop->SetItemHasChildren(gfuncs,  !bottom);
+        m_TreeTop->ExpandAllChildren(gfuncs);
+    }
+
+    if(!hasTD)
+        m_TreeTop->Delete(tdef);
+    else
+    {
+        m_TreeTop->SetItemHasChildren(tdef,    !bottom);
+        m_TreeTop->ExpandAllChildren(tdef);
+    }
+
+    if(!hasGV)
+        m_TreeTop->Delete(gvars);
+    else
+    {
+        m_TreeTop->SetItemHasChildren(gvars,   !bottom);
+        m_TreeTop->ExpandAllChildren(gvars);
+    }
+
+    if(!hasGP)
+        m_TreeTop->Delete(preproc);
+    else
+    {
+        m_TreeTop->SetItemHasChildren(preproc, !bottom);
+        m_TreeTop->ExpandAllChildren(preproc);
+    }
+
+    if(!hasGM)
+        m_TreeTop->Delete(gmacro);
+    else
+    {
+        m_TreeTop->SetItemHasChildren(gmacro,  !bottom);
+        m_TreeTop->ExpandAllChildren(gmacro);
+    }
+
+/*   //GZa:    The old code::blocks way
     m_TreeTop->SetItemHasChildren(gfuncs,  !bottom && hasGF);
     m_TreeTop->SetItemHasChildren(tdef,    !bottom && hasTD);
     m_TreeTop->SetItemHasChildren(gvars,   !bottom && hasGV);
     m_TreeTop->SetItemHasChildren(preproc, !bottom && hasGP);
     m_TreeTop->SetItemHasChildren(gmacro,  !bottom && hasGM);
 
+
     wxColour black = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
-    wxColour grey  = wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT);
+    wxColour grey(255,133,133); //  = wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT);
 
     tree->SetItemTextColour(gfuncs,  hasGF ? black : grey);
     tree->SetItemTextColour(gvars,   hasGV ? black : grey);
     tree->SetItemTextColour(preproc, hasGP ? black : grey);
     tree->SetItemTextColour(tdef,    hasTD ? black : grey);
     tree->SetItemTextColour(gmacro,  hasGM ? black : grey);
+*/
 
     return hasGF || hasGV || hasGP || hasTD || hasGM;
 }
