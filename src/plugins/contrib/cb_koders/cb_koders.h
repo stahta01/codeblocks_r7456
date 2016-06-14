@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -26,7 +26,7 @@ public:
     */
   virtual int Execute();
 
-  /** This method is called by Code::Blocks core modules (EditorManager,
+  /** This method is called by Em::Blocks core modules (EditorManager,
     * ProjectManager etc) and is used by the plugin to add any menu
     * items it needs in the module's popup menu. For example, when
     * the user right-clicks on a project file in the project tree,
@@ -46,8 +46,8 @@ public:
 protected:
   /** Any descendent plugin should override this virtual method and
     * perform any necessary initialization. This method is called by
-    * Code::Blocks (PluginManager actually) when the plugin has been
-    * loaded and should attach in Code::Blocks. When Code::Blocks
+    * Em::Blocks (PluginManager actually) when the plugin has been
+    * loaded and should attach in Em::Blocks. When Em::Blocks
     * starts up, it finds and <em>loads</em> all plugins but <em>does
     * not</em> activate (attaches) them. It then activates all plugins
     * that the user has selected to be activated on start-up.\n
@@ -58,8 +58,8 @@ protected:
 
   /** Any descendent plugin should override this virtual method and
     * perform any necessary de-initialization. This method is called by
-    * Code::Blocks (PluginManager actually) when the plugin has been
-    * loaded, attached and should de-attach from Code::Blocks.\n
+    * Em::Blocks (PluginManager actually) when the plugin has been
+    * loaded, attached and should de-attach from Em::Blocks.\n
     * Think of this method as the actual destructor...
     * @param appShutDown If true, the application is shutting down. In this
     *         case *don't* use Manager::Get()->Get...() functions or the
