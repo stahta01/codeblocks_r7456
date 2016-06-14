@@ -2869,7 +2869,9 @@ void EditorManager::OnPageContextMenu(wxAuiNotebookEvent& event)
         return;
 
     wxMenu* pop = new wxMenu;
+#if 0
     pop->Append(idNBTabClose, Manager::Get()->GetMenuBitmap(XRCID("idFileClose")), _("Close"));
+#endif
     if (GetEditorsCount() > 1)
     {
         //pop->Append(idNBTabCloseAll, Manager::Get()->GetMenuBitmap(idFileCloseAll), _("Close all"));
@@ -2883,8 +2885,10 @@ void EditorManager::OnPageContextMenu(wxAuiNotebookEvent& event)
         }
     }
     pop->AppendSeparator();
+#if 0
     pop->Append(idNBTabSave, Manager::Get()->GetMenuBitmap(XRCID("idFileSave")), _("Save"));
     pop->Append(idNBTabSaveAll, Manager::Get()->GetMenuBitmap(XRCID("idFileSaveAllFiles")), _("Save all"));
+#endif
     pop->AppendSeparator();
     pop->Append(idNBSwapHeaderSource, _("Swap header/source"));
 
@@ -2892,8 +2896,10 @@ void EditorManager::OnPageContextMenu(wxAuiNotebookEvent& event)
     if (ed)
     {
         wxMenu* splitMenu = new wxMenu;
+#if 0
         splitMenu->Append(idNBTabSplitHorz, m_bmpSplitHorz, _("Horizontally"));
         splitMenu->Append(idNBTabSplitVert, m_bmpSplitVert, _("Vertically"));
+#endif
         splitMenu->AppendSeparator();
         splitMenu->Append(idNBTabUnsplit, _("Unsplit"));
         splitMenu->Enable(idNBTabSplitHorz, ed->GetSplitType() != cbEditor::stHorizontal);

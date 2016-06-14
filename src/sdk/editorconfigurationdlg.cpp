@@ -79,7 +79,7 @@ public:
     {
         m_fontData.EnableEffects(false);
         m_fontData.SetAllowSymbols(false);
-        #ifdef __WXMSW__
+        #if 0 // def __WXMSW__
             return wxFontDialog::ShowModal( CF_SCREENFONTS | CF_NOSTYLESEL);
         #else
             return wxFontDialog::ShowModal();

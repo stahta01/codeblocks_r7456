@@ -67,9 +67,11 @@ BEGIN_EVENT_TABLE(cbAuiNotebook, wxAuiNotebook)
     EVT_NAVIGATION_KEY(cbAuiNotebook::OnNavigationKey)
 #endif
 
+#if 0
     // These two events are special EmBlocks events in wxWidigts
     EVT_AUINOTEBOOK_TABCTRL_ADD( -1 , cbAuiNotebook::OnNewTabControl)
     EVT_AUINOTEBOOK_TABCTRL_DELETE(-1, cbAuiNotebook::OnDeleteTabControl)
+#endif
 
     EVT_IDLE(cbAuiNotebook::OnIdle)
 END_EVENT_TABLE()

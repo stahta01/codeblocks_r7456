@@ -2650,6 +2650,7 @@ wxMenu* cbEditor::CreateContextSubMenu(long id)
     {
 
         menu = new wxMenu;
+#if 0
         menu->Append(idUndo, Manager::Get()->GetMenuBitmap(XRCID("idEditUndo")),_("Undo"));
         menu->Append(idRedo, Manager::Get()->GetMenuBitmap(XRCID("idEditRedo")), _("Redo"));
         menu->Append(idClearHistory, Manager::Get()->GetMenuBitmap(XRCID("idEditClearHistory")), _("Clear changes history"));
@@ -2657,6 +2658,7 @@ wxMenu* cbEditor::CreateContextSubMenu(long id)
         menu->Append(idCut, Manager::Get()->GetMenuBitmap(XRCID("idEditCut")), _("Cut"));
         menu->Append(idCopy, Manager::Get()->GetMenuBitmap(XRCID("idEditCopy")),_("Copy"));
         menu->Append(idPaste, Manager::Get()->GetMenuBitmap(XRCID("idEditPaste")),_("Paste"));
+#endif
         menu->AppendSeparator();
         menu->Append(idUpperCase, _("UPPERCASE"));
         menu->Append(idLowerCase, _("lowercase"));
@@ -2716,7 +2718,9 @@ void cbEditor::AddToContextMenu(wxMenu* popup,ModuleType type,bool pluginsdone)
         if(editsubmenu)
             popup->Append(idEdit, _("Edit"), editsubmenu);
 
+#if 0
         popup->Append(idBookmarksToggle, Manager::Get()->GetMenuBitmap(XRCID("idEditBookmarksToggle")), _("Insert/Remove Bookmark"));
+#endif
 
         if(folding)
             popup->Append(idFolding, _("Folding"), folding);

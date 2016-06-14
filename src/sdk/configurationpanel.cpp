@@ -37,7 +37,9 @@ wxBitmap MakeDiasbledBitmap(const wxBitmap& bmp, wxColor bgColor, double alpha)
 {
     wxImage img = bmp.ConvertToImage();
     img = img.ConvertToGreyscale();
+#if 0
     return wxBitmap(wxBitmap(img).BlendColor(bgColor, alpha));
+#endif
 }
 
 

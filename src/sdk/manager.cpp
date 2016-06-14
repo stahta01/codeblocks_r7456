@@ -372,7 +372,9 @@ wxColor Manager::GetLayoutColor(int id) const
 
 wxAuiDockArt* Manager::GetDockArtProvider() const
 {
+#if 0
     return ((MainFrame*)m_pAppWindow)->GetLayoutManager()->GetArtProvider();
+#endif
 }
 
 bool Manager::LoadResource(const wxString& file)
