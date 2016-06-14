@@ -1781,10 +1781,12 @@
 		</Unit>
 		<Unit filename="sdk/include/sdk.h">
 			<Option compile="1" />
+			<Option weight="0" />
 			<Option target="src" />
 		</Unit>
 		<Unit filename="sdk/include/sdk_precomp.h">
 			<Option compile="1" />
+			<Option weight="0" />
 			<Option target="sdk" />
 		</Unit>
 		<Unit filename="sdk/incrementalselectlistdlg.cpp">
@@ -2366,12 +2368,6 @@
 		<Unit filename="src/batchbuild.h">
 			<Option target="src" />
 		</Unit>
-		<Unit filename="src/compilersettingsdlg.cpp">
-			<Option target="src" />
-		</Unit>
-		<Unit filename="src/compilersettingsdlg.h">
-			<Option target="src" />
-		</Unit>
 		<Unit filename="src/crashhandler.cpp">
 			<Option target="src" />
 		</Unit>
@@ -2402,16 +2398,16 @@
 		<Unit filename="src/infopane.h">
 			<Option target="src" />
 		</Unit>
+		<Unit filename="src/ipc.cpp">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/ipc.h">
+			<Option target="src" />
+		</Unit>
 		<Unit filename="src/main.cpp">
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/main.h">
-			<Option target="src" />
-		</Unit>
-		<Unit filename="src/notebookstyles.cpp">
-			<Option target="src" />
-		</Unit>
-		<Unit filename="src/notebookstyles.h">
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/prefix.cpp">
@@ -2428,10 +2424,13 @@
 		<Unit filename="src/printdlg.h">
 			<Option target="src" />
 		</Unit>
-		<Unit filename="src/resources/app_compiler_settings.xrc">
+		<Unit filename="src/resources/ask_assocs.xrc">
 			<Option target="src" />
 		</Unit>
-		<Unit filename="src/resources/ask_assocs.xrc">
+		<Unit filename="src/resources/bitmaps.xrc">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/resources/bookmark_toolbar.xrc">
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/resources/dlg_about.xrc">
@@ -2447,9 +2446,6 @@
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/resources/main_toolbar.xrc">
-			<Option target="src" />
-		</Unit>
-		<Unit filename="src/resources/main_toolbar_16x16.xrc">
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/resources/manage_assocs.xrc">
@@ -2468,6 +2464,15 @@
 		<Unit filename="src/resources/start_here/start_here.html">
 			<Option target="src" />
 		</Unit>
+		<Unit filename="src/resources/tool_settings.xrc">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/rssreader.cpp">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/rssreader.h">
+			<Option target="src" />
+		</Unit>
 		<Unit filename="src/scriptconsole.cpp">
 			<Option target="src" />
 		</Unit>
@@ -2480,12 +2485,6 @@
 		<Unit filename="src/scriptingsettingsdlg.h">
 			<Option target="src" />
 		</Unit>
-		<Unit filename="src/splashscreen.cpp">
-			<Option target="src" />
-		</Unit>
-		<Unit filename="src/splashscreen.h">
-			<Option target="src" />
-		</Unit>
 		<Unit filename="src/startherepage.cpp">
 			<Option target="src" />
 		</Unit>
@@ -2496,6 +2495,18 @@
 			<Option target="src" />
 		</Unit>
 		<Unit filename="src/switcherdlg.h">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/toolsettingsdlg.cpp">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/toolsettingsdlg.h">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/xtra_res.cpp">
+			<Option target="src" />
+		</Unit>
+		<Unit filename="src/xtra_res.h">
 			<Option target="src" />
 		</Unit>
 		<Unit filename="tips.txt">
