@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_plugin_manifest_file>
-    <SdkVersion major="1" minor="10" release="0" />
+<EmBlocks_plugin_manifest_file>
+    <SdkVersion major="1" minor="0" release="0" />
     <Plugin name="ClassWizard">
         <Value title="Class wizard" />
         <Value version="0.3" />
@@ -13,4 +13,4 @@ complete yet but it's here nevertheless ;)" />
         <Value thanksTo="" />
         <Value license="GPL" />
     </Plugin>
-</CodeBlocks_plugin_manifest_file>
+</EmBlocks_plugin_manifest_file>
