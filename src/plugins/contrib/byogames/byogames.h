@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      byogames.h
- * Purpose:   Code::Blocks plugin
+ * Purpose:   Em::Blocks plugin
  * Author:    BYO<byo.spoon@gmail.com>
  * Copyright: (c) BYO
  * License:   GPL

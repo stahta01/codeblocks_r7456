@@ -20,7 +20,7 @@ class byoConf: public cbConfigurationPanel
 		virtual ~byoConf();
 
         wxString GetTitle() const { return _("C::B games"); }
-        wxString GetBitmapBaseName() const { return _T("generic-plugin"); }
+ //       virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_games"));}
         void OnApply();
         void OnCancel(){}
 
