@@ -4,9 +4,9 @@ Copyright notice:
 (for more info, see LICENSE)
 
 These files are part of libbzip2-1.0.
-Not all files of libbzip2-1.0 are included in the Code::Blocks CVS repository. Only the neccessary files are included here.
+Not all files of libbzip2-1.0 are included in the Em::Blocks CVS repository. Only the neccessary files are included here.
 Not included are the bzip2 program source, the manuals and the tests.
 
 If you want to update the libbzip2 to a newest version (when it comes out), just put all its files here. If the interface hasn't changed it should compile without any problems.
 
-The Code::Blocks Team.
+The Em::Blocks Team.
