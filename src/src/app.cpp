@@ -505,7 +505,9 @@ bool EmBlocksApp::OnInit()
     wxFileSystem::AddHandler(new wxZipFSHandler);
     wxFileSystem::AddHandler(new wxMemoryFSHandler);
  //   wxXmlResource::Get()->InsertHandler(new wxToolBarAddOnXmlHandler);
+#if 0
     wxXmlResource::Get()->InsertHandler(new wxAuiToolBarXmlHandler);
+#endif
     wxXmlResource::Get()->InsertHandler(new wxScrollingDialogXmlHandler);
     wxInitAllImageHandlers();
     wxXmlResource::Get()->InitAllHandlers();

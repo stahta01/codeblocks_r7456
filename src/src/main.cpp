@@ -940,7 +940,9 @@ void MainFrame::CreateMenubar()
 
     //Set our globally image for checked menu items
     wxBitmap defaultChecked = wxXmlResource::Get()->LoadBitmap(_T("checked_png"));
+#if 0
     wxSetDefaultCheckedMenuBitmap(defaultChecked);
+#endif
 
     // Find Menus that we'll change later
 
