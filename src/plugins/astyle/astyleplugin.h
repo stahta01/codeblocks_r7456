@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -18,7 +18,7 @@
 #endif
 
 #include <cbplugin.h> // the base class we 're inheriting
-#include <settings.h> // needed to use the Code::Blocks SDK
+#include <settings.h> // needed to use the Em::Blocks SDK
 
 class AStylePlugin : public cbToolPlugin
 {

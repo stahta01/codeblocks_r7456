@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -21,7 +21,7 @@ class AstyleConfigDlg : public cbConfigurationPanel
         void OnPreview(wxCommandEvent& event);
 
         virtual wxString GetTitle() const { return _("Source formatter"); }
-        virtual wxString GetBitmapBaseName() const { return _T("astyle-plugin"); }
+        virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_astyle"));}
         virtual void OnApply(){ SaveSettings(); }
         virtual void OnCancel(){}
 

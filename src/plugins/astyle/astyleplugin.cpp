@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: astyleplugin.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/astyle/astyleplugin.cpp $
  */
 
 #include <sdk.h>
@@ -126,18 +126,7 @@ void AStylePlugin::BuildModuleMenu( const ModuleType type, wxMenu* menu, const F
 
 void AStylePlugin::OnFormatProject( wxCommandEvent& /*event*/ )
 {
-    ProjectManager* manager = Manager::Get()->GetProjectManager();
-    wxTreeCtrl *tree = manager->GetTree();
-
-    if ( !tree )
-        return;
-
-    wxTreeItemId treeItem =  tree->GetSelection();
-
-    if ( !treeItem.IsOk() )
-        return;
-
-    const FileTreeData *data = static_cast<FileTreeData*>( tree->GetItemData( treeItem ) );
+    const FileTreeData *data = Manager::Get()->GetProjectManager()->GetSelectedTreeData();
 
     if ( !data )
         return;
@@ -155,7 +144,7 @@ void AStylePlugin::OnFormatProject( wxCommandEvent& /*event*/ )
                     wxString filename = pf->file.GetFullPath();
 
                     FileType fileType = FileTypeOf( filename );
-                    if ( fileType == ftSource || fileType == ftHeader )
+                    if ( fileType == ftSource || fileType == ftHeader || fileType == ftAssembler )
                     {
                         FormatFile( filename );
                         if ( false == progressDlg.Update( i, wxString(_("Formatting ")) + pf->relativeFilename ) )

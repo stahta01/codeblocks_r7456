@@ -73,6 +73,7 @@ const string ASResource::AS_MS_ASM = string("_asm");
 const string ASResource::AS_MS__ASM = string("__asm");
 
 const string ASResource::AS_BAR_DEFINE = string("#define");
+const string ASResource::AS_BAR_IFDEF = string("#ifdef");
 const string ASResource::AS_BAR_INCLUDE = string("#include");
 const string ASResource::AS_BAR_IF = string("#if");
 const string ASResource::AS_BAR_EL = string("#el");
