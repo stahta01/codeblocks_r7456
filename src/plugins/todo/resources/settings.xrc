@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resource>
+    <object class="wxBitmap" name="bmp_todo">images/todo.png</object>
     <object class="wxPanel" name="ToDoSettingsDlg">
         <size>560,127</size>
         <object class="wxBoxSizer">

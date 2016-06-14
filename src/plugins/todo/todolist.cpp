@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: todolist.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/todo/todolist.cpp $
  */
 
 #include "sdk.h"
@@ -129,6 +129,8 @@ void ToDoList::OnAttach()
 
 void ToDoList::OnRelease(bool appShutDown)
 {
+    Manager::Get()->RemoveAllEventSinksFor(this);
+
     if (m_StandAlone)
     {
         CodeBlocksDockEvent evt(cbEVT_REMOVE_DOCK_WINDOW);
@@ -189,7 +191,7 @@ void ToDoList::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTr
     }
 }
 
-bool ToDoList::BuildToolBar(wxToolBar* toolBar)
+bool ToDoList::BuildToolBar(wxAuiToolBar* toolBar)
 {
     return false;
 }

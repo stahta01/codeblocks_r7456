@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -16,7 +16,7 @@
 
 class wxMenuBar;
 class wxMenu;
-class wxToolBar;
+class wxAuiToolBar;
 class FileTreeData;
 class wxCommandEvent;
 class wxUpdateUIEvent;
@@ -33,7 +33,7 @@ class ToDoList : public cbPlugin
         int Configure();
         void BuildMenu(wxMenuBar* menuBar);
         void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0);
-        bool BuildToolBar(wxToolBar* toolBar);
+        bool BuildToolBar(wxAuiToolBar* toolBar);
         void OnAttach(); // fires when the plugin is attached to the application
         void OnRelease(bool appShutDown); // fires when the plugin is released from the application
     private:
@@ -66,4 +66,3 @@ class ToDoList : public cbPlugin
 };
 
 #endif // TODOLIST_H
-
