@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -28,7 +28,7 @@ class Autosave : public cbPlugin
 		int GetConfigurationGroup() const{ return  cgUnknown; }
 		void BuildMenu(wxMenuBar* /*menuBar*/){ return ; }
 		void BuildModuleMenu(const ModuleType /*type*/, wxMenu* /*menu*/, const FileTreeData* /*data*/ = 0){ return ; }
-		bool BuildToolBar(wxToolBar* /*toolBar*/){ return false; }
+		bool BuildToolBar(wxAuiToolBar* /*toolBar*/){ return false; }
 		void OnAttach(); // fires when the plugin is attached to the application
 		void Start();
 		void OnRelease(bool appShutDown); // fires when the plugin is released from the application
@@ -47,7 +47,7 @@ class AutosaveConfigDlg : public cbConfigurationPanel
 		virtual ~AutosaveConfigDlg(){};
 
         virtual wxString GetTitle() const { return _("Autosave"); }
-        virtual wxString GetBitmapBaseName() const { return _T("autosave"); }
+        virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_autosave"));}
         virtual void OnApply(){ SaveSettings(); }
         virtual void OnCancel(){}
 	private:
@@ -56,4 +56,3 @@ class AutosaveConfigDlg : public cbConfigurationPanel
 };
 
 #endif // AUTOSAVE_H
-

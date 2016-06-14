@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resource>
-
+<object class="wxBitmap" name="bmp_autosave">images/autosave.png</object>
 <object class="wxPanel" name="dlgAutosave">
     <object class="wxBoxSizer">
         <orient>wxVERTICAL</orient>
