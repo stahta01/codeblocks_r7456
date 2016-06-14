@@ -1,14 +1,13 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: abbreviations.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/abbreviations/abbreviations.cpp $
  */
 
 #include <sdk.h>
-#include <configurationpanel.h>
 #include <cbstyledtextctrl.h>
 
 #include "abbreviations.h"
@@ -17,7 +16,7 @@
 #include <sqplus.h>
 #include <sc_base_types.h>
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -25,7 +24,7 @@ namespace
     const int idEditAutoComplete = wxNewId();
 }
 
-Abbreviations* Abbreviations::m_Singleton = nullptr;
+Abbreviations* Abbreviations::m_Singleton = _nullptr;
 
 // events handling
 BEGIN_EVENT_TABLE(Abbreviations, cbPlugin)
@@ -70,7 +69,7 @@ void Abbreviations::OnAttach()
 void Abbreviations::OnRelease(bool appShutDown)
 {
     // do de-initialization for your plugin
-    // if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
+    // if appShutDown is true, the plugin is unloaded because Em::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...
@@ -80,7 +79,7 @@ void Abbreviations::OnRelease(bool appShutDown)
 
     if (m_Singleton == this)
     {
-        m_Singleton = nullptr;
+        m_Singleton = _nullptr;
     }
 }
 
@@ -146,7 +145,7 @@ void Abbreviations::BuildModuleMenu(const ModuleType type, wxMenu* menu, const F
     //TIP: for consistency, add a separator as the first item...
 }
 
-bool Abbreviations::BuildToolBar(wxToolBar* toolBar)
+bool Abbreviations::BuildToolBar(wxAuiToolBar* toolBar)
 {
     //The application is offering its toolbar for your plugin,
     //to add any toolbar items you want...

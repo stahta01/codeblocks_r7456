@@ -19,8 +19,7 @@ public:
 
     /// @return the panel's title.
     virtual wxString GetTitle() const;
-    /// @return the panel's bitmap base name. You must supply two bitmaps: \<basename\>.png and \<basename\>-off.png...
-    virtual wxString GetBitmapBaseName() const;
+    virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_abbrev"));}
     /// Called when the user chooses to apply the configuration.
     virtual void OnApply();
     /// Called when the user chooses to cancel the configuration.
