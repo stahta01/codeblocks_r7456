@@ -1,5 +1,5 @@
 /*
-	This file is part of Code Snippets, a plugin for Code::Blocks
+	This file is part of Code Snippets, a plugin for Em::Blocks
 	Copyright (C) 2006 Arto Jonsson
 	Copyright (C) 2007 Pecan Heber
 
@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-// RCS-ID: $Id$
+// RCS-ID: $Id: codesnippetstreectrl.cpp 4 2013-11-02 15:53:52Z gerard $
 
 #ifdef WX_PRECOMP
     #include "wx_pch.h"
@@ -200,7 +200,7 @@ void CodeSnippetsTreeCtrl::OnItemSelected(wxTreeEvent& event)
     // other routines.
 
     //CodeSnippetsTreeCtrl* pTree = (CodeSnippetsTreeCtrl*)event.GetEventObject();
-    wxTreeItemId itemId = event.GetItem();
+    //wxTreeItemId itemId = event.GetItem();
 
     //-SetStatusText(wxEmptyString);
 
@@ -635,7 +635,7 @@ void CodeSnippetsTreeCtrl::SaveItemsToFile(const wxString& fileName)
 	doc.InsertEndChild(header);
 
 	TiXmlComment comment;
-	comment.SetValue("Trust me. I know what I'm doing.");
+	comment.SetValue("Em::Blocks code snippets");
 	doc.InsertEndChild(comment);
 
 	TiXmlElement snippetsElement("snippets");
@@ -2265,7 +2265,7 @@ void CodeSnippetsTreeCtrl::SaveDataAndCloseEditorFrame(EditSnippetFrame* pEdFram
 
 		if (pEdFrame && (not m_bShutDown) )
         {
-            // If a pgm is started after CodeBlocks, it'll get the focus
+            // If a pgm is started after EmBlocks, it'll get the focus
             // when we destroy this editor frame *and* the frame was initiated by
             // a context menu item. So, here, we raise and focus CodeBlocks
             // if this is the last editor frame.

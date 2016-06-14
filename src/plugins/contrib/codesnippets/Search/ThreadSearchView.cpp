@@ -1,7 +1,7 @@
 /***************************************************************
  * Name:      ThreadSearchView
  * Purpose:   This class implements the panel that is added to
- *            Code::Blocks Message notebook or C::B layout.
+ *            Em::Blocks Message notebook or C::B layout.
  * Author:    Jerome ANTOINE
  * Created:   2007-10-08
  * Copyright: Jerome ANTOINE

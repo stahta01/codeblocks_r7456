@@ -7,7 +7,7 @@
  * License:
  **************************************************************/
 /*
-	This file is part of Code Snippets, a plugin for Code::Blocks
+	This file is part of Code Snippets, a plugin for Em::Blocks
 	Copyright (C) 2007 Pecan Heber
 
 	This program is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-// RCS-ID: $Id$
+// RCS-ID: $Id: codesnippetsapp.h 4 2013-11-02 15:53:52Z gerard $
 
 #ifndef CODESNIPPETSAPP_H
 #define CODESNIPPETSAPP_H

@@ -299,7 +299,7 @@ bool ThreadSearchFrame::InitThreadSearchFrame(wxFrame* appFrame, const wxString&
         }
 
         // create tool bar and hide it (avoids bar reference crashes)
-        wxToolBar* pToolBar = new wxToolBar(this, -1);
+        wxAuiToolBar* pToolBar = new wxAuiToolBar(this, -1);
         if (  m_pThreadSearch )
             m_pThreadSearch->BuildToolBar( pToolBar );
         pToolBar->Hide();
@@ -504,7 +504,7 @@ void ThreadSearchFrame::ComplainBadInstall()
     msg.Printf(_T("Cannot find resources...\n"
         "%s was configured to be installed in '%s'.\n"
         "Please use the command-line switch '--prefix' or "
-        "set the CODEBLOCKS_DATA_DIR environment variable "
+        "set the EMBLOCKS_DATA_DIR environment variable "
         "to point where %s is installed,\n"
         "or try re-installing the application..."),
         _T("CodeSnippetsApp"),
@@ -575,7 +575,7 @@ void ThreadSearchFrame::DoOnFileOpen(bool bProject)
         }
         else
         {
-            FileFilters::GetFilterIndexFromName(Filters, _("Code::Blocks project files"), StoredIndex);
+            FileFilters::GetFilterIndexFromName(Filters, _("Em::Blocks project files"), StoredIndex);
         }
     }
     wxFileDialog* dlg = new wxFileDialog(this,
@@ -620,7 +620,7 @@ bool ThreadSearchFrame::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& f
     for (unsigned int i = 0; i < files.GetCount(); ++i)
     {
         FileType ft = FileTypeOf(files[i]);
-        if (ft == ftCodeBlocksWorkspace || ft == ftMSVC6Workspace || ft == ftMSVC7Workspace)
+        if (ft == ftCodeBlocksWorkspace)
         {
             foundWorkspace = files[i];
             break;
@@ -704,7 +704,7 @@ bool ThreadSearchFrame::OpenGeneric(const wxString& filename, bool addToHistory)
 
         case ftSource:
             // fallthrough
-        case ftResource:
+        case ftAssembler:
             return DoOpenFile(filename, addToHistory);
         //
         // For all other files, ask MIME plugin for a suitable handler

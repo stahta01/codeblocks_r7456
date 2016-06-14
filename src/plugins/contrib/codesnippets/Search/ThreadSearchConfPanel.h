@@ -49,7 +49,7 @@ public:
 	/** Returns string used to build active/inactive images path in the left column
 	  * of the "Settings/Environment" dialog.
 	  */
-	wxString GetBitmapBaseName() const {return wxT("SnippetsSearch");}
+    virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_snippet"));}
 
 	/** Called automatically when user clicks on OK
 	  */

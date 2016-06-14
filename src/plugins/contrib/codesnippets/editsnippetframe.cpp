@@ -1,5 +1,5 @@
 /*
-	This file is part of Code Snippets, a plugin for Code::Blocks
+	This file is part of Code Snippets, a plugin for Em::Blocks
 	Copyright (C) 2006 Arto Jonsson
 	Copyright (C) 2007 Pecan Heber
 
@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-// RCS-ID: $Id$
+// RCS-ID: $Id: editsnippetframe.cpp 4 2013-11-02 15:53:52Z gerard $
 
 #include "editsnippetframe.h"
 
@@ -644,7 +644,10 @@ void EditSnippetFrame::OnCloseFrameOrWindow(wxCloseEvent &event)
 ////            return;
 ////        }
 
-    m_OncloseWindowEntries = (m_OncloseWindowEntries<1)? 0 : --m_OncloseWindowEntries;
+    if (m_OncloseWindowEntries < 1)
+        m_OncloseWindowEntries = 0;
+    else
+        m_OncloseWindowEntries--;
 
 }
 //// ----------------------------------------------------------------------------

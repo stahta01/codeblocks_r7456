@@ -1,5 +1,5 @@
 /*
-	This file is part of Code Snippets, a plugin for Code::Blocks
+	This file is part of Code Snippets, a plugin for Em::Blocks
 	Copyright (C) 2006 Arto Jonsson
 	Copyright (C) 2007 Pecan Heber
 
@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-// $Id$
+// $Id: codesnippets.cpp 4 2013-11-02 15:53:52Z gerard $
 
 #include <cstring>
 #include "sdk.h"
@@ -111,6 +111,14 @@ CodeSnippets::CodeSnippets()
     m_bBeginInternalDrag = false;
     m_pDragCursor = new wxCursor(wxCURSOR_HAND);
 
+    // Make sure our resources are available.
+    // In the generated boilerplate code we have no resources but when
+    // we add some, it will be nice that this code is in place already ;)
+    if(!Manager::LoadResource(wxT("codesnippets.zip"))){
+        NotifyMissingFile(wxT("codesnippets.zip"));
+    }
+
+
 }
 // ----------------------------------------------------------------------------
 CodeSnippets::~CodeSnippets()
@@ -126,7 +134,7 @@ void CodeSnippets::OnAttach()
     // Do not allow a secondary plugin enable
     //if (g_pConfig){
     if (GetConfig()){
-        wxMessageBox(wxT("CodeSnippets will enable on CodeBlocks restart."));
+        wxMessageBox(wxT("CodeSnippets will enable on EmBlocks restart."));
         return;
     }
 
@@ -181,9 +189,11 @@ void CodeSnippets::OnAttach()
     LOGIT(wxT("ExecFolder[%s]"),GetConfig()->m_ExecuteFolder.c_str());
     #endif
 
-    // get the CodeBlocks "personality" argument
+    // get the EmBlocks "personality" argument
     wxString m_Personality = Manager::Get()->GetPersonalityManager()->GetPersonality();
-    if (m_Personality == wxT("default")) m_Personality = wxEmptyString;
+    if (m_Personality == wxT("default"))
+        m_Personality = wxEmptyString;
+
     #if defined(LOGGING)
      LOGIT( _T("Personality is[%s]"), m_Personality.GetData() );
     #endif
@@ -191,13 +201,27 @@ void CodeSnippets::OnAttach()
     // if codesnippets.ini is in the executable folder, use it
     // else use the config folder
     wxString m_CfgFilenameStr = GetConfig()->m_ExecuteFolder + wxFILE_SEP_PATH;
-    if (not m_Personality.IsEmpty()) m_CfgFilenameStr << m_Personality + wxT(".") ;
+
+    if (!m_Personality.IsEmpty())
+        m_CfgFilenameStr << m_Personality + wxT(".") ;
+
     m_CfgFilenameStr << GetConfig()->AppName + _T(".ini");
 
     if (::wxFileExists(m_CfgFilenameStr)) {;/*OK Use exe path*/}
     else // use the .conf folder
-    {   m_CfgFilenameStr = GetConfig()->m_ConfigFolder + wxFILE_SEP_PATH;
-        if (not m_Personality.IsEmpty()) m_CfgFilenameStr <<  m_Personality + wxT(".") ;
+    {
+        m_CfgFilenameStr = ConfigManager::GetConfigFolder() + wxFILE_SEP_PATH;
+/*
+        m_CfgFilenameStr = GetConfig()->m_ConfigFolder + wxFILE_SEP_PATH;
+        if (!m_Personality.IsEmpty())
+        {
+            m_CfgFilenameStr <<  m_Personality + wxT(".") ;
+        }
+        else
+        {
+           m_CfgFilenameStr << _T(RELEASE) << wxFILE_SEP_PATH;
+        }
+*/
         m_CfgFilenameStr << GetConfig()->AppName + _T(".ini");
         // if default doesn't exist, create it
         if (not ::wxDirExists(GetConfig()->m_ConfigFolder))
@@ -1129,9 +1153,9 @@ bool DropTargets::OnDataText (wxCoord x, wxCoord y, const wxString& data)
     #ifdef LOGGING
      LOGIT( wxT("DropTargets::OnDataText") );
     #endif //LOGGING
-    bool ok;
+   // bool ok;
     wxArrayString* pFilenames = m_pcbDndExtn->TextToFilenames(data);
-    if (pFilenames->GetCount()) ok = m_pcbDndExtn->OnDropFiles(1, 1, *pFilenames);
+    //if (pFilenames->GetCount()) ok = m_pcbDndExtn->OnDropFiles(1, 1, *pFilenames);
     delete pFilenames;
     //return ok;
     // ---------------------------------------------------
@@ -1785,7 +1809,7 @@ long CodeSnippets::LaunchExternalSnippets()
         #endif
 
         PgmFullPath = execFolder
-                    + wxT("/share/codeblocks/plugins/codesnippets");
+                    + wxT("/share/emblocks/plugins/codesnippets");
         #if defined(__WXMSW__)
             PgmFullPath << wxT(".exe") ;
         #endif
@@ -1880,6 +1904,7 @@ cbDragScroll* CodeSnippets::FindDragScroll()
 
     return GetConfig()->GetDragScrollPlugin();
 }
+
 // ----------------------------------------------------------------------------
 wxString CodeSnippets::GetCBConfigFile()
 // ----------------------------------------------------------------------------
@@ -1894,13 +1919,18 @@ wxString CodeSnippets::GetCBConfigFile()
     {
         wxString appdata;
         if ( personality == _T("default") )
-            personality = _T("");
-        // Get APPDATA env var and append ".codeblocks" to it
-        wxGetEnv(_T("APPDATA"), &appdata);
-        current_conf_file = appdata +
+        {
+            current_conf_file = ConfigManager::GetConfigFolder() + wxFILE_SEP_PATH + _T(".codesnippets.ini");
+        }
+        else
+        {
+            // Get APPDATA env var and append ".emblocks" to it
+            wxGetEnv(_T("APPDATA"), &appdata);
+            current_conf_file = appdata +
                     //-wxFILE_SEP_PATH + _T("codeblocks") + wxFILE_SEP_PATH
                     wxFILE_SEP_PATH + wxTheApp->GetAppName() + wxFILE_SEP_PATH
                     + personality + _T(".codesnippets.ini");
+        }
     }
     return current_conf_file;
 }
@@ -1933,8 +1963,8 @@ wxString CodeSnippets::GetCBConfigDir()
 //    //      each can be null when not a window for this app
 //    //      When moving mouse from non-app window to docked window to app
 //    //          no EVT_ACTIVATE occurs.
-//    //      ::wxGetActiveWindow always returns a ptr to CodeBlocks
-//    //      wxTheApp->GetTopWindow always return a ptr to Codeblocks
+//    //      ::wxGetActiveWindow always returns a ptr to EmBlocks
+//    //      wxTheApp->GetTopWindow always return a ptr to Emblocks
 //
 //     LOGIT( _T("-----OnActivate----------[%s]"),event.GetActive()?wxT("Active"):wxT("Deactive") );
 //

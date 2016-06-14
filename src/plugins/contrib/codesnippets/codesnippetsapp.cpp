@@ -7,7 +7,7 @@
  * License:
  **************************************************************/
 /*
-	This file is part of Code Snippets, a plugin for Code::Blocks
+	This file is part of Code Snippets, a plugin for Em::Blocks
 	Copyright (C) 2007 Pecan Heber
 
 	This program is free software; you can redistribute it and/or
@@ -24,7 +24,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-// RCS-ID: $Id$
+// RCS-ID: $Id: codesnippetsapp.cpp 4 2013-11-02 15:53:52Z gerard $
 
 #ifdef WX_PRECOMP //
 #include "wx_pch.h"
@@ -43,6 +43,7 @@
 #include <wx/xrc/xmlres.h>
 #include <wx/dynlib.h>
 #include <wx/dir.h>
+#include <wx/aui/auibar.h>
 
 #if defined(__APPLE__) && defined(__MACH__)
 #include <sys/param.h>
@@ -268,6 +269,12 @@ void CodeSnippetsAppFrame::InitCodeSnippetsAppFrame(wxFrame *frame, const wxStri
     m_KeepAliveFileName = wxEmptyString;
     m_pFilesHistory = 0;
 
+#ifdef __WXMSW__
+    SetIcon(wxICON(A_MAIN_ICON));
+#else
+    SetIcon(wxIcon(app));
+#endif // __WXMSW__
+
     wxStandardPaths stdPaths;
 
     // -------------------------------
@@ -324,8 +331,8 @@ void CodeSnippetsAppFrame::InitCodeSnippetsAppFrame(wxFrame *frame, const wxStri
     // -----------------------------------------
     // Find Config File
     // -----------------------------------------
-    // Create filename like {%HOME%}\codesnippets.ini
-    m_ConfigFolder = Normalize(stdPaths.GetUserDataDir());
+    // Create filename like {%HOME%}\emblocks\codesnippets.ini
+    m_ConfigFolder = ConfigManager::GetConfigFolder();
     wxString m_ExecuteFolder = Normalize(FindAppPath(wxTheApp->argv[0], ::wxGetCwd(), wxEmptyString));
 
     #if defined(LOGGING)
@@ -355,7 +362,7 @@ void CodeSnippetsAppFrame::InitCodeSnippetsAppFrame(wxFrame *frame, const wxStri
             break;
         }
 
-        //if launched from CB & CodeBlocks has codesnippets.ini, use it
+        //if launched from EB & EmBlocks has codesnippets.ini, use it
         iniFilenameStr = m_ConfigFolder + wxFILE_SEP_PATH + GetConfig()->AppName + _T(".ini");
         iniFilenameStr = iniFilenameStr.Lower();
         //-iniFilenameStr.Replace(wxT("codesnippets"), wxT("codeblocks"),false);
@@ -365,7 +372,7 @@ void CodeSnippetsAppFrame::InitCodeSnippetsAppFrame(wxFrame *frame, const wxStri
                 break;
 
         // if launched from CB & Linux has codesnippets.ini, use it
-        //-iniFilenameStr.Replace(wxT("codeblocks"),wxT(".codeblocks"));
+        //-iniFilenameStr.Replace(wxT("emblocks"),wxT(".emblocks"));
         iniFilenameStr.Replace(GetConfig()->GetAppParent(), _T(".")+GetConfig()->GetAppParent());
         if ( GetConfig()->GetKeepAlivePid() )
             if (::wxFileExists(iniFilenameStr))
@@ -416,7 +423,7 @@ void CodeSnippetsAppFrame::InitCodeSnippetsAppFrame(wxFrame *frame, const wxStri
         {   // Previous instance is running.
             // Minimize then restore the first instance so pgm appears on active screen
             // Got the first instance handle of the window from the config file
-            HWND pFirstInstance;
+            HWND pFirstInstance = NULL;
             // gotten from cfgFile.Read( wxT("WindowHandle"),  &windowHandle ) ;
             unsigned long val;
             if ( GetConfig()->m_sWindowHandle.ToULong( &val, 16) )
@@ -518,7 +525,9 @@ void CodeSnippetsAppFrame::InitCodeSnippetsAppFrame(wxFrame *frame, const wxStri
 
         // set the frame icon
     GetConfig()->pSnipImages = new SnipImages();
-    SetIcon(GetConfig()->GetSnipImages()->GetSnipListIcon(TREE_IMAGE_ALL_SNIPPETS));
+
+ //GZa no icon for now, the transparency is not working right in the title bar
+ //   SetIcon(GetConfig()->GetSnipImages()->GetSnipListIcon(TREE_IMAGE_ALL_SNIPPETS));
 
     // ----------------------------
     // create window
@@ -729,7 +738,7 @@ void CodeSnippetsAppFrame::OnClose(wxCloseEvent &event)
     if ( 0 == GetConfig()->GetKeepAlivePid() )
     if ( Manager::Get() )
     {
-        //-Manager::Free(); dont clobber codeblocks' .conf file
+        //-Manager::Free(); dont clobber emblocks' .conf file
         if (wxFileExists(m_ConfigFolder+_T("/default.conf.backup")) )
             wxRemoveFile(m_ConfigFolder+_T("/default.conf.backup")) ;
         if (wxFileExists(m_ConfigFolder+_T("/default.conf.cbTemp")) )
@@ -1164,7 +1173,7 @@ bool CodeSnippetsAppFrame::InitializeSDK()
     // ---------------------
     // sdk initialization
     // ---------------------
-    LoadConfig(); //get data_path, ie, codeblocks resource path
+    LoadConfig(); //get data_path, ie, emblocks resource path
 
     ConfigManager *cfg = Manager::Get()->GetConfigManager(_T("app"));
     // Must execute the GetFolder() statements, else sdk strings will be uninitialized
@@ -1183,7 +1192,7 @@ bool CodeSnippetsAppFrame::InitializeSDK()
     // the resources to be found.
     Manager::Get( this );  // this sets the AppWindow/Frame pointer
 
-    // Kill message that "<appdata>/<exeName>/share/codeblocks/lexers
+    // Kill message that "<appdata>/<exeName>/share/emblocks/lexers
     // can not be enumerated."
     if ( not wxDirExists( dataFolderUser+_T("/lexers")) )
         wxMkdir(dataFolderUser+_T("/lexers"));
@@ -1236,12 +1245,12 @@ bool CodeSnippetsAppFrame::LoadConfig()
     {
 
         wxString env;
-        wxGetEnv(_T("CODEBLOCKS_DATA_DIR"), &env);
+        wxGetEnv(_T("EMBLOCKS_DATA_DIR"), &env);
         if (!env.IsEmpty())
             data = env;
     }
 
-    data.append(_T("/share/codeblocks"));
+    data.append(_T("/share/emblocks"));
 
     cfg->Write(_T("data_path"), data);
 
@@ -1310,7 +1319,7 @@ void CodeSnippetsAppFrame::ComplainBadInstall()
     msg.Printf(_T("Cannot find resources...\n"
         "%s was configured to be installed in '%s'.\n"
         "Please use the command-line switch '--prefix' or "
-        "set the CODEBLOCKS_DATA_DIR environment variable "
+        "set the EMBLOCKS_DATA_DIR environment variable "
         "to point where %s is installed,\n"
         "or try re-installing the application..."),
         _T("CodeSnippetsApp"),
@@ -1401,7 +1410,7 @@ void CodeSnippetsAppFrame::ImportCBResources()
     // location of CodeBlocks config folder
     wxString cbConfigFolder = Normalize(stdPaths.GetUserDataDir());
     wxString appParent = GetConfig()->GetAppParent();
-    if ( appParent.empty()) appParent =_T("codeblocks");
+    if ( appParent.empty()) appParent =_T("emblocks");
     wxString prefixPath;
     #if defined(__WXMSW__)
         if (cbConfigFolder.EndsWith(_T("codesnippets"), &prefixPath))
@@ -1420,46 +1429,48 @@ void CodeSnippetsAppFrame::ImportCBResources()
         //.ini must be in .exe folder to receive .conf
         if (appConfigFolder == appExeFolder)
         if (not wxFileExists(appExeFolder + _T("/default.conf")) )
-        {   bool copied = false;
-            copied = wxCopyFile( fileToCopy, appExeFolder+_T("/default.conf") );
+        {
             #if defined(LOGGING)
-            LOGIT( _T("Copy [%s][%s][%s]"), fileToCopy.c_str(), cbConfigFolder.c_str(), copied?_T("OK"):_T("FAILED"));
+            bool copied  = wxCopyFile( fileToCopy, appExeFolder+_T("/default.conf") );
+            LOGIT( _T("Copy [%s][%s][%s]"), fileToCopy.c_str(), cbConfigFolder.c_str(), copied ? _T("OK"): _T("FAILED"));
+            #else
+            wxCopyFile( fileToCopy, appExeFolder+_T("/default.conf") );
             #endif
         }
     }
     // Copy missing resources from CB exe folder to app config folder
-    if (not wxDirExists(appExeFolder + _T("/share/codeblocks/")))
+    if (not wxDirExists(appExeFolder + _T("/share/emblocks/")))
     {
-        FileImport( cbExeFolder + _T("/share/codeblocks/images/"), appExeFolder + _T("/share/codeblocks/images/"));
-        FileImport( cbExeFolder + _T("/share/codeblocks/lexers/"), appExeFolder + _T("/share/codeblocks/lexers/"));
-        FileImport( cbExeFolder + _T("/share/codeblocks/manager_resources.zip"), appExeFolder + _T("/share/codeblocks/"));
-        FileImport( cbExeFolder + _T("/share/codeblocks/resources.zip"), appExeFolder + _T("/share/codeblocks/"));
-        FileImport( cbExeFolder + _T("/share/codeblocks/xpmanifest.zip"), appExeFolder + _T("/share/codeblocks/"));
+        FileImport( cbExeFolder + _T("/share/emblocks/images/"), appExeFolder + _T("/share/emblocks/images/"));
+        FileImport( cbExeFolder + _T("/share/emblocks/lexers/"), appExeFolder + _T("/share/emblocks/lexers/"));
+        FileImport( cbExeFolder + _T("/share/emblocks/manager_resources.zip"), appExeFolder + _T("/share/emblocks/"));
+        FileImport( cbExeFolder + _T("/share/emblocks/resources.zip"), appExeFolder + _T("/share/emblocks/"));
+        FileImport( cbExeFolder + _T("/share/emblocks/xpmanifest.zip"), appExeFolder + _T("/share/emblocks/"));
     }
 
 }//ImportCBResources
 // ----------------------------------------------------------------------------
-wxString CodeSnippetsAppFrame::GetCBExeFolder() //Get CodeBlocks executable folder
+wxString CodeSnippetsAppFrame::GetCBExeFolder() //Get EmBlocks executable folder
 // ----------------------------------------------------------------------------
 {
     wxString cbExeFolder = GetAppPath(); //for linux
 
-    // Assume that codeblocks.dll is in the resource path base.
-    // Then look for <dllPath>/share/codeblocks/resources.zip
+    // Assume that emblocks.dll is in the resource path base.
+    // Then look for <dllPath>/share/emblocks/resources.zip
     // to verify.
     #if defined(__WXMSW__)
     if( m_Prefix.IsEmpty() )
     do{
         wxChar dllPath[1024] = {0};
-        HMODULE dllHandle = LoadLibrary(_T("codeblocks.dll"));
+        HMODULE dllHandle = LoadLibrary(_T("emblocks.dll"));
         if (not dllHandle) break;
         DWORD pathLen = GetModuleFileName( dllHandle, dllPath, sizeof(dllPath));
         if (not pathLen) break;
         cbExeFolder.assign(::wxPathOnly(dllPath));
         #if defined(LOGGING)
-          LOGIT( _T("CodeBlocks.dll Path[%s]"), cbExeFolder.c_str());
+          LOGIT( _T("EmBlocks.dll Path[%s]"), cbExeFolder.c_str());
         #endif
-        //cbExeFolder.append(_T("/share/codeblocks"));
+        //cbExeFolder.append(_T("/share/emblocks"));
         //if (not ::wxFileExists(cbExeFolder + _T("/resources.zip")) ) break;
     }while(false);
     #endif

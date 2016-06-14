@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: seditormanager.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/codesnippets/editor/seditormanager.cpp $
  */
 
 //warning: ...trunk/src/include/sdk_precomp.h.gch: not used because `EXPORT_LIB' not defined|
@@ -3060,4 +3060,3 @@ int SEditorManager::GetLongestLinePixelWidth(int top_line, int bottom_line)  //(
     //return pEdit->TextWidth(wxSTC_STYLE_DEFAULT, wxString(longest_len, wxT('D')));
     return ed->TextWidth(0, wxString(longest_len, wxT('D')));
 }
-

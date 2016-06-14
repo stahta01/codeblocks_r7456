@@ -3,7 +3,7 @@
 // Purpose:     Find/Replace, Goto dialogs
 // Maintainer:  Otto Wyss
 // Created:     2003-01-20
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: finddialogs.cpp 4 2013-11-02 15:53:52Z gerard $
 // Copyright:   (c) 2005 wyoGuide
 // Licence:     wxWindows
 //////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@
 // information
 //----------------------------------------------------------------------------
 /*
-	This file is part of Code Snippets, a plugin for Code::Blocks
+	This file is part of Code Snippets, a plugin for Em::Blocks
 	Copyright (C) 2006 Arto Jonsson
 	Copyright (C) 2007 Pecan Heber
 
@@ -30,7 +30,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-// RCS-ID: $Id$
+// RCS-ID: $Id: finddialogs.cpp 4 2013-11-02 15:53:52Z gerard $
 
 
 //----------------------------------------------------------------------------

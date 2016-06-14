@@ -6,7 +6,7 @@
 // Author:      Julian Smart, Robert Roebling
 // Modified by: Pecan 2009/06/5
 // Created:     04/01/98
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: GenericMessageBox.cpp 4 2013-11-02 15:53:52Z gerard $
 // Copyright:   (c) Julian Smart and Robert Roebling
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

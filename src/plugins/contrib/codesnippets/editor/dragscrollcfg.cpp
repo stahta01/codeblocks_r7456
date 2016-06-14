@@ -156,25 +156,6 @@ void cbDragScrollCfg::OnDoneButtonClick(wxCommandEvent& event)
     //EndModal(0);
     LOGIT( _T("cbDragScrollCfg::OnDoneButtonClick erroniously called") );
 }
-// ----------------------------------------------------------------------------
-wxString cbDragScrollCfg::GetBitmapBaseName() const
-{
-    //probing
-    //LOGIT( _T("Config:%s"),ConfigManager::GetConfigFolder().GetData()  );
-    //LOGIT( _T("Plugins:%s"),ConfigManager::GetPluginsFolder().GetData() );
-    //LOGIT( _T("Data:%s"),ConfigManager::GetDataFolder().GetData() );
-    //LOGIT( _T("Executable:%s"),ConfigManager::GetExecutableFolder().GetData() );
 
-    wxString pngName = _T("generic-plugin");
-    //if file exist "./share/codeblocks/images/settings/cbdragscroll.png";
-    #ifdef __WXGTK__
-     if ( ::wxFileExists(ConfigManager::GetDataFolder() + _T("/images/settings/dragscroll.png")) )
-    #else
-     if ( ::wxFileExists(ConfigManager::GetDataFolder() + _T("\\images\\settings\\dragscroll.png")) )
-    #endif
-    	pngName = _T("dragscroll") ;
-    // else return "generic-plugin"
-    return pngName;
-}
 // ----------------------------------------------------------------------------
 //

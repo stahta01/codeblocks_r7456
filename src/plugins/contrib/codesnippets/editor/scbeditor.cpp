@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: scbeditor.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/codesnippets/editor/scbeditor.cpp $
  */
 
 // Stop following warning:
@@ -1578,7 +1578,6 @@ void ScbEditor::DoFoldBlockFromLine(int line, int fold)
     cbStyledTextCtrl* ctrl = GetControl();
     ctrl->Colourise(0, -1); // the *most* important part!
     int i, parent, maxLine, level, UnfoldUpto = line;
-    bool FoldedInside = false;
 
     parent = ctrl->GetFoldParent(line);
     level = ctrl->GetFoldLevel(parent);
@@ -1591,7 +1590,6 @@ void ScbEditor::DoFoldBlockFromLine(int line, int fold)
         {
             if (!ctrl->GetFoldExpanded(parent))
             {
-                FoldedInside = true;
                 UnfoldUpto = parent;
             }
             if (wxSCI_FOLDLEVELBASE == (level & wxSCI_FOLDLEVELNUMBERMASK))

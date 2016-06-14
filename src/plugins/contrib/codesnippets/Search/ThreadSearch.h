@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      ThreadSearch
- * Purpose:   ThreadSearch Code::Blocks plugin
+ * Purpose:   ThreadSearch Em::Blocks plugin
  *            Most of the interactions with C::B are handled here.
  * Author:    Jerome ANTOINE
  * Created:   2007-10-08
@@ -27,7 +27,7 @@ class wxBoxSizer;
 class wxWindow;
 class wxMenu;
 class wxMenuBar;
-class wxToolBar;
+class wxAuiToolBar;
 class wxLogWindow;
 class wxComboBox;
 class FileTreeData;
@@ -89,8 +89,8 @@ public:
 	  */
 	virtual cbConfigurationPanel* GetProjectConfigurationPanel(wxWindow* WXUNUSED(parent), cbProject* WXUNUSED(project)){ return 0; }
 
-	/** This method is called by Code::Blocks and is used by the plugin
-	  * to add any menu items it needs on Code::Blocks's menu bar.\n
+	/** This method is called by Em::Blocks and is used by the plugin
+	  * to add any menu items it needs on Em::Blocks's menu bar.\n
 	  * It is a pure virtual method that needs to be implemented by all
 	  * plugins. If the plugin does not need to add items on the menu,
 	  * just do nothing ;)
@@ -98,7 +98,7 @@ public:
 	  */
 	virtual void BuildMenu(wxMenuBar* menuBar);
 
-	/** This method is called by Code::Blocks core modules (EditorManager,
+	/** This method is called by Em::Blocks core modules (EditorManager,
 	  * ProjectManager etc) and is used by the plugin to add any menu
 	  * items it needs in the module's popup menu. For example, when
 	  * the user right-clicks on a project file in the project tree,
@@ -115,15 +115,15 @@ public:
 	  */
 	virtual void BuildModuleMenu(const ModuleType type, wxMenu* pMenu, const FileTreeData* data = 0);
 
-	/** This method is called by Code::Blocks and is used by the plugin
-	  * to add any toolbar items it needs on Code::Blocks's toolbar.\n
+	/** This method is called by Em::Blocks and is used by the plugin
+	  * to add any toolbar items it needs on Em::Blocks's toolbar.\n
 	  * It is a pure virtual method that needs to be implemented by all
 	  * plugins. If the plugin does not need to add items on the toolbar,
 	  * just do nothing ;)
-	  * @param toolBar the wxToolBar to create items on
+	  * @param toolBar the wxAuiToolBar to create items on
 	  * @return The plugin should return true if it needed the toolbar, false if not
 	  */
-	virtual bool BuildToolBar(wxToolBar* toolBar);
+	virtual bool BuildToolBar(wxAuiToolBar* toolBar);
 
 	/** This method is called to update observers.
 	  * The pattern has not been implemented as there is only one observer
@@ -204,8 +204,8 @@ public:
 protected:
 	/** Any descendent plugin should override this virtual method and
 	  * perform any necessary initialization. This method is called by
-	  * Code::Blocks (PluginManager actually) when the plugin has been
-	  * loaded and should attach in Code::Blocks. When Code::Blocks
+	  * Em::Blocks (PluginManager actually) when the plugin has been
+	  * loaded and should attach in Em::Blocks. When Em::Blocks
 	  * starts up, it finds and <em>loads</em> all plugins but <em>does
 	  * not</em> activate (attaches) them. It then activates all plugins
 	  * that the user has selected to be activated on start-up.\n
@@ -216,8 +216,8 @@ protected:
 
 	/** Any descendent plugin should override this virtual method and
 	  * perform any necessary de-initialization. This method is called by
-	  * Code::Blocks (PluginManager actually) when the plugin has been
-	  * loaded, attached and should de-attach from Code::Blocks.\n
+	  * Em::Blocks (PluginManager actually) when the plugin has been
+	  * loaded, attached and should de-attach from Em::Blocks.\n
 	  * Think of this method as the actual destructor...
 	  * @param appShutDown If true, the application is shutting down. In this
 	  *         case *don't* use Manager::Get()->Get...() functions or the
@@ -309,7 +309,7 @@ private:
 	ThreadSearchView*                    m_pThreadSearchView;         // Panel added to Messages notebook
 	ThreadSearchViewManagerBase*         m_pViewManager;              // View manager. Used to add, remove, show and hide view.
 										        					  // Used on a derived class (message notebook or layout manager).
-	wxToolBar*                           m_pToolbar;                  // Panel added to Messages notebook
+	wxAuiToolBar*                        m_pToolbar;                  // Panel added to Messages notebook
 	bool                                 m_CtxMenuIntegration;        // Tells if 'Find occurrences' item must be present in contextual menu
 	bool                                 m_UseDefValsForThreadSearch; // Tells if default values (whole word = true, match case = true)
 										        					  // are used for 'Find occurrences' ctx menu command

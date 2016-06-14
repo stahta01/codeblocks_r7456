@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
 
@@ -31,8 +31,8 @@ class wxBoxSizer;
 
 /** @brief A file editor
   *
-  * This class represents one builtin editor in Code::Blocks. It holds all the necessary
-  * information about an editor. When you want to access a Code::Blocks editor,
+  * This class represents one builtin editor in Em::Blocks. It holds all the necessary
+  * information about an editor. When you want to access a Em::Blocks editor,
   * this is the class you want to get at ;)\n
   *
   * To do this, use SnippetsSearchFrame::GetEditorManager() functions.

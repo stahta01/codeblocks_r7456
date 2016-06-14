@@ -2,7 +2,7 @@
     This file is part of SnipList. A standalone adaptation of
     Code Snippets by Arto Jonsson. Parts Copyright (C) Pecan Heber
 
-	This file is part of Code Snippets, a plugin for Code::Blocks
+	This file is part of Code Snippets, a plugin for Em::Blocks
 	Copyright (C) 2006 Arto Jonsson
 
 	This program is free software; you can redistribute it and/or

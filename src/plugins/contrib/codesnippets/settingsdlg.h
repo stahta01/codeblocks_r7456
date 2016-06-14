@@ -1,5 +1,5 @@
 /*
-	This file is part of Code Snippets, a plugin for Code::Blocks
+	This file is part of Code Snippets, a plugin for Em::Blocks
 	Copyright (C) 2007 Pecan Heber
 
 	This program is free software; you can redistribute it and/or

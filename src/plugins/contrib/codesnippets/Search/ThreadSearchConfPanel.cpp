@@ -12,7 +12,7 @@
 #if defined(CB_PRECOMP)
 #include "sdk.h"
 #endif
-//#include <sdk.h> // Code::Blocks SDK
+//#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
 	#include <wx/checkbox.h>
 	#include <wx/radiobox.h>
@@ -431,4 +431,3 @@ void ThreadSearchConfPanel::OnApply()
 	// Notifies plug-in observers (ThreadSearchView)
 	m_ThreadSearchPlugin.Notify();
 }
-

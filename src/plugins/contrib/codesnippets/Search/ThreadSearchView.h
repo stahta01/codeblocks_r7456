@@ -1,7 +1,7 @@
 /***************************************************************
  * Name:      ThreadSearchView
  * Purpose:   This class implements the panel that is added to
- *            Code::Blocks Message notebook or layout.
+ *            Em::Blocks Message notebook or layout.
  *            It runs the search worker thread and receives
  *            ThreadSearchEvent from it to update the list log.
  * Author:    Jerome ANTOINE
@@ -119,7 +119,7 @@ public:
 	  * C::B plugins manager provides a toolbar instance to ThreadSearch instance
 	  * during init. This instance is referenced in ThreadSearchView by m_pToolBar.
 	  */
-	void SetToolBar(wxToolBar* pToolBar) {m_pToolBar = pToolBar;}
+	void SetToolBar(wxAuiToolBar* pToolBar) {m_pToolBar = pToolBar;}
 
 	/** This method shows/hide the search graphical controls.
 	  * @param show : show = true/hide = false toolbar
@@ -191,7 +191,7 @@ protected:
     // end wxGlade
     wxStaticBoxSizer* m_pSizerSearchDirItems;
     wxBoxSizer*       m_pSizerSearchItems;
-    wxToolBar*        m_pToolBar;
+    wxAuiToolBar*     m_pToolBar;
 
 	DECLARE_EVENT_TABLE()
 

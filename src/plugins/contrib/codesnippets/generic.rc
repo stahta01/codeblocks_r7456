@@ -16,6 +16,8 @@
 
 #define RT_MANIFEST 24
 
+A_MAIN_ICON        ICON "resources/images/app.ico"
+
 APP_MANIFEST RT_MANIFEST generic.Manifest
 
 #endif // !defined(WX_MSC_FULL_VER) || WX_MSC_FULL_VER < 140040130

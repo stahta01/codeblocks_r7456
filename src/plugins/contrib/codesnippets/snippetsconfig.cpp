@@ -1,5 +1,5 @@
 /*
-	This file is part of CodeSnippets, a plugin for Code::Blocks
+	This file is part of CodeSnippets, a plugin for Em::Blocks
 	Copyright (C) 2007 Pecan Heber
 
 	This program is free software; you can redistribute it and/or
@@ -16,7 +16,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
-// RCS-ID: $Id$
+// RCS-ID: $Id: snippetsconfig.cpp 4 2013-11-02 15:53:52Z gerard $
 #ifdef WX_PRECOMP
     #include "wx_pch.h"
 #endif
@@ -527,7 +527,6 @@ wxFrame* CodeSnippetsConfig::GetEditorManagerFrame(const int index)
 // ----------------------------------------------------------------------------
 {
     wxFrame* frame;
-    SEditorManager* edMgr;
     if ( (index < 0) or (index > GetEditorManagerCount()) )
         return 0;
     // iterate over all the elements in the class
@@ -538,7 +537,6 @@ wxFrame* CodeSnippetsConfig::GetEditorManagerFrame(const int index)
         if (i == index)
         {
             frame = it->first;
-            edMgr = it->second;
             return frame;
         }
         ++i;
@@ -549,7 +547,6 @@ wxFrame* CodeSnippetsConfig::GetEditorManagerFrame(const int index)
 SEditorManager* CodeSnippetsConfig::GetEditorManager(const int index)
 // ----------------------------------------------------------------------------
 {
-    wxFrame* frame;
     SEditorManager* edMgr;
     if ( (index < 0) or (index > GetEditorManagerCount()) )
         return 0;
@@ -560,7 +557,6 @@ SEditorManager* CodeSnippetsConfig::GetEditorManager(const int index)
     {
         if (i == index)
         {
-            frame = it->first;
             edMgr = it->second;
             return edMgr;
         }

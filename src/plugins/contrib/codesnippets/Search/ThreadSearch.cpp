@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      ThreadSearch
- * Purpose:   ThreadSearch Code::Blocks plugin
+ * Purpose:   ThreadSearch Em::Blocks plugin
  *            Most of the interactions with C::B are handled here.
  * Author:    Jerome ANTOINE
  * Created:   2007-10-08
@@ -39,7 +39,7 @@
 #include "editormanager.h"
 #include "manager.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -279,7 +279,7 @@ void ThreadSearch::OnRelease(bool /*appShutDown*/)
 // ----------------------------------------------------------------------------
 {
     // do de-initialization for your plugin
-    // if appShutDown is false, the plugin is unloaded because Code::Blocks is being shut down,
+    // if appShutDown is false, the plugin is unloaded because Em::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...
@@ -731,7 +731,7 @@ void ThreadSearch::SaveConfig(bool showPanel, int sashPosition,
 
 }
 // ----------------------------------------------------------------------------
-bool ThreadSearch::BuildToolBar(wxToolBar* toolBar)
+bool ThreadSearch::BuildToolBar(wxAuiToolBar* toolBar)
 // ----------------------------------------------------------------------------
 {
 
