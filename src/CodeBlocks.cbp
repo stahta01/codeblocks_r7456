@@ -1679,9 +1679,6 @@
 		<Unit filename="sdk/compiler.cpp">
 			<Option target="sdk" />
 		</Unit>
-		<Unit filename="sdk/compilercommandgenerator.cpp">
-			<Option target="sdk" />
-		</Unit>
 		<Unit filename="sdk/compilerfactory.cpp">
 			<Option target="sdk" />
 		</Unit>
@@ -1988,9 +1985,6 @@
 		<Unit filename="sdk/resources/editor_configuration.xrc">
 			<Option target="sdk" />
 		</Unit>
-		<Unit filename="sdk/resources/editor_manager.xrc">
-			<Option target="sdk" />
-		</Unit>
 		<Unit filename="sdk/resources/external_deps.xrc">
 			<Option target="sdk" />
 		</Unit>
@@ -2195,9 +2189,6 @@
 		<Unit filename="sdk/resources/scripting_security_dlg.xrc">
 			<Option target="sdk" />
 		</Unit>
-		<Unit filename="sdk/resources/select_target.xrc">
-			<Option target="sdk" />
-		</Unit>
 		<Unit filename="sdk/resources/virtualbuildtargetsdlg.xrc">
 			<Option target="sdk" />
 		</Unit>
@@ -2316,9 +2307,6 @@
 			<Option target="sdk" />
 		</Unit>
 		<Unit filename="sdk/searchresultslog.cpp">
-			<Option target="sdk" />
-		</Unit>
-		<Unit filename="sdk/selecttargetdlg.cpp">
 			<Option target="sdk" />
 		</Unit>
 		<Unit filename="sdk/templatemanager.cpp">
