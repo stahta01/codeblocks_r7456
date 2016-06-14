@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_plugin_manifest_file>
-    <SdkVersion major="1" minor="10" release="0" />
+<EmBlocks_plugin_manifest_file>
+    <SdkVersion major="1" minor="0" release="0" />
     <Plugin name="copystrings">
         <Value title="Copy Strings to clipboard" />
         <Value version="1.00" />
@@ -12,4 +12,4 @@ Duplicated strings are removed." />
         <Value thanksTo="The Code::Blocks team!" />
         <Value license="wxWidgets" />
     </Plugin>
-</CodeBlocks_plugin_manifest_file>
+</EmBlocks_plugin_manifest_file>
