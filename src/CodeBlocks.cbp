@@ -1685,6 +1685,9 @@
 		<Unit filename="sdk/compileroptions.cpp">
 			<Option target="sdk" />
 		</Unit>
+		<Unit filename="sdk/compilervaroptions.cpp">
+			<Option target="sdk" />
+		</Unit>
 		<Unit filename="sdk/compiletargetbase.cpp">
 			<Option target="sdk" />
 		</Unit>
@@ -1771,6 +1774,9 @@
 			<Option target="sdk" />
 		</Unit>
 		<Unit filename="sdk/importers_globals.cpp">
+			<Option target="sdk" />
+		</Unit>
+		<Unit filename="sdk/include/compilervaroptions.h">
 			<Option target="sdk" />
 		</Unit>
 		<Unit filename="sdk/include/sdk.h">
@@ -2337,9 +2343,6 @@
 			<Option target="sdk" />
 		</Unit>
 		<Unit filename="sdk/workspaceloader.cpp">
-			<Option target="sdk" />
-		</Unit>
-		<Unit filename="sdk/xtra_res.cpp">
 			<Option target="sdk" />
 		</Unit>
 		<Unit filename="src/app.cpp">
