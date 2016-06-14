@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: openfileslistplugin.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/openfileslist/openfileslistplugin.cpp $
  */
 
 #include "sdk.h"
@@ -61,6 +61,10 @@ END_EVENT_TABLE()
 OpenFilesListPlugin::OpenFilesListPlugin()
 {
     //ctor
+  //  if (!Manager::LoadResource(_T("openfileslist.zip")))
+  //  {
+  //      NotifyMissingFile(_T("openfileslist.zip"));
+  //  }
 }
 
 OpenFilesListPlugin::~OpenFilesListPlugin()
@@ -78,22 +82,12 @@ void OpenFilesListPlugin::OnAttach()
     m_pTree = new wxTreeCtrl(Manager::Get()->GetAppWindow(), idOpenFilesTree,wxDefaultPosition,wxSize(150, 100),
                             wxTR_HAS_BUTTONS | wxNO_BORDER | wxTR_HIDE_ROOT);
 
-    // load bitmaps
-    wxBitmap bmp;
+    // load bitmaps (sdk resources)
     m_pImages = new wxImageList(16, 16);
-    wxString prefix = ConfigManager::GetDataFolder() + _T("/images/");
-
-    bmp = cbLoadBitmap(prefix + _T("folder_open.png"), wxBITMAP_TYPE_PNG); // folder
-    m_pImages->Add(bmp);
-
-    bmp = cbLoadBitmap(prefix + _T("ascii.png"), wxBITMAP_TYPE_PNG); // file
-    m_pImages->Add(bmp);
-
-    bmp = cbLoadBitmap(prefix + _T("modified_file.png"), wxBITMAP_TYPE_PNG); // modified file
-    m_pImages->Add(bmp);
-
-    bmp = cbLoadBitmap(prefix + _T("file-readonly.png"), wxBITMAP_TYPE_PNG); // read only file
-    m_pImages->Add(bmp);
+    m_pImages->Add(wxXmlResource::Get()->LoadBitmap(_T("folder_open_png")));
+    m_pImages->Add(wxXmlResource::Get()->LoadBitmap(_T("file_ascii_png")));
+    m_pImages->Add(wxXmlResource::Get()->LoadBitmap(_T("file-modified_png")));
+    m_pImages->Add(wxXmlResource::Get()->LoadBitmap(_T("file-readonly_png")));
 
     m_pTree->SetImageList(m_pImages);
     m_pTree->AddRoot(_T("Opened Files"), 0, 0);

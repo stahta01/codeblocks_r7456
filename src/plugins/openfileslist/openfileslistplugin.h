@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -28,7 +28,7 @@ class OpenFilesListPlugin : public cbPlugin
 
         virtual void BuildMenu(wxMenuBar* menuBar);
         virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0){}
-        virtual bool BuildToolBar(wxToolBar* toolBar){ return false; }
+        virtual bool BuildToolBar(wxAuiToolBar* toolBar){ return false; }
 
         virtual void OnAttach();
         virtual void OnRelease();
