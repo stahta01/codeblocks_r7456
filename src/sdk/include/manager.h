@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef MANAGER_H
 #define MANAGER_H
@@ -16,6 +38,14 @@
 #endif
 #include <wx/event.h>
 #include <wx/cmdline.h>
+
+//GZaxxxx
+#   ifdef __WXMSW__
+#       include <wx/msw/pen.h>  // Needed to prevent Yield define bug.
+#   endif
+#include <wx/sizer.h>
+#include <wx/aui/auibar.h>
+#include <wx/aui/dockart.h>
 
 #include "settings.h"
 #include "sdk_events.h"
@@ -33,7 +63,7 @@ class MacrosManager;
 class PersonalityManager;
 class wxMenu;
 class wxMenuBar;
-class wxToolBar;
+class wxAuiToolBar;
 class UserVariableManager;
 class ScriptingManager;
 class ConfigManager;
@@ -79,6 +109,9 @@ public:
 
     wxFrame*  GetAppFrame()  const;
     wxWindow* GetAppWindow() const;
+    wxAuiDockArt* GetDockArtProvider() const;
+    wxColor GetLayoutColor(int id) const;
+    const wxBitmap& GetMenuBitmap(int menuId) const;
 
     static bool IsAppShuttingDown();
     static bool isappShuttingDown(){return Manager::IsAppShuttingDown();};
@@ -127,14 +160,19 @@ public:
     static wxMenuBar* LoadMenuBar(wxString resid, bool createonfailure = false);
     /// Loads Menu from XRC
     static wxMenu*    LoadMenu(wxString menu_id, bool createonfailure = false);
+
     /// Loads ToolBar from XRC
-    static wxToolBar *LoadToolBar(wxFrame *parent, wxString resid, bool defaultsmall = true);
+ //   static wxToolBar *LoadToolBar(wxFrame *parent, wxString resid, bool defaultsmall = true);
 
     // Do not use this, use Get()
     static Manager* Get(wxFrame* appWindow);
 
-    static void AddonToolBar(wxToolBar* toolBar,wxString resid);
-    static bool isToolBar16x16(wxToolBar* toolBar);
+ //   static void AddonToolBar(wxToolBar* toolBar,wxString resid);
+
+    static void AuiToolBar(wxAuiToolBar* toolBar, wxString resid);
+
+// Always true, we don't support other sizes, this is for code::blocks compatibility
+    static bool isToolBar16x16(wxAuiToolBar* toolBar) { return true; }
 
     static wxCmdLineParser* GetCmdLineParser();
 
@@ -195,4 +233,3 @@ public:
 };
 
 #endif // MANAGER_H
-

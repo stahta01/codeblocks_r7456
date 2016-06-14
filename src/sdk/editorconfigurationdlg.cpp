@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -20,7 +38,7 @@
     #include <wx/stattext.h>
     #include <wx/textdlg.h>
     #include <wx/xrc/xmlres.h>
-    
+
     #include "manager.h"
     #include "configmanager.h"
     #include "pluginmanager.h"
@@ -49,20 +67,40 @@
 #include "editorconfigurationdlg.h"
 #include "editkeywordsdlg.h"
 
+
+
+class customFontDialog : public wxFontDialog
+{
+public:
+    customFontDialog(wxWindow *parent, const wxFontData& data)
+        : wxFontDialog(parent, data) { Create(parent, data); }
+
+    virtual int ShowModal()
+    {
+        m_fontData.EnableEffects(false);
+        m_fontData.SetAllowSymbols(false);
+        #ifdef __WXMSW__
+            return wxFontDialog::ShowModal( CF_SCREENFONTS | CF_NOSTYLESEL);
+        #else
+            return wxFontDialog::ShowModal();
+        #endif
+    }
+};
+
 // images by order of pages
 const wxString base_imgs[] =
 {
-    _T("editor"),
-    _T("folding"),
-    _T("gutter-margin"),
-    _T("syntax-highlight"),
-    _T("default-code"),
+     _T("bmp_editor"),
+     _T("bmp_folding"),
+     _T("bmp_gutter-margin"),
+     _T("bmp_syntax-highlight"),
+     _T("bmp_default-code")
 };
-const int IMAGES_COUNT = sizeof(base_imgs) / sizeof(wxString);
+const int IMAGES_COUNT = sizeof(base_imgs) / sizeof(base_imgs[0]);
 
 // map cmbDefCodeFileType indexes to FileType values
 // if more entries are added to cmbDefCodeFileType, edit the mapping here
-const FileType IdxToFileType[] = { ftSource, ftHeader };
+const FileType IdxToFileType[] = { ftSource, ftHeader, ftAssembler };
 
 BEGIN_EVENT_TABLE(EditorConfigurationDlg, wxScrollingDialog)
     EVT_BUTTON(XRCID("btnChooseEditorFont"),           EditorConfigurationDlg::OnChooseFont)
@@ -130,22 +168,14 @@ EditorConfigurationDlg::EditorConfigurationDlg(wxWindow* parent)
     #endif
     XRCCTRL(*this, "chkShowLineNumbers", wxCheckBox)->SetValue(cfg->ReadBool(_T("/show_line_numbers"), true));
     XRCCTRL(*this, "chkTtrackPreprocessor", wxCheckBox)->SetValue(cfg->ReadBool(_T("/track_preprocessor"), false));
+    XRCCTRL(*this, "chkStylePreprocessor", wxCheckBox)->SetValue(cfg->ReadBool(_T("/style_preprocessor"), false));
     XRCCTRL(*this, "chkHighlightCaretLine", wxCheckBox)->SetValue(cfg->ReadBool(_T("/highlight_caret_line"), false));
     XRCCTRL(*this, "chkSimplifiedHome", wxCheckBox)->SetValue(cfg->ReadBool(_T("/simplified_home"), false));
     XRCCTRL(*this, "chkResetZoom", wxCheckBox)->SetValue(cfg->ReadBool(_T("/reset_zoom"), false));
     XRCCTRL(*this, "chkZoomAll", wxCheckBox)->SetValue(cfg->ReadBool(_T("/zoom_all"), false));
     XRCCTRL(*this, "spnTabSize", wxSpinCtrl)->SetValue(cfg->ReadInt(_T("/tab_size"), 4));
     XRCCTRL(*this, "cmbViewWS", wxComboBox)->SetSelection(cfg->ReadInt(_T("/view_whitespace"), 0));
-    XRCCTRL(*this, "rbTabText", wxRadioBox)->SetSelection(cfg->ReadBool(_T("/tab_text_relative"), true) ? 1 : 0);
-
-#if defined __WXMSW__
-    const wxString openFolderCmds = _T("explorer.exe /select,");
-#elif defined __WXMAC__
-    const wxString openFolderCmds = _T("open -R");
-#else
-    const wxString openFolderCmds = _T("xdg-open");
-#endif
-    XRCCTRL(*this, "txtOpenFolder", wxTextCtrl)->SetValue(cfg->Read(_T("/open_containing_folder"), openFolderCmds));
+    XRCCTRL(*this, "rbTabText", wxRadioBox)->SetSelection(cfg->ReadBool(_T("/tab_text_relative"), false) ? 1 : 0);
 
     // Highlight Occurence
     bool highlightEnabled = cfg->ReadBool(_T("/highlight_occurrence/enabled"), true);
@@ -257,10 +287,9 @@ EditorConfigurationDlg::EditorConfigurationDlg(wxWindow* parent)
     wxBitmap bmp;
     for (int i = 0; i < IMAGES_COUNT; ++i)
     {
-        bmp = cbLoadBitmap(base + base_imgs[i] + _T(".png"), wxBITMAP_TYPE_PNG);
+        wxBitmap bmp = wxXmlResource::Get()->LoadBitmap(base_imgs[i]);
         images->Add(bmp);
-        bmp = cbLoadBitmap(base + base_imgs[i] + _T("-off.png"), wxBITMAP_TYPE_PNG);
-        images->Add(bmp);
+        images->Add(MakeDiasbledBitmap(bmp, *wxWHITE));
     }
     wxListbook* lb = XRCCTRL(*this, "nbMain", wxListbook);
     lb->AssignImageList(images);
@@ -305,15 +334,10 @@ void EditorConfigurationDlg::AddPluginPanels()
         panel->SetParentDialog(this);
         lb->AddPage(panel, panel->GetTitle());
 
-        wxString onFile = ConfigManager::LocateDataFile(base + panel->GetBitmapBaseName() + _T(".png"), sdDataGlobal | sdDataUser);
-        if (onFile.IsEmpty())
-            onFile = ConfigManager::LocateDataFile(noimg + _T(".png"), sdDataGlobal | sdDataUser);
-        wxString offFile = ConfigManager::LocateDataFile(base + panel->GetBitmapBaseName() + _T("-off.png"), sdDataGlobal | sdDataUser);
-        if (offFile.IsEmpty())
-            offFile = ConfigManager::LocateDataFile(noimg + _T("-off.png"), sdDataGlobal | sdDataUser);
+        wxBitmap bmp = panel->GetBitmap();
+        lb->GetImageList()->Add(bmp);
+        lb->GetImageList()->Add(MakeDiasbledBitmap(bmp, *wxWHITE));
 
-        lb->GetImageList()->Add(cbLoadBitmap(onFile));
-        lb->GetImageList()->Add(cbLoadBitmap(offFile));
         lb->SetPageImage(lb->GetPageCount() - 1, lb->GetImageList()->GetImageCount() - 2);
     }
 
@@ -508,7 +532,7 @@ void EditorConfigurationDlg::UpdateSampleFont(bool askForNewFont)
     wxFontData data;
     data.SetInitialFont(tmpFont);
 
-    wxFontDialog dlg(this, data);
+    customFontDialog dlg(this, data);
     PlaceWindow(&dlg);
     if (dlg.ShowModal() == wxID_OK)
     {
@@ -805,6 +829,7 @@ void EditorConfigurationDlg::EndModal(int retCode)
 
         cfg->Write(_T("/show_line_numbers"),                   XRCCTRL(*this, "chkShowLineNumbers", wxCheckBox)->GetValue());
         cfg->Write(_T("/track_preprocessor"),                  XRCCTRL(*this, "chkTtrackPreprocessor", wxCheckBox)->GetValue());
+        cfg->Write(_T("/style_preprocessor"),                  XRCCTRL(*this, "chkStylePreprocessor", wxCheckBox)->GetValue());
         cfg->Write(_T("/highlight_caret_line"),                XRCCTRL(*this, "chkHighlightCaretLine", wxCheckBox)->GetValue());
         cfg->Write(_T("/simplified_home"),                     XRCCTRL(*this, "chkSimplifiedHome", wxCheckBox)->GetValue());
 
@@ -824,7 +849,6 @@ void EditorConfigurationDlg::EndModal(int retCode)
 
         cfg->Write(_T("/tab_size"),                            XRCCTRL(*this, "spnTabSize", wxSpinCtrl)->GetValue());
         cfg->Write(_T("/view_whitespace"),                     XRCCTRL(*this, "cmbViewWS", wxComboBox)->GetSelection());
-        cfg->Write(_T("/open_containing_folder"),              XRCCTRL(*this, "txtOpenFolder", wxTextCtrl)->GetValue());
         cfg->Write(_T("/tab_text_relative"),                   XRCCTRL(*this, "rbTabText", wxRadioBox)->GetSelection() ? true : false);
         cfg->Write(_T("/highlight_occurrence/enabled"),        XRCCTRL(*this, "chkHighlightOccurrences", wxCheckBox)->GetValue());
         cfg->Write(_T("/highlight_occurrence/case_sensitive"), XRCCTRL(*this, "chkHighlightOccurrencesCaseSensitive", wxCheckBox)->GetValue());

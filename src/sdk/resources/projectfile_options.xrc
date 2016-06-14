@@ -361,7 +361,7 @@
                 <object class="sizeritem">
                   <object class="wxStaticText" name="ID_STATICTEXT16">
                     <label>Please, don't change anything unless you really know what you 're doing.
-You could *really* mess-up Code::Blocks' Build System...</label>
+You could *really* mess-up Em::Blocks' Build System...</label>
                     <fg>#FF0000</fg>
                   </object>
                   <flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_TOP</flag>

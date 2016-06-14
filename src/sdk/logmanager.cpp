@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -25,7 +43,7 @@ template<> bool  Mgr<LogManager>::isShutdown = false;
 
 LogSlot::LogSlot()
     : log(0),
-    icon(0)
+      icon(0)
 {
 }
 
@@ -68,8 +86,8 @@ LogManager::LogManager()
     SetLog(new StdoutLogger, app_log);
     SetLog(new StdoutLogger, debug_log);
     slot[stdout_log].title = _T("stdout");
-    slot[app_log].title = _T("Code::Blocks");
-    slot[debug_log].title = _T("Code::Blocks Debug");
+    slot[app_log].title = _T("Em::Blocks");
+    slot[debug_log].title = _T("Em::Blocks Debug");
 
     Register(_T("null"),   new Instantiator<NullLogger>);
     Register(_T("stdout"), new Instantiator<StdoutLogger>);
@@ -82,6 +100,20 @@ LogManager::~LogManager()
     for(inst_map_t::iterator i = instMap.begin(); i != instMap.end(); ++i)
         delete i->second;
 }
+
+void LogManager::ClearLogInternal(int i)
+{
+    if(i == -1)
+    {
+        for(i=0; i<(int)max_logs; i++)
+            if (slot[i].log!=&g_null_log)
+                slot[i].log->Clear();
+        return;
+    }
+
+    if ((i>=0) && (i<(int)max_logs) && (slot[i].log!=&g_null_log))
+        slot[i].log->Clear();
+};
 
 size_t LogManager::SetLog(Logger* l, int i)
 {
@@ -104,6 +136,21 @@ size_t LogManager::SetLog(Logger* l, int i)
 
     slot[index].SetLogger(l);
     return index;
+}
+
+void LogManager::Log(const wxString& msg, int i, Logger::level lv)
+{
+    // The '\f' FormFeed is used as window clear
+    if( msg.Find(_T('\f')) != wxNOT_FOUND )
+    {
+        ClearLog(i);
+        wxArrayString subString = GetArrayFromString(msg, _T('\f'));
+        LogInternal(subString.Last(), i, lv);
+    }
+    else
+    {
+        LogInternal(msg, i, lv);
+    }
 }
 
 void LogManager::NotifyUpdate()
@@ -175,7 +222,7 @@ void LogManager::Panic(const wxString& msg, const wxString& component)
     title.Append(component);
 
     if(!component)
-        title.Append(_T("Code::Blocks"));
+        title.Append(_T("Em::Blocks"));
 
     wxSafeShowMessage(title, msg);
 };

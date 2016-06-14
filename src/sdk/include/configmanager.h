@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef X_CONFIGMANAGER_H
 #define X_CONFIGMANAGER_H
@@ -65,7 +87,7 @@ namespace ConfigManagerContainer
 enum SearchDirs
 {
     sdHome            = 0x0001, ///< User's home directory
-    sdBase            = 0x0002, ///< Code::Blocks' installation base
+    sdBase            = 0x0002, ///< Em::Blocks' installation base
     sdTemp            = 0x0004, ///< System-wide temp folder
     sdPath            = 0x0008, ///< All dirs in the PATH environment variable
     sdConfig          = 0x0010, ///< Config folder
@@ -127,7 +149,7 @@ public:
 
     /** @brief Locate a file in an installation- and platform-independent way.
     *
-    * You should always use this function if you are looking for "some arbitrary file that belongs to Code::Blocks",
+    * You should always use this function if you are looking for "some arbitrary file that belongs to Em::Blocks",
     * as it works across platforms without any additional effort from your side, and it has some builtin redundancy.
     * @par
     * So, code that looked like this in the old days:
@@ -146,7 +168,7 @@ public:
     */
     static wxString LocateDataFile(const wxString& filename, int search_dirs = sdAllKnown);
 
-    /** @brief Access one of Code::Blocks' folders.
+    /** @brief Access one of Em::Blocks' folders.
       * @param dir The directory to return.
       */
     static wxString GetFolder(SearchDirs dir);
@@ -154,7 +176,7 @@ public:
     /* Backwards compatible functions. For new code, please use GetFolder() instead.
     *
     * Query "standard" paths that work across platforms.
-    * NEVER harcode a path like "C:\CodeBlocks\share\data". Always use one of the following functions to compose a path.
+    * NEVER harcode a path like "C:\EmBlocks\share\data". Always use one of the following functions to compose a path.
     */
     static wxString GetHomeFolder() { return home_folder; }
     static wxString GetConfigFolder(){ return config_folder; }
@@ -345,4 +367,3 @@ public:
 };
 
 #endif
-

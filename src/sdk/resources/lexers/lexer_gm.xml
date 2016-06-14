@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_lexer_properties>
-<CodeBlocks_lexer_properties>
+<!DOCTYPE EmBlocks_lexer_properties>
+<EmBlocks_lexer_properties>
 		<Lexer name="GameMonkey script"
 				index="3"
 				filemasks="*.gm">
@@ -50,19 +50,19 @@
 						bg="255,0,0"/>
 				<Keywords>
 						<Language index="0"
-								value="if else for foreach while dowhile 
-								break continue return true false null 
-								in and or function global local member 
+								value="if else for foreach while dowhile
+								break continue return true false null
+								in and or function global local member
 								table this"/>
 						<User index="1"
-								value="debug typeId typeName typeRegisterOperator 
-								typeRegisterVariable sysCollectGarbage sysGetMemoryUsage 
-								sysSetDesiredMemoryUsageHard sysSetDesiredMemoryUsageSoft 
-								sysSetDesiredMemoryUsageAuto sysGetDesiredMemoryUsageHard 
-								sysGetDesiredMemoryUsageSoft sysTime doString globals 
-								threadTime threadId threadAllIds threadKill threadKillAll 
+								value="debug typeId typeName typeRegisterOperator
+								typeRegisterVariable sysCollectGarbage sysGetMemoryUsage
+								sysSetDesiredMemoryUsageHard sysSetDesiredMemoryUsageSoft
+								sysSetDesiredMemoryUsageAuto sysGetDesiredMemoryUsageHard
+								sysGetDesiredMemoryUsageSoft sysTime doString globals
+								threadTime threadId threadAllIds threadKill threadKillAll
 								thread yield exit assert sleep signal block stateSet
-								stateSetOnThread stateGet stateGetLast stateSetExitFunction 
+								stateSetOnThread stateGet stateGetLast stateSetExitFunction
 								tableCount tableDuplicate print format "/>
 				</Keywords>
 				<SampleCode value="lexer_gm.sample"
@@ -75,4 +75,4 @@
                     BoxCommentMid=" * "
                     BoxCommentEnd=" */"/>
 		</Lexer>
-</CodeBlocks_lexer_properties>
+</EmBlocks_lexer_properties>

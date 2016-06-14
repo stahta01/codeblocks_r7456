@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef CBPLUGIN_H
 #define CBPLUGIN_H
@@ -10,10 +32,12 @@
 #include <wx/event.h>
 #include <wx/intl.h>
 #include <wx/string.h>
+#include <wx/aui/auibar.h>
 
 #include "settings.h" // build settings
 #include "globals.h"
 #include "manager.h"
+#include "projectfile.h"
 #include "pluginmanager.h"
 
 #ifdef __WXMSW__
@@ -32,16 +56,10 @@
     #define PLUGIN_EXPORT
 #endif
 
-// this is the plugins SDK version number
-// it will change when the SDK interface breaks
-#define PLUGIN_SDK_VERSION_MAJOR   1
-#define PLUGIN_SDK_VERSION_MINOR   11
-#define PLUGIN_SDK_VERSION_RELEASE 15
-
 // class decls
 class wxMenuBar;
 class wxMenu;
-class wxToolBar;
+class wxAuiToolBar;
 class wxPanel;
 class wxWindow;
 class cbEditor;
@@ -118,8 +136,8 @@ class PLUGIN_EXPORT cbPlugin : public wxEvtHandler
           */
         virtual cbConfigurationPanel* GetProjectConfigurationPanel(wxWindow* /*parent*/, cbProject* /*project*/){ return 0; }
 
-        /** This method is called by Code::Blocks and is used by the plugin
-          * to add any menu items it needs on Code::Blocks's menu bar.\n
+        /** This method is called by Em::Blocks and is used by the plugin
+          * to add any menu items it needs on Em::Blocks's menu bar.\n
           * It is a pure virtual method that needs to be implemented by all
           * plugins. If the plugin does not need to add items on the menu,
           * just do nothing ;)
@@ -131,7 +149,7 @@ class PLUGIN_EXPORT cbPlugin : public wxEvtHandler
           */
         virtual void BuildMenu(wxMenuBar* menuBar) = 0;
 
-        /** This method is called by Code::Blocks core modules (EditorManager,
+        /** This method is called by Em::Blocks core modules (EditorManager,
           * ProjectManager etc) and is used by the plugin to add any menu
           * items it needs in the module's popup menu. For example, when
           * the user right-clicks on a project file in the project tree,
@@ -148,19 +166,19 @@ class PLUGIN_EXPORT cbPlugin : public wxEvtHandler
           */
         virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0) = 0;
 
-        /** This method is called by Code::Blocks and is used by the plugin
-          * to add any toolbar items it needs on Code::Blocks's toolbar.\n
+        /** This method is called by Em::Blocks and is used by the plugin
+          * to add any toolbar items it needs on Em::Blocks's toolbar.\n
           * It is a pure virtual method that needs to be implemented by all
           * plugins. If the plugin does not need to add items on the toolbar,
           * just do nothing ;)
-          * @param toolBar the wxToolBar to create items on
+          * @param toolBar the wxAuiToolBar to create items on
           * @return The plugin should return true if it needed the toolbar, false if not
           */
-        virtual bool BuildToolBar(wxToolBar* toolBar) = 0;
+        virtual bool BuildToolBar(wxAuiToolBar* toolBar) = 0;
 
 #if wxUSE_STATUSBAR
-        /** This method is called by Code::Blocks and is used by the plugin
-          * to add a field on Code::Blocks's statusbar.\n
+        /** This method is called by Em::Blocks and is used by the plugin
+          * to add a field on Em::Blocks's statusbar.\n
           * If the plugin does not need to add items on the statusbar, just
           * do nothing ;)
           * @param statusBar the cbStatusBar to create items on
@@ -177,7 +195,7 @@ class PLUGIN_EXPORT cbPlugin : public wxEvtHandler
 
         /** See whether this plugin can be detached (unloaded) or not.
           * This function is called usually when the user requests to
-          * uninstall or disable a plugin. Before disabling/uninstalling it, Code::Blocks
+          * uninstall or disable a plugin. Before disabling/uninstalling it, Em::Blocks
           * asks the plugin if it can be detached or not. In other words, it checks
           * to see if it can be disabled/uninstalled safely...
           * @par
@@ -188,8 +206,8 @@ class PLUGIN_EXPORT cbPlugin : public wxEvtHandler
     protected:
         /** Any descendent plugin should override this virtual method and
           * perform any necessary initialization. This method is called by
-          * Code::Blocks (PluginManager actually) when the plugin has been
-          * loaded and should attach in Code::Blocks. When Code::Blocks
+          * Em::Blocks (PluginManager actually) when the plugin has been
+          * loaded and should attach in Em::Blocks. When Em::Blocks
           * starts up, it finds and <em>loads</em> all plugins but <em>does
           * not</em> activate (attaches) them. It then activates all plugins
           * that the user has selected to be activated on start-up.\n
@@ -200,8 +218,8 @@ class PLUGIN_EXPORT cbPlugin : public wxEvtHandler
 
         /** Any descendent plugin should override this virtual method and
           * perform any necessary de-initialization. This method is called by
-          * Code::Blocks (PluginManager actually) when the plugin has been
-          * loaded, attached and should de-attach from Code::Blocks.\n
+          * Em::Blocks (PluginManager actually) when the plugin has been
+          * loaded, attached and should de-attach from Em::Blocks.\n
           * Think of this method as the actual destructor...
           * @param appShutDown If true, the application is shutting down. In this
           *         case *don't* use Manager::Get()->Get...() functions or the
@@ -226,14 +244,14 @@ class PLUGIN_EXPORT cbPlugin : public wxEvtHandler
         /** Attach is <b>not</b> a virtual function, so you can't override it.
           * The default implementation hooks the plugin to Code::Block's
           * event handling system, so that the plugin can receive (and process)
-          * events from Code::Blocks core library. Use OnAttach() for any
+          * events from Em::Blocks core library. Use OnAttach() for any
           * initialization specific tasks.
           * @see OnAttach()
           */
         void Attach();
 
         /** Release is <b>not</b> a virtual function, so you can't override it.
-          * The default implementation un-hooks the plugin from Code::Blocks's
+          * The default implementation un-hooks the plugin from Em::Blocks's
           * event handling system. Use OnRelease() for any clean-up specific
           * tasks.
           * @param appShutDown If true, the application is shutting down. In this
@@ -254,20 +272,6 @@ class PLUGIN_EXPORT cbCompilerPlugin: public cbPlugin
     public:
         cbCompilerPlugin();
 
-        /** @brief Run the project/target.
-          *
-          * Running a project means executing its build output. Of course
-          * this depends on the selected build target and its type.
-          *
-          * @param target The specific build target to "run". If NULL, the plugin
-          * should ask the user which target to "run" (except maybe if there is
-          * only one build target in the project).
-          */
-        virtual int Run(ProjectBuildTarget* target = 0L) = 0;
-
-        /** Same as Run(ProjectBuildTarget*) but with a wxString argument. */
-        virtual int Run(const wxString& target) = 0;
-
         /** @brief Clean the project/target.
           *
           * Cleaning a project means deleting any files created by building it.
@@ -280,20 +284,6 @@ class PLUGIN_EXPORT cbCompilerPlugin: public cbPlugin
 
         /** Same as Clean(ProjectBuildTarget*) but with a wxString argument. */
         virtual int Clean(const wxString& target) = 0;
-
-        /** @brief DistClean the project/target.
-          *
-          * DistClean will typically remove any config files
-          * and anything else that got created as part of
-          * building a software package.
-          *
-          * @param target The specific build target to "distclean". If NULL, it
-          * cleans all the build targets of the current project.
-          */
-        virtual int DistClean(ProjectBuildTarget* target = 0L) = 0;
-
-        /** Same as DistClean(ProjectBuildTarget*) but with a wxString argument. */
-        virtual int DistClean(const wxString& target) = 0;
 
         /** @brief Build the project/target.
           *
@@ -355,6 +345,13 @@ class PLUGIN_EXPORT cbCompilerPlugin: public cbPlugin
           * @param target The selected target (can be NULL).
           */
         virtual int Configure(cbProject* project, ProjectBuildTarget* target = 0L) = 0;
+
+        /** @brief Display configuration dialog for a file.
+          *
+          * @param projectfile The selected Project File.
+          * @param target The selected target (can be NULL).
+          */
+        virtual int Configure(ProjectFile* projectfile, ProjectBuildTarget* target = 0L) = 0;
     private:
 };
 
@@ -388,17 +385,6 @@ class PLUGIN_EXPORT cbDebuggerPlugin: public cbPlugin
           */
         virtual bool RemoveBreakpoint(const wxString& file, int line) = 0;
 
-        /** @brief Request to remove a breakpoint based on a function signature.
-          * @param functionSignature The function signature to remove the breakpoint.
-          * @return True if succeeded, false if not.
-          */
-        virtual bool RemoveBreakpoint(const wxString& functionSignature) = 0;
-
-        /** @brief Request to remove all breakpoints from a file.
-          * @param file The file to remove all breakpoints in. If the argument is empty, all breakpoints are removed from all files.
-          * @return True if succeeded, false if not.
-          */
-        virtual bool RemoveAllBreakpoints(const wxString& file = wxEmptyString) = 0;
 
         /** @brief Notify the debugger that lines were added or removed in an editor.
           * This causes the debugger to keep the breakpoints list in-sync with the
@@ -414,7 +400,7 @@ class PLUGIN_EXPORT cbDebuggerPlugin: public cbPlugin
         virtual int Debug() = 0;
 
         /** @brief Continue running the debugged program. */
-        virtual void Continue() = 0;
+        virtual void Continue(bool bForce) = 0;
 
         /** @brief Execute the next instruction and return control to the debugger. */
         virtual void Next() = 0;
@@ -423,21 +409,24 @@ class PLUGIN_EXPORT cbDebuggerPlugin: public cbPlugin
         virtual void Step() = 0;
 
         /** @brief Break the debugging process (stop the debuggee for debugging). */
-        virtual void Break() = 0;
+        virtual void Break(bool bUpdateViews = true) = 0;
 
         /** @brief Stop the debugging process (exit debugging). */
         virtual void Stop() = 0;
 
-        /** @brief Is the plugin currently debugging? */
-        virtual bool IsRunning() const = 0;
+        /** @brief Is the plugin currently running? */
+        virtual bool IsRunning() = 0;
 
         /** @brief Get the exit code of the last debug process. */
         virtual int GetExitCode() const = 0;
+
+        /** @brief Launch the interface config dialog. */
+        virtual bool LaunchConfigDialog(cbProject* project, const wxString& target, const wxString& opts) = 0;
 };
 
 /** @brief Base class for tool plugins
   *
-  * This plugin is automatically managed by Code::Blocks, so the inherited
+  * This plugin is automatically managed by Em::Blocks, so the inherited
   * functions to build menus/toolbars are hidden.
   *
   * Tool plugins are automatically added under the "Plugins" menu.
@@ -459,13 +448,13 @@ class PLUGIN_EXPORT cbToolPlugin : public cbPlugin
         void BuildMenu(wxMenuBar* /*menuBar*/){}
         void RemoveMenu(wxMenuBar* /*menuBar*/){}
         void BuildModuleMenu(const ModuleType /*type*/, wxMenu* /*menu*/, const FileTreeData* /*data*/ = 0){}
-        bool BuildToolBar(wxToolBar* /*toolBar*/){ return false; }
-        void RemoveToolBar(wxToolBar* /*toolBar*/){}
+        bool BuildToolBar(wxAuiToolBar* /*toolBar*/){ return false; }
+        void RemoveToolBar(wxAuiToolBar* /*toolBar*/){}
 };
 
 /** @brief Base class for mime plugins
   *
-  * Mime plugins are called by Code::Blocks to operate on files that Code::Blocks
+  * Mime plugins are called by Em::Blocks to operate on files that Em::Blocks
   * wouldn't know how to handle on itself.
   */
 class PLUGIN_EXPORT cbMimePlugin : public cbPlugin
@@ -499,13 +488,14 @@ class PLUGIN_EXPORT cbMimePlugin : public cbPlugin
           * false if not.
           */
         virtual bool HandlesEverything() const = 0;
+
     private:
         // "Hide" some virtual members, that are not needed in cbMimePlugin
         void BuildMenu(wxMenuBar* /*menuBar*/){}
         void RemoveMenu(wxMenuBar* /*menuBar*/){}
         void BuildModuleMenu(const ModuleType /*type*/, wxMenu* /*menu*/, const FileTreeData* /*data*/ = 0){}
-        bool BuildToolBar(wxToolBar* /*toolBar*/){ return false; }
-        void RemoveToolBar(wxToolBar* /*toolBar*/){}
+        bool BuildToolBar(wxAuiToolBar* /*toolBar*/){ return false; }
+        void RemoveToolBar(wxAuiToolBar* /*toolBar*/){}
 };
 
 /** @brief Base class for code-completion plugins
@@ -519,11 +509,13 @@ class PLUGIN_EXPORT cbCodeCompletionPlugin : public cbPlugin
         virtual wxArrayString GetCallTips() = 0;
         virtual int CodeComplete() = 0;
         virtual void ShowCallTip() = 0;
+
+        virtual wxArrayString GetPreprocessorList(int, const wxString&) = 0;
 };
 
 /** @brief Base class for wizard plugins
   *
-  * Wizard plugins are called by Code::Blocks when the user selects
+  * Wizard plugins are called by Em::Blocks when the user selects
   * "File->New...".
   *
   * A plugin of this type can support more than one wizard. Additionally,
@@ -578,13 +570,13 @@ class PLUGIN_EXPORT cbWizardPlugin : public cbPlugin
         void BuildMenu(wxMenuBar* /*menuBar*/){}
         void RemoveMenu(wxMenuBar* /*menuBar*/){}
         void BuildModuleMenu(const ModuleType /*type*/, wxMenu* /*menu*/, const FileTreeData* /*data*/ = 0){}
-        bool BuildToolBar(wxToolBar* /*toolBar*/){ return false; }
-        void RemoveToolBar(wxToolBar* /*toolBar*/){}
+        bool BuildToolBar(wxAuiToolBar* /*toolBar*/){ return false; }
+        void RemoveAuiToolBar(wxAuiToolBar* /*toolBar*/){}
 };
 
 /** @brief Plugin registration object.
   *
-  * Use this class to register your new plugin with Code::Blocks.
+  * Use this class to register your new plugin with Em::Blocks.
   * All you have to do is instantiate a PluginRegistrant object.
   * @par
   * Example code to use in one of your plugin's source files (supposedly called "MyPlugin"):

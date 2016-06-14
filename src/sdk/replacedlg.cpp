@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 #ifndef CB_PRECOMP
@@ -484,13 +502,9 @@ void ReplaceDlg::OnFindChange(wxNotebookEvent& event)
     wxTextCtrl* txtFind2  = XRCCTRL(*this, "txtMultiLineFind2", wxTextCtrl);
     wxComboBox* cmbReplace1 =XRCCTRL(*this, "cmbReplace1", wxComboBox); //
     wxComboBox* cmbReplace2 =XRCCTRL(*this, "cmbReplace2", wxComboBox); //
-    wxCheckBox* chkMultiLine1 = XRCCTRL(*this, "chkMultiLine1", wxCheckBox);
-    wxCheckBox* chkMultiLine2 = XRCCTRL(*this, "chkMultiLine2", wxCheckBox);
 
     if (txtFind1 && txtFind2 && cmbFind1 && cmbFind2)
     {
-        wxWindow* controlToFocus = 0;
-
         if (event.GetSelection() == 0)
         {
             // Switched from "Find in files" to "Find"
@@ -500,8 +514,7 @@ void ReplaceDlg::OnFindChange(wxNotebookEvent& event)
             cmbFind1->SetValue(cmbFind2->GetValue());
             cmbReplace1->SetValue(cmbReplace2->GetValue());
 
-            // If Multiline was active in "Find in Files", activate it in "Find"
-            controlToFocus = chkMultiLine2->GetValue() ? dynamic_cast<wxWindow*>(txtFind1) : dynamic_cast<wxWindow*>(cmbFind1);
+
         }
         else if (event.GetSelection() == 1)
         {
@@ -511,9 +524,6 @@ void ReplaceDlg::OnFindChange(wxNotebookEvent& event)
 
             cmbFind2->SetValue(cmbFind1->GetValue());
             cmbReplace2->SetValue(cmbReplace1->GetValue());
-
-            // If Multiline was active in "Find", activate it in "Find in files"
-            controlToFocus = chkMultiLine1->GetValue() ? dynamic_cast<wxWindow*>(txtFind2) : dynamic_cast<wxWindow*>(cmbFind2);
 
         }
     }

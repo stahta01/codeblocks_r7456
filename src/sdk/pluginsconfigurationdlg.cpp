@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -99,13 +117,13 @@ PluginsConfigurationDlg::PluginsConfigurationDlg(wxWindow* parent)
     initialInfo << _T("</font><br /><br /><b><font color=\"red\">");
     initialInfo << _("Have you saved your work first?");
     initialInfo << _T("</font></b><br /><i><font color=\"black\">\n");
-    initialInfo << _("If a plugin is not well-written, it could cause Code::Blocks to crash ");
+    initialInfo << _("If a plugin is not well-written, it could cause Em::Blocks to crash ");
     initialInfo << _("when performing any operation on it...");
 
 	if (PluginManager::GetSafeMode())
 	{
 		initialInfo << _T("</font></i><br /><br /><b><font color=\"red\">");
-		initialInfo << _("Code::Blocks started up in \"safe-mode\"");
+		initialInfo << _("Em::Blocks started up in \"safe-mode\"");
 		initialInfo << _T("</font></b><br /><i><font color=\"black\">\n");
 		initialInfo << _("All plugins were disabled on startup so that you can troubleshoot ");
 		initialInfo << _("problematic plugins. Enable plugins at will now...");
@@ -227,7 +245,7 @@ void PluginsConfigurationDlg::OnInstall(wxCommandEvent& /*event*/)
     wxFileDialog fd(this,
                         _("Select plugin to install"),
                         wxEmptyString, wxEmptyString,
-                        _T("Code::Blocks Plugins (*.cbplugin)|*.cbplugin"),
+                        _T("Em::Blocks Plugins (*.ebplugin)|*.ebplugin"),
                         wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE | compatibility::wxHideReadonly);
     if (fd.ShowModal() != wxID_OK)
         return;

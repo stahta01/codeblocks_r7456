@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -40,7 +58,7 @@ void cbException::ShowErrorMessage(bool safe)
     err.Printf(_("An exception has been raised!\n\n"
                  "The application encountered an error at %s, on line %d.\n"
                  "The error message is:\n\n%s\n\n"
-                 "Code::Blocks Version revision %d (%s, "
+                 "Em::Blocks Version revision %d (%s, "
                  "build: %s %s)"),
                File.c_str(), Line, Message.c_str(),
                ConfigManager::GetRevisionNumber(), gccvers.c_str(),

@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -94,6 +112,7 @@ const wxEventType cbEVT_PROJECT_NEW = wxNewEventType();
 const wxEventType cbEVT_PROJECT_CLOSE = wxNewEventType();
 const wxEventType cbEVT_PROJECT_OPEN = wxNewEventType();
 const wxEventType cbEVT_PROJECT_SAVE = wxNewEventType();
+const wxEventType cbEVT_IS_PROJECT_MODIFIED = wxNewEventType(); //E::B
 const wxEventType cbEVT_PROJECT_ACTIVATE = wxNewEventType();
 const wxEventType cbEVT_PROJECT_BEGIN_ADD_FILES = wxNewEventType();
 const wxEventType cbEVT_PROJECT_END_ADD_FILES = wxNewEventType();
@@ -104,6 +123,7 @@ const wxEventType cbEVT_PROJECT_FILE_REMOVED = wxNewEventType();
 const wxEventType cbEVT_PROJECT_FILE_CHANGED = wxNewEventType();
 const wxEventType cbEVT_PROJECT_POPUP_MENU = wxNewEventType();
 const wxEventType cbEVT_PROJECT_TARGETS_MODIFIED = wxNewEventType();
+const wxEventType cbEVT_PROJECT_TARGET_REMOVE = wxNewEventType();
 const wxEventType cbEVT_PROJECT_RENAMED = wxNewEventType();
 const wxEventType cbEVT_WORKSPACE_CHANGED = wxNewEventType();
 // build targets events
@@ -149,6 +169,9 @@ const wxEventType cbEVT_DEBUGGER_STARTED = wxNewEventType();
 const wxEventType cbEVT_DEBUGGER_PAUSED = wxNewEventType();
 const wxEventType cbEVT_DEBUGGER_FINISHED = wxNewEventType();
 
+// Navigation events
+const wxEventType cbEVT_CURSOR_POS_SAVE = wxNewEventType();
+
 // logger-related events
 const wxEventType cbEVT_ADD_LOG_WINDOW = wxNewEventType();
 const wxEventType cbEVT_REMOVE_LOG_WINDOW = wxNewEventType();
@@ -159,7 +182,7 @@ const wxEventType cbEVT_SHOW_LOG_MANAGER = wxNewEventType();
 const wxEventType cbEVT_HIDE_LOG_MANAGER = wxNewEventType();
 const wxEventType cbEVT_LOCK_LOG_MANAGER = wxNewEventType();
 const wxEventType cbEVT_UNLOCK_LOG_MANAGER = wxNewEventType();
+const wxEventType cbEVT_TOGGLE_LOG_WINDOW = wxNewEventType();
 
 //cbAUiNotebook related events
 const wxEventType cbEVT_CBAUIBOOK_LEFT_DCLICK = wxNewEventType();
-

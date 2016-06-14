@@ -1,23 +1,60 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "configurationpanel.h"
 #include <wx/intl.h>
 #include <wx/statline.h>
 #include <wx/button.h>
 #include <wx/sizer.h>
+#include <wx/image.h>
+
+
+wxBitmap MakeDiasbledBitmap(const wxBitmap& bmp, wxColor bgColor, double alpha)
+{
+    wxImage img = bmp.ConvertToImage();
+    img = img.ConvertToGreyscale();
+    return wxBitmap(wxBitmap(img).BlendColor(bgColor, alpha));
+}
+
 
 cbConfigurationDialog::cbConfigurationDialog(wxWindow* parent, int id, const wxString& title)
     : wxScrollingDialog(parent, id, title, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxMAXIMIZE_BOX),
     m_pPanel(0)
 {
+    Connect(wxID_ANY,wxEVT_INIT_DIALOG,(wxObjectEventFunction)&cbConfigurationDialog::OnInitDialog);
 }
+
+ void cbConfigurationDialog::OnInitDialog(wxInitDialogEvent& event)
+ {
+    if(m_pPanel)
+        m_pPanel->OnInitPanel();
+    wxScrollingDialog::OnInitDialog(event);
+ }
+
 
 void cbConfigurationDialog::AttachConfigurationPanel(cbConfigurationPanel* panel)
 {

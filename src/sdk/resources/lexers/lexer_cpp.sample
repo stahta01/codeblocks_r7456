@@ -6,6 +6,12 @@
 #include <iostream> // this is a line comment
 #include <cstdio>
 
+#ifdef __SHORT_VARIABLE
+int variable;
+#else
+long variable;
+#endif
+
 /**
   * This is a documentation comment block
   * @param xxx does this (this is the documentation keyword)

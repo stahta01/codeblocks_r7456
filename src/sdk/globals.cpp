@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -43,8 +61,8 @@
 namespace compatibility { typedef TernaryCondTypedef<wxMinimumVersion<2,5>::eval, wxTreeItemIdValue, long int>::eval tree_cookie_t; };
 
 
-const wxString DEFAULT_WORKSPACE     = _T("default.workspace");
-const wxString DEFAULT_ARRAY_SEP     = _T(";");
+const wxString DEFAULT_WORKSPACE     = _T("default.eworkspace");
+const wxString DEFAULT_ARRAY_SEP     = _T( ";" );
 
 #ifndef __WXMAC__
 const wxString DEFAULT_CONSOLE_TERM  = _T("xterm -T $TITLE -e");
@@ -91,6 +109,18 @@ wxString GetStringFromPlatforms(int platforms, bool forceSeparate)
     if (platforms & spMac)
         ret << _("Mac;");
     return ret;
+}
+
+bool wxStringToNumber(wxString &str, unsigned long &value)
+{
+    // Check if the answer is decimal or hex and if it's a valid answer.
+    bool valid = false;
+    if(str.Contains(_T("x")))
+        valid = str.ToULong(&value, 16); // The input is decimal
+    else
+        valid = str.ToULong(&value, 10); // The input is decimal
+
+    return valid;
 }
 
 /*
@@ -201,11 +231,11 @@ wxString UnixFilename(const wxString& filename)
     return result;
 }
 
-void QuoteStringIfNeeded(wxString& str)
+void QuoteStringIfNeeded(wxString& str, bool force)
 {
     bool hasSpace = str.Find(_T(' ')) != -1;
     bool hasParen = !platform::windows && (str.Find(_T('(')) != -1 || str.Find(_T(')')) != -1);
-    if (!str.IsEmpty() && str.GetChar(0) != _T('"') && (hasSpace || hasParen))
+    if (!str.IsEmpty() && str.GetChar(0) != _T('"') && (hasSpace || hasParen || force))
         str = wxString(_T("\"")) + str + _T("\"");
 }
 
@@ -225,81 +255,26 @@ FileType FileTypeOf(const wxString& filename)
 {
     wxString ext = filename.AfterLast(_T('.')).Lower();
 
-    if (ext.IsSameAs(FileFilters::ASM_EXT) ||
-        ext.IsSameAs(FileFilters::C_EXT) ||
-        ext.IsSameAs(FileFilters::CC_EXT) ||
-        ext.IsSameAs(FileFilters::CPP_EXT) ||
-        ext.IsSameAs(FileFilters::CXX_EXT) ||
-        ext.IsSameAs(FileFilters::S_EXT) ||
-        ext.IsSameAs(FileFilters::SS_EXT) ||
-        ext.IsSameAs(FileFilters::S62_EXT) ||
-        ext.IsSameAs(FileFilters::D_EXT) ||
-        ext.IsSameAs(FileFilters::F_EXT) ||
-        ext.IsSameAs(FileFilters::F77_EXT) ||
-        ext.IsSameAs(FileFilters::F90_EXT) ||
-        ext.IsSameAs(FileFilters::F95_EXT) ||
-        ext.IsSameAs(FileFilters::JAVA_EXT)
-       )
+    // This one would also be found at the and by the tools extensions search.
+    // We have added here also to speed up things (don't need additional loops etc.)
+    // this type of file is the most common for compiling.
+    if (ext.IsSameAs(FileFilters::C_EXT) )
         return ftSource;
 
-    else if (ext.IsSameAs(FileFilters::H_EXT) ||
-             ext.IsSameAs(FileFilters::HH_EXT) ||
-             ext.IsSameAs(FileFilters::HPP_EXT) ||
-             ext.IsSameAs(FileFilters::HXX_EXT) ||
-             ext.IsSameAs(FileFilters::INL_EXT)
-            )
+    else if (ext.IsSameAs(FileFilters::H_EXT) )
         return ftHeader;
 
-    else if (ext.IsSameAs(FileFilters::CODEBLOCKS_EXT))
+    else if (ext.IsSameAs(FileFilters::LIBRARY_EXT))
+        return ftLibrary;
+
+    else if (ext.IsSameAs(FileFilters::EMBLOCKS_EXT))
         return ftCodeBlocksProject;
 
     else if (ext.IsSameAs(FileFilters::WORKSPACE_EXT))
         return ftCodeBlocksWorkspace;
 
-    else if (ext.IsSameAs(FileFilters::DEVCPP_EXT))
-        return ftDevCppProject;
-
-    else if (ext.IsSameAs(FileFilters::MSVC6_EXT))
-        return ftMSVC6Project;
-
-    else if (ext.IsSameAs(FileFilters::MSVC7_EXT))
-        return ftMSVC7Project;
-
-    else if (ext.IsSameAs(FileFilters::MSVC6_WORKSPACE_EXT))
-        return ftMSVC6Workspace;
-
-    else if (ext.IsSameAs(FileFilters::MSVC7_WORKSPACE_EXT))
-        return ftMSVC7Workspace;
-
-    else if (ext.IsSameAs(FileFilters::XCODE1_EXT))
-        return ftXcode1Project; // Xcode 1.0+ (Mac OS X 10.3)
-
-    else if (ext.IsSameAs(FileFilters::XCODE2_EXT))
-        return ftXcode2Project; // Xcode 2.1+ (Mac OS X 10.4)
-
     else if (ext.IsSameAs(FileFilters::OBJECT_EXT))
         return ftObject;
-
-    else if (ext.IsSameAs(FileFilters::XRCRESOURCE_EXT))
-        return ftXRCResource;
-
-    else if (ext.IsSameAs(FileFilters::RESOURCE_EXT))
-        return ftResource;
-
-    else if (ext.IsSameAs(FileFilters::RESOURCEBIN_EXT))
-        return ftResourceBin;
-
-    else if (ext.IsSameAs(FileFilters::STATICLIB_EXT))
-        return ftStaticLib;
-
-    else if (ext.IsSameAs(FileFilters::DYNAMICLIB_EXT))
-        return ftDynamicLib;
-
-    else if (ext.IsSameAs(FileFilters::NATIVE_EXT))
-        return ftNative;
-
-    else if (ext.IsSameAs(FileFilters::EXECUTABLE_EXT))
-        return ftExecutable;
 
     else if (ext.IsSameAs(FileFilters::XML_EXT))
         return ftXMLDocument;
@@ -307,29 +282,47 @@ FileType FileTypeOf(const wxString& filename)
     else if (ext.IsSameAs(FileFilters::SCRIPT_EXT))
         return ftScript;
 
-    // DrewBoo: Before giving up, see if the ProjectManager
-    // considers this extension a source or header
-    // TODO (Morten#5#): Do what DrewBoo said: Try removing the above code
-    // TODO (Morten#3#): This code should actually be a method of filegrous and masks or alike. So we collect all extension specific things in one place. As of now this would break ABI compatibilty with 08.02 so this should happen later.
     else
     {
-        ProjectManager *prjMgr = Manager::Get()->GetProjectManager();
-        if ( prjMgr )
+
+        ext = filename.AfterLast(_T('.'));
+
+        FileType ft;
+
+        for (size_t i = 0; i < CompilerFactory::GetCompilersCount(); ++i)
         {
-            const FilesGroupsAndMasks* fgm = prjMgr->GetFilesGroupsAndMasks();
-            if (fgm)
+           ft = CompilerFactory::GetFileTypeByCompilerTool(ext, CompilerFactory::GetCompiler(i)->GetID() );
+           if(ft!=ftOther)
+                return ft;
+        }
+
+        if(ft!=ftOther)
+        {
+            return ft;
+        }
+        // DrewBoo: Before giving up, see if the ProjectManager
+        // considers this extension a source or header
+        // TODO (Morten#5#): Do what DrewBoo said: Try removing the above code
+        // TODO (Morten#3#): This code should actually be a method of filegrous and masks or alike. So we collect all extension specific things in one place. As of now this would break ABI compatibilty with 08.02 so this should happen later.
+        else
+        {
+            ProjectManager *prjMgr = Manager::Get()->GetProjectManager();
+            if ( prjMgr )
             {
-               for (unsigned int i = 0; i != fgm->GetGroupsCount(); ++i)
-               {
-                    if (fgm->GetGroupName(i) == _T("Sources") && fgm->MatchesMask(ext, i))
-                        return ftSource;
-                    if (fgm->GetGroupName(i) == _T("Headers") && fgm->MatchesMask(ext, i))
-                        return ftHeader;
-               }
+                const FilesGroupsAndMasks* fgm = prjMgr->GetFilesGroupsAndMasks();
+                if (fgm)
+                {
+                    for (unsigned int i = 0; i != fgm->GetGroupsCount(); ++i)
+                    {
+                        if (fgm->GetGroupName(i) == _T("Sources") && fgm->MatchesMask(ext, i))
+                            return ftSource;
+                        if (fgm->GetGroupName(i) == _T("Headers") && fgm->MatchesMask(ext, i))
+                            return ftHeader;
+                    }
+                }
             }
         }
     }
-
     return ftOther;
 }
 
@@ -729,13 +722,22 @@ bool IsWindowReallyShown(wxWindow* win)
 
 bool NormalizePath(wxFileName& f,const wxString& base)
 {
-    bool result = true;
-//    if (!f.IsAbsolute())
+#ifdef __WXMSW__
+    if (!f.IsAbsolute())
+    {
+        f.Normalize(wxPATH_NORM_ALL, base);
+    }
+    else
+    {
+        f.Normalize();
+    }
+#else
+    if (!f.IsAbsolute())
     {
         f.Normalize(wxPATH_NORM_ALL & ~wxPATH_NORM_CASE, base);
-        result = f.IsOk();
     }
-    return result;
+#endif
+    return f.IsOk();
 }
 
 // Checks whether 'suffix' could be a suffix of 'path' and therefore represents
@@ -795,7 +797,6 @@ bool UsesCommonControls6()
 {
     bool result = false;
     HINSTANCE hinstDll;
-    DWORD dwVersion = 0;
     hinstDll = LoadLibrary(_T("comctl32.dll"));
     if (hinstDll)
     {
@@ -814,7 +815,6 @@ bool UsesCommonControls6()
 
             if (SUCCEEDED(hr))
             {
-               dwVersion = MAKELONG(dvi.dwMinorVersion, dvi.dwMajorVersion);
                result = dvi.dwMajorVersion == 6;
             }
         }
@@ -888,6 +888,10 @@ void PlaceWindow(wxTopLevelWindow *w, cbPlaceDialogMode mode, bool enforce)
     HMONITOR hMonitor;
     MONITORINFO mi;
     RECT        r;
+
+    // suppress compiler warnings
+    r.bottom =0;
+    r.right  =0;
 
     int the_mode;
 
@@ -1141,9 +1145,15 @@ namespace platform
 wxString realpath(const wxString& path)
 {
 #ifdef __WXMSW__
-    // no symlinks support on windows
-    return path;
+
+     return path;
+
 #else
+
+// returns the real path of a file by resolving symlinks
+// not yet optimal but should do for now
+// one thing that's not checked yet are circular symlinks - watch out!
+
     char buf[2048] = {};
     struct stat buffer;
     std::string ret = (const char*)cbU2C(path);

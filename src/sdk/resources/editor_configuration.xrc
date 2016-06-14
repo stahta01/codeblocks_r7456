@@ -170,7 +170,6 @@
 																			<object class="sizeritem">
 																				<object class="wxCheckBox" name="chkStripTrailings">
 																					<label>Strip trailing blanks</label>
-																					<checked>1</checked>
 																				</object>
 																				<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 																			</object>
@@ -383,6 +382,12 @@
 																		<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
 																	</object>
 																	<object class="sizeritem">
+																		<object class="wxCheckBox" name="chkStylePreprocessor">
+																			<label>Styling within preprocessor</label>
+																		</object>
+																		<flag>wxALL|wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+																	</object>
+																	<object class="sizeritem">
 																		<object class="wxCheckBox" name="chkHighlightCaretLine">
 																			<label>Highlight line under caret</label>
 																			<checked>1</checked>
@@ -521,21 +526,6 @@
 																			<style>wxCB_READONLY</style>
 																		</object>
 																		<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-																		<border>5</border>
-																		<option>1</option>
-																	</object>
-																	<object class="sizeritem">
-																		<object class="wxStaticText" name="wxID_ANY">
-																			<label>Open containing folder:</label>
-																		</object>
-																		<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_TOP</flag>
-																		<border>5</border>
-																	</object>
-																	<object class="sizeritem">
-																		<object class="wxTextCtrl" name="txtOpenFolder">
-																			<fg>#8000FF</fg>
-																		</object>
-																		<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 																		<border>5</border>
 																		<option>1</option>
 																	</object>

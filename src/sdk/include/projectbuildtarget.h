@@ -2,7 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
 
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 #ifndef PROJECTBUILDTARGET_H
 #define PROJECTBUILDTARGET_H
 
@@ -20,7 +41,7 @@ class ProjectBuildTarget;
 
 WX_DEFINE_ARRAY(ProjectBuildTarget*, BuildTargets);
 
-/** Represents a Code::Blocks project build target. */
+/** Represents a Em::Blocks project build target. */
 class DLLIMPORT ProjectBuildTarget : public CompileTargetBase
 {
 	public:
@@ -60,45 +81,6 @@ class DLLIMPORT ProjectBuildTarget : public CompileTargetBase
           */
         virtual void SetAdditionalOutputFiles(const wxString& files);
 
-        /** Deprecated, do not use at all!
-          * @return True if this target should be built when the virtual target "All" is selected, false if not. */
-        virtual bool GetIncludeInTargetAll() const;
-
-        /** Deprecated, do not use at all!
-          * Set if this target should be built when the virtual target "All" is selected.
-          * @param buildIt If true, the target will be built with "All" else it won't. */
-        virtual void SetIncludeInTargetAll(bool buildIt);
-
-        /** Valid only for targets generating dynamic libraries (DLLs or SOs).
-          * @return True if the target creates a DEF imports file. */
-        virtual bool GetCreateDefFile() const;
-
-        /** Set if the target creates a DEF imports file.
-          * Valid only for targets generating dynamic libraries (DLLs or SOs).
-          * @param createIt If true, a DEF file is generated else it is not. */
-        virtual void SetCreateDefFile(bool createIt);
-
-        /** Valid only for targets generating dynamic libraries (DLLs or SOs).
-          * @return True if an import library will be created, false if not. */
-        virtual bool GetCreateStaticLib();
-
-        /** Set if an import library should be created.
-          * Valid only for targets generating dynamic libraries (DLLs or SOs).
-          * @param createIt If true, an import library will be created else it will not. */
-        virtual void SetCreateStaticLib(bool createIt);
-
-        /** Valid only for targets generating a console executable.
-          * ConsoleRunner is an external utility program that waits for a keypress
-          * after the target is executed.
-          * @return True if ConsoleRunner should be used, false if not. */
-        virtual bool GetUseConsoleRunner() const;
-
-        /** Set if ConsoleRunner should be used.
-          * Valid only for targets generating a console executable.
-          * ConsoleRunner is an external utility program that waits for a keypress
-          * after the target is executed.
-          * @param useIt If true, ConsoleRunner is used else it is not. */
-        virtual void SetUseConsoleRunner(bool useIt);
 
         virtual void SetTargetType(const TargetType& pt); // overriden
 
@@ -114,7 +96,17 @@ class DLLIMPORT ProjectBuildTarget : public CompileTargetBase
 
         /** Provides an easy way to iterate all the files belonging in this target.
           * @return A list of files belonging in this target. */
-        virtual FilesList& GetFilesList(){ return m_Files; }
+        virtual FilesList& GetFilesList(){ return m_Files; };
+
+        /** Set the create hex file for this Target with external tool.
+          * @param 'true' to create hex file.
+          */
+        virtual void SetCreateHex(bool b) {m_CreateHex = b;  };
+
+         /** @return If a hex file must be created for this target with external tool.
+         */
+        virtual bool GetCreateHex() {return m_CreateHex;}
+
     private:
         friend class ProjectFile; // to allow it to add/remove files in FilesList
         cbProject* m_Project;
@@ -122,10 +114,7 @@ class DLLIMPORT ProjectBuildTarget : public CompileTargetBase
         wxString m_AdditionalOutputFiles;
         BuildTargets m_TargetDeps;
         FilesList m_Files;
-        bool m_BuildWithAll; // obsolete: left just to convert old projects to use virtual targets
-        bool m_CreateStaticLib;
-        bool m_CreateDefFile;
-        bool m_UseConsoleRunner;
+        bool m_CreateHex;
 };
 
 #endif // PROJECTBUILDTARGET_H

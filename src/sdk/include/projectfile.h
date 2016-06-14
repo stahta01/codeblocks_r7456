@@ -2,14 +2,38 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef PROJECTFILE_H
 #define PROJECTFILE_H
 
+#include <map>
 #include <vector>
 
 #include "settings.h"
 #include "globals.h"
+#include "compiletargetbase.h"
 #include <wx/dynarray.h>
 #include <wx/filename.h>
 #include <wx/list.h>
@@ -32,7 +56,14 @@ WX_DECLARE_HASH_MAP(wxString, pfCustomBuild, wxStringHash, wxStringEqual, pfCust
 class ProjectFile;
 typedef std::vector<ProjectFile*> ProjectFilesVector;
 
-/** Represents a file in a Code::Blocks project. */
+WX_DEFINE_ARRAY_INT(int, editorFoldLinesArray);
+
+// per-family setting
+typedef std::map<ProjectBuildTarget*, wxArrayString> fileBuildOptionsMap;
+typedef std::map<ProjectBuildTarget*, OptionsRelation> fileRelationOptionMap;
+
+
+/** Represents a file in a Em::Blocks project. */
 class ProjectFile
 {
     public:
@@ -92,6 +123,20 @@ class ProjectFile
           * @param target A pointer to the build target whose file details should be updated.
           * @return The details for this project file for the specified build target. */
         const pfDetails& GetFileDetails(ProjectBuildTarget* target);
+
+        /** Set the on target base file build options.
+          * @param target and options. */
+        void SetCompilerStrOptions(ProjectBuildTarget* target, const wxArrayString& compilerOpts);
+
+        /** Get the on target base file build options.
+          * @param target .
+          * @return Array with options. */
+        const wxArrayString& GetCompilerStrOptions(ProjectBuildTarget* target);
+
+
+        void SetOptionRelation(ProjectBuildTarget* target, OptionsRelation rel);
+
+        OptionsRelation GetOptionRelation(ProjectBuildTarget* target);
 
         /** Set the visual state (modified, read-only, etc).
           * @param state The new visual state. */
@@ -169,6 +214,10 @@ class ProjectFile
         /** The position of the editor-tab for this file. */
         int editorTabPos; // layout info
 
+        /** Fold lines */
+        wxArrayInt editorFoldLinesArray; // layout info
+
+
         /** A map for custom builds. Key is compiler ID, value is pfCustomBuild struct. */
         pfCustomBuildMap customBuild;
 
@@ -206,6 +255,8 @@ class ProjectFile
         wxTreeItemId m_TreeItemId; // set by the project when building the tree
         wxString m_ObjName;
         PFDMap m_PFDMap;
+        fileBuildOptionsMap m_buildOptions;
+        fileRelationOptionMap m_relationOption;
 };
 WX_DECLARE_LIST(ProjectFile, FilesList);
 

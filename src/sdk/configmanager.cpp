@@ -1,13 +1,33 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
+
+#define APP_CONFIG_ELEMENT "EmBlocksConfig"
 
 #ifndef CB_PRECOMP
     #include "configmanager.h"
@@ -21,6 +41,7 @@
 #endif
 
 #include "crc32.h"
+#include "settings.h"
 
 #include <wx/url.h>
 #include <wx/stream.h>
@@ -65,7 +86,7 @@ wxString GetPortableConfigDir()
 {
     TCHAR buffer[MAX_PATH];
     if (::GetEnvironmentVariable(_T("APPDATA"), buffer, MAX_PATH))
-        return wxString::Format(_T("%s\\CodeBlocks"), buffer);
+        return wxString::Format(_T("%s\\%s\\%s"), buffer, _T(APP_NAME), _T(CONFIGURE_LOC) );
     else
         return wxStandardPathsBase::Get().GetUserDataDir();
 }
@@ -76,7 +97,7 @@ namespace CfgMgrConsts
     const wxString app_path(_T("app_path"));
     const wxString data_path(_T("data_path"));
     const wxString dotDot(_T(".."));
-    const int version = 1;
+    const int version = CONFIG_VERSION;
 }
 
 
@@ -160,9 +181,6 @@ ISerializable::ISerializable()
 ISerializable::~ISerializable()
 {}
 
-
-
-
 /* ------------------------------------------------------------------------------------------------------------------
 *  "Builder pattern" class for ConfigManager
 *  Do not use this class  -  Manager::Get()->GetConfigManager() is a lot friendlier
@@ -190,8 +208,8 @@ CfgMgrBldr::CfgMgrBldr() : doc(0), volatile_doc(0), r(false)
         #endif
         doc = new TiXmlDocument();
         doc->InsertEndChild(TiXmlDeclaration("1.0", "UTF-8", "yes"));
-        doc->InsertEndChild(TiXmlElement("CodeBlocksConfig"));
-        doc->FirstChildElement("CodeBlocksConfig")->SetAttribute("version", CfgMgrConsts::version);
+        doc->InsertEndChild(TiXmlElement(APP_CONFIG_ELEMENT));
+        doc->FirstChildElement(APP_CONFIG_ELEMENT)->SetAttribute("version", CfgMgrConsts::version);
         return;
     }
     SwitchTo(cfg);
@@ -232,13 +250,13 @@ void CfgMgrBldr::SwitchTo(const wxString& fileName)
     if(doc->ErrorId())
         cbThrow(wxString::Format(_T("TinyXML error: %s\nIn file: %s\nAt row %d, column: %d."), cbC2U(doc->ErrorDesc()).c_str(), fileName.c_str(), doc->ErrorRow(), doc->ErrorCol()));
 
-    TiXmlElement* docroot = doc->FirstChildElement("CodeBlocksConfig");
+    TiXmlElement* docroot = doc->FirstChildElement(APP_CONFIG_ELEMENT);
 
     if(doc->ErrorId())
         cbThrow(wxString::Format(_T("TinyXML error: %s\nIn file: %s\nAt row %d, column: %d."), cbC2U(doc->ErrorDesc()).c_str(), fileName.c_str(), doc->ErrorRow(), doc->ErrorCol()));
 
     const char *vers = docroot->Attribute("version");
-    if(!vers || atoi(vers) != 1)
+    if(!vers || atoi(vers) != CONFIG_VERSION)
         cbMessageBox(_("ConfigManager encountered an unknown config file version. Continuing happily."), _("Warning"), wxICON_WARNING);
 
     doc->ClearError();
@@ -391,14 +409,14 @@ ConfigManager* CfgMgrBldr::Build(const wxString& name_space)
         if(!volatile_doc)
         {
             volatile_doc = new TiXmlDocument();
-            volatile_doc->InsertEndChild(TiXmlElement("CodeBlocksConfig"));
+            volatile_doc->InsertEndChild(TiXmlElement(APP_CONFIG_ELEMENT));
             volatile_doc->SetCondenseWhiteSpace(false);
         }
-        docroot = volatile_doc->FirstChildElement("CodeBlocksConfig");
+        docroot = volatile_doc->FirstChildElement(APP_CONFIG_ELEMENT);
     }
     else
     {
-        docroot = doc->FirstChildElement("CodeBlocksConfig");
+        docroot = doc->FirstChildElement(APP_CONFIG_ELEMENT);
         if(!docroot)
         {
             wxString err(_("Fatal error parsing supplied configuration file.\nParser error message:\n"));
@@ -1251,12 +1269,17 @@ void ConfigManager::Write(const wxString& name, const ConfigManagerContainer::St
 
     for(ConfigManagerContainer::StringToStringMap::const_iterator it = map.begin(); it != map.end(); ++it)
     {
-        TiXmlElement s(cbU2C(it->first));
-
-        TiXmlText t(cbU2C(it->second));
-        t.SetCDATA(true);
-
-        s.InsertEndChild(t);
+        TiXmlElement s("map");
+        {
+            TiXmlText t(cbU2C(it->first));
+            t.SetCDATA(true);
+            s.InsertEndChild(t);
+        }
+        {
+            TiXmlText t(cbU2C(it->second));
+            t.SetCDATA(true);
+            s.InsertEndChild(t);
+        }
         mNode->InsertEndChild(s);
     }
 }
@@ -1273,7 +1296,7 @@ void ConfigManager::Read(const wxString& name, ConfigManagerContainer::StringToS
     if(mNode)
     {
         while((curr = mNode->IterateChildren(curr)))
-            (*map)[cbC2U(curr->Value())] = cbC2U(curr->FirstChild()->ToText()->Value());
+            (*map)[cbC2U(curr->FirstChild()->ToText()->Value())] = cbC2U(curr->LastChild()->ToText()->Value());
     }
 }
 
@@ -1427,9 +1450,9 @@ void ConfigManager::InitPaths()
     if (data_path_global.IsEmpty())
     {
         if(platform::windows)
-            ConfigManager::data_path_global = app_path + _T("/share/codeblocks");
+            ConfigManager::data_path_global = app_path + _T(STANDARD_DATA_PATH);
         else if(platform::macosx)
-            ConfigManager::data_path_global = res_path + _T("/share/codeblocks");
+            ConfigManager::data_path_global = res_path + _T(STANDARD_DATA_PATH);
         else
             ConfigManager::data_path_global = wxStandardPathsBase::Get().GetDataDir();
     }
@@ -1454,7 +1477,7 @@ void ConfigManager::InitPaths()
     }
 #endif
 
-    ConfigManager::data_path_user = ConfigManager::relo ? data_path_global : config_folder + _T("/share/codeblocks");
+    ConfigManager::data_path_user = ConfigManager::relo ? data_path_global : config_folder + _T(STANDARD_DATA_PATH);
 
     CreateDirRecursively(ConfigManager::config_folder);
     CreateDirRecursively(ConfigManager::data_path_user   + _T("/plugins/"));
@@ -1462,6 +1485,5 @@ void ConfigManager::InitPaths()
 
     ConfigManager::temp_folder = wxStandardPathsBase::Get().GetTempDir();
 }
-
 
 

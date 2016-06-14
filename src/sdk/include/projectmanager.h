@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef PROJECTMANAGER_H
 #define PROJECTMANAGER_H
@@ -17,6 +39,7 @@
 #include "settings.h"
 #include "manager.h"
 #include "cbexception.h"
+#include "cbproject.h"
 
 // forward decls
 class wxMenuBar;
@@ -51,6 +74,8 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
     public:
         friend class Mgr<ProjectManager>;
         friend class Manager; // give Manager access to our private members
+
+
 
         cbAuiNotebook* GetNotebook() { return m_pNotebook; }
 
@@ -392,10 +417,15 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
             @param  read_only Return the read-only icon for a project?
          */
         int ProjectIconIndex(bool read_only = false);
-        /** @return The folder icon index in the image list. */
-        int FolderIconIndex();
+        /** @return The folder open icon index in the image list. */
+        int FolderOpenIconIndex();
         /** @return The virtual folder icon index in the image list. */
         int VirtualFolderIconIndex();
+
+        /** @return The library icon index in the image list.
+            @param  read_only Return the read-only icon for a library project?
+         */
+        int LibraryIconIndex(bool read_only = false);
 
         /** Check if one of the open projects has been modified outside the IDE. If so, ask to reload it. */
         void CheckForExternallyModifiedProjects();
@@ -432,6 +462,18 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
             return *this;
         }
 
+        /** Get the selected item of the context menu, always check IsOk
+        */
+        wxTreeItemId GetSelection() { return m_pTree->GetSelection(); }
+        FileTreeData* GetSelection(wxTreeItemId& id ) { id = m_pTree->GetSelection();
+                                                       return(id.IsOk()? (FileTreeData*)(m_pTree->GetItemData(id)) : 0);}
+        FileTreeData* GetSelectedTreeData() { wxTreeItemId id = m_pTree->GetSelection();
+                                              return(id.IsOk()? (FileTreeData*)(m_pTree->GetItemData(id)) : 0);}
+
+        /** Returns the image list used for the tree
+        */
+        wxImageList* GetImageList() { return m_pImages; }
+
     private:
         ProjectManager(const ProjectManager& /*rhs*/); // prevent copy construction
 
@@ -450,11 +492,12 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
         void InitPane();
         void BuildTree();
         void CreateMenuTreeProps(wxMenu* menu, bool popup);
-        void ShowMenu(wxTreeItemId id, const wxPoint& pt);
+        void ShowMenuMultipleSelections( const wxPoint& pt);
+        void ShowMenuSingleSelection(wxTreeItemId id, const wxPoint& pt);
         void OnTabContextMenu(wxAuiNotebookEvent& event);
+        void OnPageChange( wxAuiNotebookEvent&);
         void OnTabPosition(wxCommandEvent& event);
         void OnProjectFileActivated(wxTreeEvent& event);
-        void OnExecParameters(wxCommandEvent& event);
         void OnTreeItemRightClick(wxTreeEvent& event);
         void OnTreeBeginDrag(wxTreeEvent& event);
         void OnTreeEndDrag(wxTreeEvent& event);
@@ -467,6 +510,7 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
         void OnAddFilesToProjectRecursively(wxCommandEvent& event);
         void OnAddFileToProject(wxCommandEvent& event);
         void OnRemoveFileFromProject(wxCommandEvent& event);
+        void OnRemoveFilesFromProject(wxCommandEvent& event); // Multiple selection
         void OnRenameFile(wxCommandEvent& event);
         void OnSaveProject(wxCommandEvent& event);
         void OnCloseProject(wxCommandEvent& event);
@@ -476,6 +520,7 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
         void OnOpenFolderFiles(wxCommandEvent& event);
         void OnOpenWith(wxCommandEvent& event);
         void OnProperties(wxCommandEvent& event);
+        void OnContainingFolder(wxCommandEvent& event);
         void OnNotes(wxCommandEvent& event);
         void OnGotoFile(wxCommandEvent& event);
         void OnViewCategorize(wxCommandEvent& event);
@@ -492,6 +537,7 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
         void OnIdle(wxIdleEvent& event);
         void OnAppDoneStartup(CodeBlocksEvent& event);
         void OnKeyDown(wxTreeEvent& event);
+        void OnMenuUpdate(wxUpdateUIEvent& event);
 
         void DoOpenSelectedFile();
         void DoOpenFile(ProjectFile* pf, const wxString& filename);
@@ -516,7 +562,7 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
         bool m_IsClosingProject;
         bool m_IsClosingWorkspace;
         wxString m_InitialDir;
-        wxTreeItemId m_DraggingItem;
+        wxArrayTreeItemIds m_SelectedItems;
         bool m_isCheckingForExternallyModifiedProjects;
         bool m_CanSendWorkspaceChanged;
 
@@ -524,4 +570,3 @@ class DLLIMPORT ProjectManager : public Mgr<ProjectManager>, public wxEvtHandler
 };
 
 #endif // PROJECTMANAGER_H
-

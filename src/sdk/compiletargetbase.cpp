@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -21,15 +39,15 @@
 #include "filefilters.h"
 
 CompileTargetBase::CompileTargetBase()
-    : m_TargetType(ttExecutable),
-    m_PrefixGenerationPolicy(tgfpPlatformDefault),
-    m_ExtensionGenerationPolicy(tgfpPlatformDefault)
+    : m_TargetType(ttExecutable)
 {
     //ctor
     for (int i = 0; i < static_cast<int>(ortLast); ++i)
-    {
         m_OptionsRelation[i] = orAppendToParentOptions;
-    }
+
+    // The device settings can only be 0 or 1, so set it at a valid value
+    m_OptionsRelation[ortDeviceOptions] = orUseParentOptionsOnly;
+
 
     // default "make" commands
     m_MakeCommands[mcBuild]             = _T("$make -f $makefile $target");
@@ -45,21 +63,6 @@ CompileTargetBase::~CompileTargetBase()
 {
     //dtor
 }
-
-void CompileTargetBase::SetTargetFilenameGenerationPolicy(TargetFilenameGenerationPolicy prefix,
-                                                        TargetFilenameGenerationPolicy extension)
-{
-    m_PrefixGenerationPolicy = prefix;
-    m_ExtensionGenerationPolicy = extension;
-    SetModified(true);
-}
-
-void CompileTargetBase::GetTargetFilenameGenerationPolicy(TargetFilenameGenerationPolicy& prefixOut,
-                                                        TargetFilenameGenerationPolicy& extensionOut) const
-{
-    prefixOut = m_PrefixGenerationPolicy;
-    extensionOut = m_ExtensionGenerationPolicy;
-} // end of GetTargetFilenameGenerationPolicy
 
 const wxString& CompileTargetBase::GetFilename() const
 {
@@ -94,34 +97,7 @@ void CompileTargetBase::SetOutputFilename(const wxString& filename)
     SetModified(true);
 }
 
-void CompileTargetBase::SetImportLibraryFilename(const wxString& filename)
-{
-    if (filename.IsEmpty())
-    {
-        m_ImportLibraryFilename = _T("$(TARGET_NAME)");
-        SetModified(true);
-        return;
-    }
-    else if (m_ImportLibraryFilename == filename)
-        return;
-
-    m_ImportLibraryFilename = UnixFilename(filename);
-}
-
-void CompileTargetBase::SetDefinitionFileFilename(const wxString& filename)
-{
-    if (filename.IsEmpty())
-    {
-        m_DefinitionFileFilename = _T("$(TARGET_NAME)");
-        SetModified(true);
-        return;
-    }
-    else if (m_DefinitionFileFilename == filename)
-        return;
-
-    m_DefinitionFileFilename = UnixFilename(filename);
-}
-
+/*
 void CompileTargetBase::SetWorkingDir(const wxString& dirname)
 {
     if (m_WorkingDir == dirname)
@@ -129,6 +105,7 @@ void CompileTargetBase::SetWorkingDir(const wxString& dirname)
     m_WorkingDir = UnixFilename(dirname);
     SetModified(true);
 }
+*/
 
 void CompileTargetBase::SetObjectOutput(const wxString& dirname)
 {
@@ -161,8 +138,6 @@ void CompileTargetBase::SetOptionRelation(OptionsRelationType type, OptionsRelat
 
 wxString CompileTargetBase::GetOutputFilename()
 {
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
     if (m_OutputFilename.IsEmpty())
         m_OutputFilename = SuggestOutputFilename();
     return m_OutputFilename;
@@ -173,11 +148,8 @@ wxString CompileTargetBase::SuggestOutputFilename()
     wxString suggestion;
     switch (m_TargetType)
     {
-        case ttConsoleOnly: // fall through
         case ttExecutable:  suggestion = GetExecutableFilename(); break;
-        case ttDynamicLib:  suggestion = GetDynamicLibFilename(); break;
-        case ttStaticLib:   suggestion = GetStaticLibFilename();  break;
-        case ttNative:      suggestion = GetNativeFilename();     break;
+        case ttLibrary:     suggestion = GetLibraryFilename(); break;
         default:
             suggestion.Clear();
             break;
@@ -186,9 +158,10 @@ wxString CompileTargetBase::SuggestOutputFilename()
     return UnixFilename(fname.GetFullName());
 }
 
+/*
 wxString CompileTargetBase::GetWorkingDir()
 {
-    if (m_TargetType != ttConsoleOnly && m_TargetType != ttExecutable && m_TargetType != ttDynamicLib)
+    if (m_TargetType != ttExecutable && m_TargetType != ttLibrary)
         return wxEmptyString;
     wxString out;
     if (m_WorkingDir.IsEmpty())
@@ -198,11 +171,9 @@ wxString CompileTargetBase::GetWorkingDir()
     }
     return m_WorkingDir;
 }
-
+*/
 wxString CompileTargetBase::GetObjectOutput() const
 {
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
     wxString out;
     if (m_ObjectOutput.IsEmpty())
     {
@@ -217,8 +188,6 @@ wxString CompileTargetBase::GetObjectOutput() const
 
 wxString CompileTargetBase::GetDepsOutput() const
 {
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
     wxString out;
     if (m_DepsOutput.IsEmpty())
     {
@@ -233,232 +202,59 @@ wxString CompileTargetBase::GetDepsOutput() const
 
 void CompileTargetBase::GenerateTargetFilename(wxString& filename) const
 {
-    // nothing to do if no auto-generation
-    if (   m_PrefixGenerationPolicy    == tgfpNone
-        && m_ExtensionGenerationPolicy == tgfpNone )
+    wxFileName fname(filename);
+    // path with volume and separator
+   // filename << fname.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
+    // prefix + name + extension
+
+    // Check if there is already an extension by the user (override)
+    if(!fname.GetExt().IsEmpty())
         return;
 
-    wxFileName fname(filename);
-    filename.Clear();
-    // path with volume and separator
-    filename << fname.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
-    // prefix + name + extension
+    Compiler* compiler = CompilerFactory::GetCompiler(GetCompilerID());
+
     switch (m_TargetType)
     {
-        case ttConsoleOnly:
         case ttExecutable:
-        {
-            if (m_ExtensionGenerationPolicy == tgfpPlatformDefault)
-            {
-                filename << fname.GetName();
-                filename << FileFilters::EXECUTABLE_DOT_EXT;
-            }
-            else
-                filename << fname.GetFullName();
+            fname.SetExt( compiler ? compiler->GetSwitches().execExtension : FileFilters::EXECUTABLE_DOT_EXT);
             break;
-        }
-        case ttDynamicLib:
-        {
-            if (m_PrefixGenerationPolicy == tgfpPlatformDefault)
-            {
-                wxString prefix = wxEmptyString;
-                // On linux, "lib" is th common prefix for this platform
-                if (platform::linux)
-                    prefix = wxT("lib");
-                // FIXME (mortenmacfly#5#): What about Mac (Windows is OK)?!
 
-                // avoid adding the prefix, if there is no prefix, or already its there
-                if (!prefix.IsEmpty() && !fname.GetName().StartsWith(prefix))
-                    filename << prefix;
-            }
-            if (m_ExtensionGenerationPolicy == tgfpPlatformDefault)
-                filename << fname.GetName() << FileFilters::DYNAMICLIB_DOT_EXT;
-            else
-                filename << fname.GetFullName();
+        case ttLibrary:
+            fname.SetExt( compiler ? compiler->GetSwitches().libExtension : FileFilters::LIBRARY_DOT_EXT);
             break;
-        }
-        case ttNative:
-        {
-            if (m_ExtensionGenerationPolicy == tgfpPlatformDefault)
-                filename << fname.GetName() << FileFilters::NATIVE_DOT_EXT;
-            else
-                filename << fname.GetFullName();
-            break;
-        }
-        case ttStaticLib:
-        {
-            if (m_PrefixGenerationPolicy == tgfpPlatformDefault)
-            {
-                Compiler* compiler = CompilerFactory::GetCompiler(m_CompilerId);
-                wxString prefix = compiler ? compiler->GetSwitches().libPrefix : _T("");
-                // avoid adding the prefix, if already there
-                if (!prefix.IsEmpty() && !fname.GetName().StartsWith(prefix))
-                    filename << prefix;
-            }
-            if (m_ExtensionGenerationPolicy == tgfpPlatformDefault)
-            {
-                Compiler* compiler = CompilerFactory::GetCompiler(m_CompilerId);
-                wxString Ext = compiler ? compiler->GetSwitches().libExtension : FileFilters::STATICLIB_EXT;
-                filename << fname.GetName() << _T(".") << Ext;
-            }
-            else
-            {
-                filename << fname.GetFullName();
-            }
-            break;
-        }
+
         default:
-            filename.Clear();
+            //filename.Clear();
             break;
     }
 
 #ifdef command_line_generation
-    Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GenerateTargetFilename got %s and returns: '%s'"), fname.GetFullPath().wx_str(), filename.wx_str()));
+    Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GenerateTargetFilename got %s and returns: '%s'"), filename.wx_str(), fname.GetFullPath().wx_str() ));
 #endif
+
+    filename.Clear();
+    filename << fname.GetFullPath();
 }
 
 wxString CompileTargetBase::GetExecutableFilename() const
 {
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
-
-    if (m_PrefixGenerationPolicy != tgfpNone || m_ExtensionGenerationPolicy != tgfpNone)
-    {
-        wxString out = m_Filename;
-        GenerateTargetFilename(out);
-        return out;
-    }
-
-    wxFileName fname(m_Filename);
-#ifdef __WXMSW__
-    fname.SetExt(FileFilters::EXECUTABLE_EXT);
-#else
-    fname.SetExt(_T(""));
-#endif
-    return fname.GetFullPath();
+    wxString out = m_Filename;
+    GenerateTargetFilename(out);
+    return out;
 }
 
-wxString CompileTargetBase::GetNativeFilename()
-{
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
 
+wxString CompileTargetBase::GetLibraryFilename()
+{
     if (m_Filename.IsEmpty())
         m_Filename = m_OutputFilename;
 
-    if (m_PrefixGenerationPolicy != tgfpNone || m_ExtensionGenerationPolicy != tgfpNone)
-    {
-        wxString out = m_Filename;
-        GenerateTargetFilename(out);
-        return out;
-    }
-
-    wxFileName fname(m_Filename);
-    fname.SetName(fname.GetName());
-    fname.SetExt(FileFilters::NATIVE_EXT);
-    return fname.GetFullPath();
-}
-
-wxString CompileTargetBase::GetDynamicLibFilename()
-{
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
-
-    if (m_Filename.IsEmpty())
-        m_Filename = m_OutputFilename;
-
-    if (m_PrefixGenerationPolicy != tgfpNone || m_ExtensionGenerationPolicy != tgfpNone)
-    {
-        wxString out = m_Filename;
-        GenerateTargetFilename(out);
+    wxString out = m_Filename;
+    GenerateTargetFilename(out);
 #ifdef command_line_generation
-        Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GetDynamicLibFilename [0] returns: '%s'"), out.wx_str()));
+    Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GetDynamicLibFilename [0] returns: '%s'"), out.wx_str()));
 #endif
-        return out;
-    }
-
-    wxFileName fname(m_Filename);
-    fname.SetName(fname.GetName());
-    fname.SetExt(FileFilters::DYNAMICLIB_EXT);
-
-#ifdef command_line_generation
-    Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GetDynamicLibFilename [1] returns: '%s'"), fname.GetFullPath().wx_str()));
-#endif
-    return fname.GetFullPath();
-}
-
-wxString CompileTargetBase::GetDynamicLibImportFilename()
-{
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
-
-    if (m_ImportLibraryFilename.IsEmpty())
-        m_ImportLibraryFilename = _T("$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)");
-
-    wxFileName fname(m_ImportLibraryFilename);
-
-#ifdef command_line_generation
-    Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GetDynamicLibImportFilename returns: '%s'"), fname.GetFullPath().wx_str()));
-#endif
-    return fname.GetFullPath();
-}
-
-wxString CompileTargetBase::GetDynamicLibDefFilename()
-{
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
-
-    if (m_DefinitionFileFilename.IsEmpty())
-        m_DefinitionFileFilename = _T("$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)");
-
-    wxFileName fname(m_DefinitionFileFilename);
-
-#ifdef command_line_generation
-    Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GetDynamicLibDefFilename returns: '%s'"), fname.GetFullPath().wx_str()));
-#endif
-    return fname.GetFullPath();
-}
-
-wxString CompileTargetBase::GetStaticLibFilename()
-{
-    if (m_TargetType == ttCommandsOnly)
-        return wxEmptyString;
-
-    if (m_Filename.IsEmpty())
-        m_Filename = m_OutputFilename;
-
-    /* NOTE: There is no need to check for Generation policy for import library
-       if target type is ttDynamicLib. */
-    if (   (m_TargetType == ttStaticLib)
-        && (   m_PrefixGenerationPolicy    != tgfpNone
-            || m_ExtensionGenerationPolicy != tgfpNone) )
-    {
-        wxString out = m_Filename;
-        GenerateTargetFilename(out);
-#ifdef command_line_generation
-        Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GetStaticLibFilename [0] returns: '%s'"), out.wx_str()));
-#endif
-        return out;
-    }
-
-    wxFileName fname(m_Filename);
-
-    wxString prefix = _T("lib");
-    wxString suffix = FileFilters::STATICLIB_EXT;
-    Compiler* compiler = CompilerFactory::GetCompiler(m_CompilerId);
-    if (compiler)
-    {
-        prefix = compiler->GetSwitches().libPrefix;
-        suffix = compiler->GetSwitches().libExtension;
-    }
-    if (!fname.GetName().StartsWith(prefix))
-        fname.SetName(prefix + fname.GetName());
-    fname.SetExt(suffix);
-
-#ifdef command_line_generation
-    Manager::Get()->GetLogManager()->DebugLog(F(_T("CompileTargetBase::GetStaticLibFilename [1] returns: '%s'"), fname.GetFullPath().wx_str()));
-#endif
-    return fname.GetFullPath();
+    return out;
 }
 
 wxString CompileTargetBase::GetBasePath() const
@@ -486,33 +282,6 @@ TargetType CompileTargetBase::GetTargetType() const
     return m_TargetType;
 }
 
-const wxString& CompileTargetBase::GetExecutionParameters() const
-{
-    return m_ExecutionParameters;
-}
-
-void CompileTargetBase::SetExecutionParameters(const wxString& params)
-{
-    if (m_ExecutionParameters == params)
-        return;
-
-    m_ExecutionParameters = params;
-    SetModified(true);
-}
-
-const wxString& CompileTargetBase::GetHostApplication() const
-{
-    return m_HostApplication;
-}
-
-void CompileTargetBase::SetHostApplication(const wxString& app)
-{
-    if (m_HostApplication == app)
-        return;
-
-    m_HostApplication = app;
-    SetModified(true);
-}
 
 void CompileTargetBase::SetCompilerID(const wxString& id)
 {

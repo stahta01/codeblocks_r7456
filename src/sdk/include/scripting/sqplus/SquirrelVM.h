@@ -48,7 +48,7 @@ public:
 	static void PushParamNull();
 	static SquirrelObject EndCall();
 	static SquirrelObject CreateString(const SQChar *s);
-	static SquirrelObject CreateTable();	
+	static SquirrelObject CreateTable();
 	static SquirrelObject CreateArray(SQInteger size);
 	static SquirrelObject CreateInstance(SquirrelObject &oclass); // oclass is an existing class. Create an 'instance' (OT_INSTANCE) of oclass.
 	static SquirrelObject CreateFunction(SQFUNCTION func);

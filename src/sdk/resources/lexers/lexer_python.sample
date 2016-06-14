@@ -9,7 +9,7 @@ month_names = ['Januari', 'Februari', 'Maart',      # These are the
                "Oktober", "November", "December"]   # of the year
 
 if len(sys.argv)!=2:
-    print '''Usage: This is a 'Code::Blocks' Example'''
+    print '''Usage: This is a 'Em::Blocks' Example'''
     print "This String goes to EOL
     sys.exit(0)
 
@@ -32,4 +32,4 @@ def func(self):
   try:
     return  """A "Triple Double Quote" String\n"""
   except SystemExit:
-    pass
+    pass

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_lexer_properties>
-<CodeBlocks_lexer_properties>
+<!DOCTYPE EmBlocks_lexer_properties>
+<EmBlocks_lexer_properties>
 		<Lexer name="D"
 				index="79"
 				filemasks="*.d,*.dd,*.di">
@@ -138,4 +138,4 @@
                     LexerStringStyles="10,11,18,19"
                     LexerPreprocessorStyles=""/>
 		</Lexer>
-</CodeBlocks_lexer_properties>
+</EmBlocks_lexer_properties>

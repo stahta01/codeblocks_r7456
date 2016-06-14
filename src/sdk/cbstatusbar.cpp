@@ -1,9 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
  */
+/*
+    This file is part of Em::Blocks.
 
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 #include "sdk_precomp.h"
 
 #ifndef CB_PRECOMP
@@ -76,13 +96,14 @@ void cbStatusBar::AddField(cbPlugin *plugin, wxWindow *ctrl, int width )
     m_elements.push_back(elem);
 
     UpdateWidths();
-
     return;
 }
+
 void cbStatusBar::AddField(cbPlugin *plugin, int width)
 {
     return AddField(plugin, (wxControl*)NULL, width);
 }
+
 void cbStatusBar::RemoveField(cbPlugin *plugin)
 {
     for ( ElementVector::iterator it = m_elements.begin() ; it != m_elements.end() ; it++ )
@@ -97,6 +118,7 @@ void cbStatusBar::RemoveField(cbPlugin *plugin)
     }
     UpdateWidths();
 }
+
 void cbStatusBar::UpdateWidths()
 {
     unsigned int n = m_mainswidths.size() + m_elements.size();
@@ -111,7 +133,9 @@ void cbStatusBar::UpdateWidths()
     wxStatusBar::SetFieldsCount(n);
     wxStatusBar::SetStatusWidths(n, widths);
     delete[] widths;
+    UpdateStyle();
 }
+
 void cbStatusBar::SetStatusWidths(int n, const int* widths)
 {
     if (widths)
@@ -131,6 +155,25 @@ int cbStatusBar::GetFieldNumberOfPlugin(cbPlugin *plugin) const
     }
     // return -1 to indicate that the id does not exist
     return -1;
+}
+
+void cbStatusBar::SetFieldsCount(int number, const int *widths)
+{
+    wxStatusBar::SetFieldsCount(number, widths);
+}
+
+void cbStatusBar::UpdateStyle()
+{
+    int number = GetFieldsCount();
+
+    int* styles = (int*)malloc(sizeof(int)*number);
+    if(styles)
+    {
+        for( int i=0; i<number; i++)
+            styles[i] = wxSB_FLAT;
+        SetStatusStyles(number, styles);
+        free(styles);
+    }
 }
 
 void cbStatusBar::SetStatusText(const wxString& text, cbPlugin *plugin)

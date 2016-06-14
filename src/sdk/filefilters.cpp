@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 #include <map>
@@ -24,16 +42,10 @@ void FileFilters::AddDefaultFileFilters()
 {
     if (s_Filters.size() != 0)
         return;
-    Add(_("Code::Blocks workspace files"),         _T("*.workspace"));
-    Add(_("Code::Blocks project files"),           _T("*.cbp"));
-    Add(_("Code::Blocks project/workspace files"), _T("*.workspace;*.cbp"));
-    Add(_("Bloodshed Dev-C++ project files"),      _T("*.dev"));
-    Add(_("MS Visual C++ 6.0 project files"),      _T("*.dsp"));
-    Add(_("MS Visual Studio 7.0+ project files"),  _T("*.vcproj"));
-    Add(_("MS Visual C++ 6.0 workspace files"),    _T("*.dsw"));
-    Add(_("MS Visual Studio 7.0+ solution files"), _T("*.sln"));
-    Add(_("Apple Xcode 1.x project bundles"),      _T("*.xcode"));
-    Add(_("Apple Xcode 2.x project bundles"),      _T("*.xcodeproj"));
+    Add(EM_WORKSPACE_OPEN_FILTER_TXT, _T("*.eworkspace"));
+    Add(EM_PROJECT_OPEN_FILTER_TXT,   _T("*.ebp"));
+//    Add(EM_STANDARD_OPEN_FILTER_TXT,  _T("*.ebp;*.eworkspace"));
+   // Add(_T("Mplab8 project files"),   _T("*.mcp"));
 }
 
 bool FileFilters::Add(const wxString& name, const wxString& mask)
@@ -51,6 +63,15 @@ bool FileFilters::Add(const wxString& name, const wxString& mask)
     else
         s_Filters[name] = mask;
     return true;
+}
+
+
+void FileFilters::FilterNameRemove(const wxString& FilterName)
+{
+    if (FilterName.IsEmpty())
+        return; // both must be valid
+
+    s_Filters.erase(FilterName);
 }
 
 wxString FileFilters::GetFilterString(const wxString& ext)
@@ -137,99 +158,48 @@ bool FileFilters::GetFilterNameFromIndex(const wxString& FiltersList, int Index,
     return bFound;
 } // end of GetFilterStringFromIndex
 
-// define some constants used throughout C::B
+// define some constants used throughout E::B
+const wxString FileFilters::WORKSPACE_EXT       = _T("eworkspace");
+const wxString FileFilters::EMBLOCKS_EXT        = _T("ebp");
+//const wxString FileFilters::ASM_EXT             = _T("asm");
+const wxString FileFilters::D_EXT               = _T("d");
 
-const wxString FileFilters::WORKSPACE_EXT                = _T("workspace");
-const wxString FileFilters::CODEBLOCKS_EXT               = _T("cbp");
-const wxString FileFilters::DEVCPP_EXT                   = _T("dev");
-const wxString FileFilters::MSVC6_EXT                    = _T("dsp");
-const wxString FileFilters::MSVC7_EXT                    = _T("vcproj");
-const wxString FileFilters::MSVC6_WORKSPACE_EXT          = _T("dsw");
-const wxString FileFilters::MSVC7_WORKSPACE_EXT          = _T("sln");
-const wxString FileFilters::XCODE1_EXT                   = _T("xcode");
-const wxString FileFilters::XCODE2_EXT                   = _T("xcodeproj");
-const wxString FileFilters::ASM_EXT                      = _T("asm");
-const wxString FileFilters::D_EXT                        = _T("d");
-const wxString FileFilters::F_EXT                        = _T("f");
-const wxString FileFilters::F77_EXT                      = _T("f77");
-const wxString FileFilters::F90_EXT                      = _T("f90");
-const wxString FileFilters::F95_EXT                      = _T("f95");
-const wxString FileFilters::JAVA_EXT                     = _T("java");
-const wxString FileFilters::C_EXT                        = _T("c");
-const wxString FileFilters::CC_EXT                       = _T("cc");
-const wxString FileFilters::CPP_EXT                      = _T("cpp");
-const wxString FileFilters::CXX_EXT                      = _T("cxx");
-const wxString FileFilters::INL_EXT                      = _T("inl");
-const wxString FileFilters::H_EXT                        = _T("h");
-const wxString FileFilters::HH_EXT                       = _T("hh");
-const wxString FileFilters::HPP_EXT                      = _T("hpp");
-const wxString FileFilters::HXX_EXT                      = _T("hxx");
-const wxString FileFilters::S_EXT                        = _T("s");
-const wxString FileFilters::SS_EXT                       = _T("ss");
-const wxString FileFilters::S62_EXT                      = _T("s62");
-const wxString FileFilters::OBJECT_EXT                   = _T("o");
-const wxString FileFilters::XRCRESOURCE_EXT              = _T("xrc");
-const wxString FileFilters::STATICLIB_EXT                = _T("a");
-const wxString FileFilters::RESOURCE_EXT                 = _T("rc");
-const wxString FileFilters::RESOURCEBIN_EXT              = _T("res");
-const wxString FileFilters::XML_EXT                      = _T("xml");
-const wxString FileFilters::SCRIPT_EXT                   = _T("script");
-#ifdef __WXMSW__
-    const wxString FileFilters::DYNAMICLIB_EXT           = _T("dll");
-    const wxString FileFilters::EXECUTABLE_EXT           = _T("exe");
-    const wxString FileFilters::NATIVE_EXT               = _T("sys");
-#elif __WXMAC__
-    const wxString FileFilters::DYNAMICLIB_EXT           = _T("dylib");
-    const wxString FileFilters::EXECUTABLE_EXT           = _T("");
-    const wxString FileFilters::NATIVE_EXT               = _T("");
-#else
-    const wxString FileFilters::DYNAMICLIB_EXT           = _T("so");
-    const wxString FileFilters::EXECUTABLE_EXT           = _T("");
-    const wxString FileFilters::NATIVE_EXT               = _T("");
-#endif
+
+const wxString FileFilters::H_EXT               = _T("h");
+//const wxString FileFilters::S_EXT               = _T("s");
+const wxString FileFilters::OBJECT_EXT          = _T("o");
+const wxString FileFilters::MAP_EXT             = _T("map");
+const wxString FileFilters::HEX_EXT             = _T("hex");
+const wxString FileFilters::LIBRARY_EXT         = _T("a");
+const wxString FileFilters::EXECUTABLE_EXT      = _T("elf");
+const wxString FileFilters::XML_EXT             = _T("xml");
+const wxString FileFilters::SCRIPT_EXT          = _T("script");
+const wxString FileFilters::MPLAB8PRJ_EXT       = _T("mcp");
+const wxString FileFilters::ELAY_EXT            = _T("elay");
+
+// Only for file association
+const wxString FileFilters::C_EXT               = _T("c");
+const wxString FileFilters::CC_EXT              = _T("cc");
+const wxString FileFilters::CPP_EXT             = _T("cpp");
+
 
 // dot.ext version
-const wxString FileFilters::WORKSPACE_DOT_EXT                = _T('.') + FileFilters::WORKSPACE_EXT;
-const wxString FileFilters::CODEBLOCKS_DOT_EXT               = _T('.') + FileFilters::CODEBLOCKS_EXT;
-const wxString FileFilters::DEVCPP_DOT_EXT                   = _T('.') + FileFilters::DEVCPP_EXT;
-const wxString FileFilters::MSVC6_DOT_EXT                    = _T('.') + FileFilters::MSVC6_EXT;
-const wxString FileFilters::MSVC7_DOT_EXT                    = _T('.') + FileFilters::MSVC7_EXT;
-const wxString FileFilters::MSVC6_WORKSPACE_DOT_EXT          = _T('.') + FileFilters::MSVC6_WORKSPACE_EXT;
-const wxString FileFilters::MSVC7_WORKSPACE_DOT_EXT          = _T('.') + FileFilters::MSVC7_WORKSPACE_EXT;
-const wxString FileFilters::XCODE1_DOT_EXT                   = _T('.') + FileFilters::XCODE1_EXT;
-const wxString FileFilters::XCODE2_DOT_EXT                   = _T('.') + FileFilters::XCODE2_EXT;
-const wxString FileFilters::ASM_DOT_EXT                      = _T('.') + FileFilters::ASM_EXT;
-const wxString FileFilters::D_DOT_EXT                        = _T('.') + FileFilters::D_EXT;
-const wxString FileFilters::F_DOT_EXT                        = _T('.') + FileFilters::F_EXT;
-const wxString FileFilters::F77_DOT_EXT                      = _T('.') + FileFilters::F77_EXT;
-const wxString FileFilters::F90_DOT_EXT                      = _T('.') + FileFilters::F90_EXT;
-const wxString FileFilters::F95_DOT_EXT                      = _T('.') + FileFilters::F95_EXT;
-const wxString FileFilters::JAVA_DOT_EXT                     = _T('.') + FileFilters::JAVA_EXT;
-const wxString FileFilters::C_DOT_EXT                        = _T('.') + FileFilters::C_EXT;
-const wxString FileFilters::CC_DOT_EXT                       = _T('.') + FileFilters::CC_EXT;
-const wxString FileFilters::CPP_DOT_EXT                      = _T('.') + FileFilters::CPP_EXT;
-const wxString FileFilters::INL_DOT_EXT                      = _T('.') + FileFilters::INL_EXT;
-const wxString FileFilters::CXX_DOT_EXT                      = _T('.') + FileFilters::CXX_EXT;
-const wxString FileFilters::H_DOT_EXT                        = _T('.') + FileFilters::H_EXT;
-const wxString FileFilters::HH_DOT_EXT                       = _T('.') + FileFilters::HH_EXT;
-const wxString FileFilters::HPP_DOT_EXT                      = _T('.') + FileFilters::HPP_EXT;
-const wxString FileFilters::HXX_DOT_EXT                      = _T('.') + FileFilters::HXX_EXT;
-const wxString FileFilters::S_DOT_EXT                        = _T('.') + FileFilters::S_EXT;
-const wxString FileFilters::SS_DOT_EXT                       = _T('.') + FileFilters::SS_EXT;
-const wxString FileFilters::S62_DOT_EXT                      = _T('.') + FileFilters::S62_EXT;
-const wxString FileFilters::OBJECT_DOT_EXT                   = _T('.') + FileFilters::OBJECT_EXT;
-const wxString FileFilters::XRCRESOURCE_DOT_EXT              = _T('.') + FileFilters::XRCRESOURCE_EXT;
-const wxString FileFilters::STATICLIB_DOT_EXT                = _T('.') + FileFilters::STATICLIB_EXT;
-const wxString FileFilters::RESOURCE_DOT_EXT                 = _T('.') + FileFilters::RESOURCE_EXT;
-const wxString FileFilters::RESOURCEBIN_DOT_EXT              = _T('.') + FileFilters::RESOURCEBIN_EXT;
-const wxString FileFilters::XML_DOT_EXT                      = _T('.') + FileFilters::XML_EXT;
-const wxString FileFilters::SCRIPT_DOT_EXT                   = _T('.') + FileFilters::SCRIPT_EXT;
-#ifdef __WXMSW__
-    const wxString FileFilters::DYNAMICLIB_DOT_EXT           = _T('.') + FileFilters::DYNAMICLIB_EXT;
-    const wxString FileFilters::EXECUTABLE_DOT_EXT           = _T('.') + FileFilters::EXECUTABLE_EXT;
-    const wxString FileFilters::NATIVE_DOT_EXT               = _T('.') + FileFilters::NATIVE_EXT;
-#else
-    const wxString FileFilters::DYNAMICLIB_DOT_EXT           = _T('.') + FileFilters::DYNAMICLIB_EXT;
-    const wxString FileFilters::EXECUTABLE_DOT_EXT           = EXECUTABLE_EXT; // no dot, since no extension
-    const wxString FileFilters::NATIVE_DOT_EXT               = NATIVE_EXT; // no dot, since no extension
-#endif
+
+    // a dot *and* the extension, e.g. ".exe"
+const wxString FileFilters::WORKSPACE_DOT_EXT       = _T(".") + WORKSPACE_EXT;
+const wxString FileFilters::EMBLOCKS_DOT_EXT        = _T(".") + EMBLOCKS_EXT;
+//const wxString FileFilters::ASM_DOT_EXT             = _T(".") + ASM_EXT;
+const wxString FileFilters::D_DOT_EXT               = _T(".") + D_EXT;
+//const wxString FileFilters::C_DOT_EXT               = _T(".") + C_EXT;
+//const wxString FileFilters::CC_DOT_EXT              = _T(".") + CC_EXT;
+//const wxString FileFilters::CPP_DOT_EXT             = _T(".") + CPP_EXT;
+const wxString FileFilters::H_DOT_EXT               = _T(".") + H_EXT;
+//const wxString FileFilters::S_DOT_EXT               = _T(".") + S_EXT;
+const wxString FileFilters::OBJECT_DOT_EXT          = _T(".") + OBJECT_EXT;
+const wxString FileFilters::MAP_DOT_EXT             = _T(".") + MAP_EXT;
+const wxString FileFilters::LIBRARY_DOT_EXT         = _T(".") + LIBRARY_EXT;
+const wxString FileFilters::EXECUTABLE_DOT_EXT      = _T(".") + EXECUTABLE_EXT;
+const wxString FileFilters::XML_DOT_EXT             = _T(".") + XML_EXT;
+const wxString FileFilters::SCRIPT_DOT_EXT          = _T(".") + SCRIPT_EXT;
+const wxString FileFilters::MPLAB8PRJ_DOT_EXT       = _T(".") + MPLAB8PRJ_EXT;
+const wxString FileFilters::ELAY_DOT_EXT            = _T(".") + ELAY_EXT;

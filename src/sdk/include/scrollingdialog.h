@@ -1,13 +1,29 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        scrollingdialog.h
-// Purpose:     wxScrollingDialog
-// Author:      Julian Smart
-// Modified by: Jens Lody
-// Created:     2007-12-11
-// RCS-ID:      $Id$
-// Copyright:   (c) Julian Smart
-// Licence:
-/////////////////////////////////////////////////////////////////////////////
+/*
+ * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * http://www.gnu.org/licenses/lgpl-3.0.html
+ */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef _WX_SCROLLINGDIALOG_H_
 #define _WX_SCROLLINGDIALOG_H_
@@ -181,7 +197,7 @@ public:
              const wxPoint& pos = wxDefaultPosition,
              const wxSize& size = wxDefaultSize,
              long style = wxDEFAULT_DIALOG_STYLE,
-             const wxString& name = _("dialogBox"))
+             const wxString& name = _T("dialogBox"))
     {
 #if !wxCHECK_VERSION(2,9,0)
         Init();
@@ -197,7 +213,7 @@ public:
              const wxPoint& pos = wxDefaultPosition,
              const wxSize& size = wxDefaultSize,
              long style = wxDEFAULT_DIALOG_STYLE,
-             const wxString& name = _("dialogBox"));
+             const wxString& name = _T("dialogBox"));
 
     void Init();
 
@@ -265,6 +281,22 @@ private:
 protected:
 
     DECLARE_DYNAMIC_CLASS(wxScrollingPropertySheetDialog)
+};
+
+/////////////////////////////////////////////////////
+//
+//   Xml resources
+//
+#include <wx/xrc/xh_dlg.h>
+
+class wxScrollingDialogXmlHandler : public wxDialogXmlHandler
+{
+    DECLARE_DYNAMIC_CLASS(wxScrollingDialogXmlHandler)
+
+public:
+    wxScrollingDialogXmlHandler();
+    virtual wxObject *DoCreateResource();
+    virtual bool CanHandle(wxXmlNode *node);
 };
 
 #endif

@@ -608,6 +608,48 @@ const char* TiXmlElement::Attribute( const char* name, int* i ) const
 	return result;
 }
 
+const char* TiXmlElement::Attribute( const char* name, unsigned int* i ) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find( name );
+	const char* result = 0;
+
+	if ( attrib ) {
+		result = attrib->Value();
+		if ( i ) {
+			attrib->QueryUnIntValue( i );
+		}
+	}
+	return result;
+}
+
+const char* TiXmlElement::Attribute( const char* name, long* i ) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find( name );
+	const char* result = 0;
+
+	if ( attrib ) {
+		result = attrib->Value();
+		if ( i ) {
+			attrib->QueryLongValue( i );
+		}
+	}
+	return result;
+}
+
+const char* TiXmlElement::Attribute( const char* name, unsigned long* i ) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find( name );
+	const char* result = 0;
+
+	if ( attrib ) {
+		result = attrib->Value();
+		if ( i ) {
+			attrib->QueryUnLongValue( i );
+		}
+	}
+	return result;
+}
+
 
 #ifdef TIXML_USE_STL
 const std::string* TiXmlElement::Attribute( const std::string& name, int* i ) const
@@ -619,6 +661,20 @@ const std::string* TiXmlElement::Attribute( const std::string& name, int* i ) co
 		result = &attrib->ValueStr();
 		if ( i ) {
 			attrib->QueryIntValue( i );
+		}
+	}
+	return result;
+}
+
+const std::string* TiXmlElement::Attribute( const std::string& name, long int* i ) const
+{
+	const TiXmlAttribute* attrib = attributeSet.Find( name );
+	const std::string* result = 0;
+
+	if ( attrib ) {
+		result = &attrib->ValueStr();
+		if ( i ) {
+			attrib->QueryLongIntValue( i );
 		}
 	}
 	return result;
@@ -745,6 +801,29 @@ void TiXmlElement::SetAttribute( const char * name, int val )
 	}
 }
 
+void TiXmlElement::SetAttribute( const char * name, unsigned int val )
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate( name );
+	if ( attrib ) {
+		attrib->SetUnIntValue( val );
+	}
+}
+
+void TiXmlElement::SetAttribute( const char * name, long val )
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate( name );
+	if ( attrib ) {
+		attrib->SetLongValue( val );
+	}
+}
+
+void TiXmlElement::SetAttribute( const char * name, unsigned long val )
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate( name );
+	if ( attrib ) {
+		attrib->SetUnLongValue( val );
+	}
+}
 
 #ifdef TIXML_USE_STL
 void TiXmlElement::SetAttribute( const std::string& name, int val )
@@ -752,6 +831,14 @@ void TiXmlElement::SetAttribute( const std::string& name, int val )
 	TiXmlAttribute* attrib = attributeSet.FindOrCreate( name );
 	if ( attrib ) {
 		attrib->SetIntValue( val );
+	}
+}
+
+void TiXmlElement::SetAttribute( const std::string& name, long int val )
+{
+	TiXmlAttribute* attrib = attributeSet.FindOrCreate( name );
+	if ( attrib ) {
+		attrib->SetLongIntValue( val );
 	}
 }
 #endif
@@ -1240,6 +1327,29 @@ int TiXmlAttribute::QueryIntValue( int* ival ) const
 	return TIXML_WRONG_TYPE;
 }
 
+int TiXmlAttribute::QueryUnIntValue( unsigned int* ival ) const
+{
+	if ( TIXML_SSCANF( value.c_str(), "%u", ival ) == 1 )
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryLongValue( long int* ival ) const
+{
+	if ( TIXML_SSCANF( value.c_str(), "%ld", ival ) == 1 )
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+int TiXmlAttribute::QueryUnLongValue( unsigned long int* ival ) const
+{
+	if ( TIXML_SSCANF( value.c_str(), "%lu", ival ) == 1 )
+		return TIXML_SUCCESS;
+	return TIXML_WRONG_TYPE;
+}
+
+
+
 int TiXmlAttribute::QueryDoubleValue( double* dval ) const
 {
 	if ( TIXML_SSCANF( value.c_str(), "%lf", dval ) == 1 )
@@ -1254,6 +1364,39 @@ void TiXmlAttribute::SetIntValue( int _value )
 		TIXML_SNPRINTF(buf, sizeof(buf), "%d", _value);
 	#else
 		sprintf (buf, "%d", _value);
+	#endif
+	SetValue (buf);
+}
+
+void TiXmlAttribute::SetUnIntValue( unsigned int _value )
+{
+	char buf [64];
+	#if defined(TIXML_SNPRINTF)
+		TIXML_SNPRINTF(buf, sizeof(buf), "%u", _value);
+	#else
+		sprintf (buf, "%u", _value);
+	#endif
+	SetValue (buf);
+}
+
+void TiXmlAttribute::SetLongValue( long _value )
+{
+	char buf [64];
+	#if defined(TIXML_SNPRINTF)
+		TIXML_SNPRINTF(buf, sizeof(buf), "%ld", _value);
+	#else
+		sprintf (buf, "%ld", _value);
+	#endif
+	SetValue (buf);
+}
+
+void TiXmlAttribute::SetUnLongValue( unsigned long _value )
+{
+	char buf [64];
+	#if defined(TIXML_SNPRINTF)
+		TIXML_SNPRINTF(buf, sizeof(buf), "%lu", _value);
+	#else
+		sprintf (buf, "%lu", _value);
 	#endif
 	SetValue (buf);
 }

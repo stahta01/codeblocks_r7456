@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -26,8 +44,9 @@
 #include "editorlexerloader.h"
 #include "filefilters.h"
 
-const int cbHIGHLIGHT_LINE = -98; // highlight line under caret virtual style
-const int cbSELECTION      = -99; // selection virtual style
+const int cbHIGHLIGHT_LINE    = -98; // highlight line under caret virtual style
+const int cbSELECTION         = -99; // selection virtual style
+const int cbDEBUG_ACTIVE_LINE = -100; // highlight line under caret virtual style
 
 EditorColourSet::EditorColourSet(const wxString& setName)
     : m_Name(setName)
@@ -62,6 +81,7 @@ EditorColourSet::EditorColourSet(const EditorColourSet& other) // copy ctor
         mset.m_BreakLine = it->second.m_BreakLine;
         mset.m_DebugLine = it->second.m_DebugLine;
         mset.m_ErrorLine = it->second.m_ErrorLine;
+        mset.m_Internal = it->second.m_Internal;
         mset.comment = it->second.comment;
         mset.m_CaseSensitive = it->second.m_CaseSensitive;
         const OptionColours& value = it->second.m_Colours;
@@ -162,6 +182,7 @@ void EditorColourSet::LoadAvailableSets()
         }
         it->second.m_originalFileMasks = it->second.m_FileMasks;
 
+
         // remove old settings, no longer used
         unsigned int i = 0;
         while (i < it->second.m_Colours.GetCount())
@@ -170,6 +191,7 @@ void EditorColourSet::LoadAvailableSets()
             // valid values are:
             if (opt->value < 0 &&               // styles >= 0
                 opt->value != cbSELECTION &&    // cbSELECTION
+                opt->value != cbDEBUG_ACTIVE_LINE &&    // cbSELECTION
                 opt->value != cbHIGHLIGHT_LINE) // cbHIGHLIGHT_LINE
             {
                 it->second.m_Colours.Remove(opt);
@@ -769,15 +791,27 @@ const wxArrayString& EditorColourSet::GetFileMasks(HighlightLanguage lang)
     return m_Sets[lang].m_FileMasks;
 }
 
-void EditorColourSet::SetFileMasks(HighlightLanguage lang, const wxString& masks, const wxString& separator)
+void EditorColourSet::SetFileMasks(HighlightLanguage lang, const wxString& masks, const wxString& show, const wxString& separator)
 {
     if (lang != HL_NONE)
     {
         m_Sets[lang].m_FileMasks = GetArrayFromString(masks.Lower(), separator);
 
         // let's add these filemasks in the file filters master list ;)
-        FileFilters::Add(wxString::Format(_("%s files"), m_Sets[lang].m_Langs.c_str()), masks);
+        if(show == _T("true"))
+            FileFilters::Add(wxString::Format(_("%s files"), m_Sets[lang].m_Langs.c_str()), masks);
     }
+}
+
+
+void EditorColourSet::SetInternalMark(HighlightLanguage lang, bool internal )
+{
+     m_Sets[lang].m_Internal =  internal;
+}
+
+bool EditorColourSet::GetInternalMark(HighlightLanguage lang)
+{
+    return m_Sets[lang].m_Internal;
 }
 
 wxString EditorColourSet::GetSampleCode(HighlightLanguage lang, int* breakLine, int* debugLine, int* errorLine)

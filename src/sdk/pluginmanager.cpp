@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -272,7 +290,7 @@ bool PluginManager::InstallPlugin(const wxString& pluginName, bool forAllUsers, 
 
     wxProgressDialog pd(_("Installing: ") + basename, _T("A description wide enough for the dialog ;)"), 5);
 
-    wxString localName = basename + FileFilters::DYNAMICLIB_DOT_EXT;
+    wxString localName = basename + FileFilters::LIBRARY_DOT_EXT;
     wxString resourceName = basename + _T(".zip");
     wxString settingsOnName = basename + _T(".png");
     wxString settingsOffName = basename + _T("-off.png");
@@ -479,7 +497,7 @@ bool PluginManager::UninstallPlugin(cbPlugin* plugin, bool removeFiles)
                             "plugin.\n"
                             "In this case either uninstall all other plugins "
                             "which are provided by the same file, or remove it yourself "
-                            "(manually) when you shut down Code::Blocks.\n"
+                            "(manually) when you shut down Em::Blocks.\n"
                             "The files that could not be deleted are:\n\n") +
                             pluginFilename + _T('\n') +
                             resourceFilename + _T('\n') +
@@ -586,7 +604,7 @@ bool PluginManager::ExportPlugin(cbPlugin* plugin, const wxString& filename)
         zip.PutNextEntry(extrafilesdest[i]);
         zip << in;
     }
-    zip.SetComment(_T("This is a redistributable plugin for the Code::Blocks IDE.\n"
+    zip.SetComment(_T("This is a redistributable plugin for the Em::Blocks IDE.\n"
                         "See http://www.codeblocks.org for details..."));
 
     return true;
@@ -773,7 +791,7 @@ bool PluginManager::ReadManifestFile(const wxString& pluginFilename,
         }
     }
 
-    TiXmlElement* root = m_pCurrentlyLoadingManifestDoc->FirstChildElement("CodeBlocks_plugin_manifest_file");
+    TiXmlElement* root = m_pCurrentlyLoadingManifestDoc->FirstChildElement("EmBlocks_plugin_manifest_file");
     if (!root)
     {
         Manager::Get()->GetLogManager()->LogError(_T("Plugin resource file not valid (no root element found) for: ") + pluginFilename);
@@ -909,7 +927,7 @@ void PluginManager::ReadExtraFilesFromManifestFile(const wxString& pluginFilenam
     if (!doc.Parse(cbU2C(contents)))
         return;
 
-    TiXmlElement* root = doc.FirstChildElement("CodeBlocks_plugin_manifest_file");
+    TiXmlElement* root = doc.FirstChildElement("EmBlocks_plugin_manifest_file");
     if (!root)
         return;
 
@@ -1000,7 +1018,7 @@ int PluginManager::ScanForPlugins(const wxString& path)
         InfoWindow::Display(_("Warning"),
                             _("One or more plugins were not loaded.\n"
                             "This usually happens when a plugin is built for\n"
-                            "a different version of the Code::Blocks SDK.\n"
+                            "a different version of the Em::Blocks SDK.\n"
                             "Check the application log for more info.\n\n"
                             "List of failed plugins:\n") + failed,
                             15000, 3000);
@@ -1084,7 +1102,7 @@ void PluginManager::LoadAllPlugins()
     if (!probPlugin.IsEmpty())
     {
         wxString msg;
-        msg.Printf(_("Plugin \"%s\" failed to load last time Code::Blocks was executed.\n"
+        msg.Printf(_("Plugin \"%s\" failed to load last time Em::Blocks was executed.\n"
                     "Do you want to disable this plugin from loading?"), probPlugin.c_str());
         if (cbMessageBox(msg, _("Warning"), wxICON_WARNING | wxYES_NO) == wxID_NO)
             probPlugin = _T("");

@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef CBWORKSPACE_H
 #define CBWORKSPACE_H
@@ -46,7 +68,7 @@ class cbWorkspace
 
         /** @brief Save the workspace under a different filename
           *
-          * @param filename The name of the file to save.
+          * @param filename The name of the file to save. If empty string, a file dialog will be shown.
           * @return True if saving succeeded, false if not.
           * @note If the filename parameter is empty, a file dialog to choose
           * the filename to save will be displayed.
@@ -86,7 +108,7 @@ class cbWorkspace
           */
         virtual bool IsOK() const { return m_IsOK; }
 
-        /** @brief Is this workspace the Code::Blocks default?
+        /** @brief Is this workspace the Em::Blocks default?
           *
           * @return True if the workspace is the default, false if not.
           */
@@ -109,7 +131,7 @@ class cbWorkspace
         virtual void SetModified(bool modified);
     private:
         bool m_IsOK; // succeeded loading?
-        bool m_IsDefault; // is this the Code::Blocks default workspace?
+        bool m_IsDefault; // is this the Em::Blocks default workspace?
         bool m_Modified; // is it modified?
         wxFileName m_Filename; // filename
         wxString m_Title; // title

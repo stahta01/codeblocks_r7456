@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef SDK_GLOBALS_H
 #define SDK_GLOBALS_H
@@ -46,23 +68,11 @@ enum FileType
 {
     ftCodeBlocksProject = 0,
     ftCodeBlocksWorkspace,
-    ftDevCppProject,
-    ftMSVC6Project,
-    ftMSVC7Project,
-    ftMSVC6Workspace,
-    ftMSVC7Workspace,
-    ftXcode1Project,
-    ftXcode2Project,
     ftSource,
+    ftAssembler,
     ftHeader,
     ftObject,
-    ftXRCResource,
-    ftResource,
-    ftResourceBin,
-    ftStaticLib,
-    ftDynamicLib,
-    ftExecutable,
-    ftNative,
+    ftLibrary,
     ftXMLDocument,
     ftScript,
     ftOther
@@ -72,6 +82,7 @@ enum FileType
     If a value is casted to integer, it corresponds to the tree's imagelist index for the state.
     NOTE: Keep in sync with icons loaded in ProjectManager::BuildTree()!
 */
+#define CUSTOM_BUILD_FILE_OFFSET 4
 enum FileVisualState
 {
     // The following are related to (editable, source-) file states
@@ -79,6 +90,13 @@ enum FileVisualState
     fvsMissing,
     fvsModified,
     fvsReadOnly,
+
+    // Same as above but with custom build flags
+    fvsNormal_C,
+    fvsMissing_C,
+    fvsModified_C,
+    fvsReadOnly_C,
+
     // The following are related to version control systems (vc)
     fvsVcAdded,
     fvsVcConflict,
@@ -97,8 +115,10 @@ enum FileVisualState
     fvsWorkspaceReadOnly,
     fvsProject,
     fvsProjectReadOnly,
-    fvsFolder,
+    fvsFolderOpen,
     fvsVirtualFolder,
+    fvsLibrary,
+    fvsLibraryReadOnly,
 
     /// do *not* use this, it exists just to know the number of items...
     fvsLast
@@ -120,7 +140,6 @@ enum ProjectTreeVisualState
 enum TemplateOutputType
 {
     totProject = 0, ///< template outputs a new project
-    totTarget, ///< template adds a new target in a project
     totFiles, ///< template outputs a new file (or files)
     totCustom, ///< template produces custom output (entirely up to the wizard used)
     totUser ///< template is a user-saved project template
@@ -172,6 +191,8 @@ extern DLLIMPORT wxFontEncoding DetectEncodingAndConvert(const char* strIn, wxSt
 extern DLLIMPORT int GetPlatformsFromString(const wxString& platforms);
 /// Return a string representation of a platform / multiple platforms
 extern DLLIMPORT wxString GetStringFromPlatforms(int platforms, bool forceSeparate = false);
+/// Return a number which is in the wxString (hex or dec) return true if valid
+extern DLLIMPORT bool wxStringToNumber(wxString &str, unsigned long &value);
 
 // see globals.cpp for info on the third argument (bool SeparatorAtEnd)
 extern DLLIMPORT wxString GetStringFromArray(const wxArrayString& array, const wxString& separator = DEFAULT_ARRAY_SEP, bool SeparatorAtEnd = true);
@@ -180,7 +201,7 @@ extern DLLIMPORT wxArrayString MakeUniqueArray(const wxArrayString& array, bool 
 extern DLLIMPORT void AppendArray(const wxArrayString& from, wxArrayString& to);
 
 extern DLLIMPORT wxString UnixFilename(const wxString& filename);
-extern DLLIMPORT void QuoteStringIfNeeded(wxString& str);
+extern DLLIMPORT void QuoteStringIfNeeded(wxString& str, bool force = false);
 
 /// Escapes spaces and tabs (NOT quoting the string)
 extern DLLIMPORT wxString EscapeSpaces(const wxString& str);
@@ -293,6 +314,7 @@ enum DirAccessCheck
   */
 extern DLLIMPORT DirAccessCheck cbDirAccessCheck(const wxString& dir);
 
+
 namespace platform
 {
     typedef enum
@@ -309,6 +331,7 @@ namespace platform
 
     extern DLLIMPORT windows_version_t WindowsVersion();
 };
+
 
 // returns the real path of a file by resolving symlinks
 // not yet optimal but should do for now

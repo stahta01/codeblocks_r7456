@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
 
@@ -71,7 +71,6 @@ DECLARE_ENUM_TYPE(TemplateOutputType);
 DECLARE_ENUM_TYPE(SearchDirs);
 DECLARE_ENUM_TYPE(ModuleType);
 DECLARE_ENUM_TYPE(FileTreeData::FileTreeDataKind);
-DECLARE_ENUM_TYPE(TargetFilenameGenerationPolicy);
 
 namespace SqPlus
 {

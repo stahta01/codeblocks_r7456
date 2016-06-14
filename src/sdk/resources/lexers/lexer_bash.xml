@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_lexer_properties>
-<CodeBlocks_lexer_properties>
+<!DOCTYPE EmBlocks_lexer_properties>
+<EmBlocks_lexer_properties>
         <Lexer name="Bash"
                 index="62"
                 filemasks="*.sh">
@@ -96,4 +96,4 @@
                     BoxCommentEnd=""
                     CaseSensitive="1"/>
         </Lexer>
-</CodeBlocks_lexer_properties>
+</EmBlocks_lexer_properties>

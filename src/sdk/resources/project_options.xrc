@@ -29,32 +29,6 @@
 											<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 										</object>
 										<object class="sizeritem">
-											<object class="wxStaticText" name="ID_STATICTEXT2">
-												<label>Platforms:</label>
-											</object>
-											<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-										</object>
-										<object class="sizeritem">
-											<object class="wxBoxSizer">
-												<object class="sizeritem">
-													<object class="wxTextCtrl" name="txtPlatformProj">
-														<style>wxTE_READONLY</style>
-													</object>
-													<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-													<option>1</option>
-												</object>
-												<object class="sizeritem">
-													<object class="wxButton" name="btnPlatformProj">
-														<label>...</label>
-														<size>24,24</size>
-													</object>
-													<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-												</object>
-											</object>
-											<flag>wxBOTTOM|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-											<border>4</border>
-										</object>
-										<object class="sizeritem">
 											<object class="wxStaticText" name="ID_STATICTEXT3">
 												<label>Filename:</label>
 											</object>
@@ -80,7 +54,7 @@
 										</object>
 										<object class="spacer">
 											<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-											<border>5</border>
+											<border>3</border>
 											<option>1</option>
 										</object>
 										<object class="sizeritem">
@@ -94,14 +68,42 @@
 												</object>
 												<object class="sizeritem">
 													<object class="wxStaticText" name="ID_STATICTEXT5">
-														<label>(the file must exist, no Makefile will be auto-generated)&#x0A;If you make changes here, the special settings in the projects build options&#x0A;will only be enabled (or disabled), if the project is saved.</label>
+														<label>The file must exist, no Makefile will be auto-generated&#x0A;&#x0A;</label>
+														<size>260,18</size>
 														<fg>#800000</fg>
 													</object>
 													<flag>wxLEFT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 													<border>4</border>
 												</object>
 												<object class="sizeritem">
-													<object class="wxBoxSizer">
+													<object class="wxFlexGridSizer">
+														<cols>3</cols>
+														<rows>2</rows>
+														<object class="sizeritem">
+															<object class="wxStaticText" name="ID_STATICTEXT11">
+																<label>Make tool: </label>
+															</object>
+															<flag>wxLEFT|wxRIGHT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+															<border>2</border>
+														</object>
+														<object class="sizeritem">
+															<object class="wxTextCtrl" name="txtMakeTool">
+																<value>make</value>
+																<size>402,25</size>
+																<enabled>0</enabled>
+															</object>
+															<flag>wxTOP|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+															<border>2</border>
+															<option>1</option>
+														</object>
+														<object class="sizeritem">
+															<object class="wxButton" name="btnMakeTool">
+																<label>...</label>
+																<size>24,24</size>
+																<enabled>0</enabled>
+															</object>
+															<flag>wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+														</object>
 														<object class="sizeritem">
 															<object class="wxStaticText" name="ID_STATICTEXT19">
 																<label>Execution directory:</label>
@@ -114,7 +116,7 @@
 																<size>402,25</size>
 																<enabled>0</enabled>
 															</object>
-															<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+															<flag>wxTOP|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
 															<border>2</border>
 															<option>1</option>
 														</object>
@@ -127,12 +129,12 @@
 															<flag>wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 														</object>
 													</object>
-													<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+													<flag>wxEXPAND|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>
 													<option>1</option>
 												</object>
 											</object>
-											<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+											<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 											<border>2</border>
 											<option>1</option>
 										</object>
@@ -208,6 +210,20 @@
 														<fg>#800000</fg>
 													</object>
 													<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+												</object>
+												<object class="sizeritem">
+													<object class="wxCheckBox" name="chkNoForceObjectLowCase">
+														<label>Force lower case object file names</label>
+													</object>
+													<flag>wxTOP|wxALIGN_LEFT|wxALIGN_TOP</flag>
+													<border>5</border>
+												</object>
+												<object class="sizeritem">
+													<object class="wxStaticText" name="ID_STATICTEXT14">
+														<label>(this setting is used to generate only lower case object file names.&#x0A;this can be important for linker scripts etc.)</label>
+														<fg>#800000</fg>
+													</object>
+													<flag>wxALL|wxALIGN_LEFT|wxALIGN_TOP</flag>
 												</object>
 											</object>
 											<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
@@ -358,33 +374,6 @@
 														<hgap>4</hgap>
 														<growablecols>1</growablecols>
 														<object class="sizeritem">
-															<object class="wxStaticText" name="ID_STATICTEXT11">
-																<label>Platforms:</label>
-															</object>
-															<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-														</object>
-														<object class="sizeritem">
-															<object class="wxBoxSizer">
-																<object class="sizeritem">
-																	<object class="wxTextCtrl" name="txtPlatform">
-																		<style>wxTE_READONLY</style>
-																	</object>
-																	<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-																	<option>1</option>
-																</object>
-																<object class="sizeritem">
-																	<object class="wxButton" name="btnPlatform">
-																		<label>...</label>
-																		<size>24,24</size>
-																	</object>
-																	<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-																</object>
-															</object>
-															<flag>wxBOTTOM|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-															<border>4</border>
-															<option>1</option>
-														</object>
-														<object class="sizeritem">
 															<object class="wxStaticText" name="ID_STATICTEXT12">
 																<label>Type:</label>
 															</object>
@@ -393,13 +382,10 @@
 														<object class="sizeritem">
 															<object class="wxComboBox" name="cmbProjectType">
 																<content>
-																	<item>GUI application</item>
-																	<item>Console application</item>
-																	<item>Static library</item>
-																	<item>Dynamic library</item>
-																	<item>Commands only</item>
-																	<item>Native</item>
+																	<item>Executable</item>
+																	<item>Library</item>
 																</content>
+																<size>108,21</size>
 																<style>wxCB_READONLY|wxCB_DROPDOWN</style>
 															</object>
 															<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
@@ -412,26 +398,20 @@
 															<object class="wxBoxSizer">
 																<orient>wxVERTICAL</orient>
 																<object class="sizeritem">
-																	<object class="wxCheckBox" name="chkUseConsoleRunner">
-																		<label>Pause when execution ends</label>
-																		<tooltip>Pause with &quot;Press any key&quot; when execution ends (only when executed from inside Code::Blocks)</tooltip>
+																	<object class="wxCheckBox" name="chkCreateHex">
+																		<label>Generate Hex file</label>
 																	</object>
-																	<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-																	<border>4</border>
+																	<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+																	<option>1</option>
 																</object>
 																<object class="sizeritem">
-																	<object class="wxCheckBox" name="chkCreateStaticLib">
-																		<label>Create import library</label>
+																	<object class="wxStaticText" name="ID_STATICTEXT2">
+																		<label>This option is for the external Hex conversion tool.&#x0A;For toolchain linkers with native hex-support check the linker settings.</label>
+																		<fg>#800000</fg>
 																	</object>
-																	<flag>wxTOP|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
+																	<flag>wxLEFT|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
 																	<border>4</border>
-																</object>
-																<object class="sizeritem">
-																	<object class="wxCheckBox" name="chkCreateDefFile">
-																		<label>Create .DEF exports file</label>
-																	</object>
-																	<flag>wxTOP|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-																	<border>4</border>
+																	<option>1</option>
 																</object>
 																<object class="sizeritem">
 																	<object class="wxStaticLine" name="ID_STATICLINE1" />
@@ -466,54 +446,6 @@
 															</object>
 															<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 														</object>
-														<object class="sizeritem">
-															<object class="wxStaticText" name="ID_STATICTEXT20">
-																<label>Import library filename:</label>
-															</object>
-															<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-															<option>1</option>
-														</object>
-														<object class="sizeritem">
-															<object class="wxBoxSizer">
-																<object class="sizeritem">
-																	<object class="wxTextCtrl" name="txtImportLibraryFilename" />
-																	<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-																	<option>1</option>
-																</object>
-																<object class="sizeritem">
-																	<object class="wxButton" name="btnBrowseImportLibraryFilename">
-																		<label>...</label>
-																		<size>24,24</size>
-																	</object>
-																	<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-																</object>
-															</object>
-															<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-														</object>
-														<object class="sizeritem">
-															<object class="wxStaticText" name="ID_STATICTEXT21">
-																<label>Definition file filename:</label>
-															</object>
-															<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-															<option>1</option>
-														</object>
-														<object class="sizeritem">
-															<object class="wxBoxSizer">
-																<object class="sizeritem">
-																	<object class="wxTextCtrl" name="txtDefinitionFileFilename" />
-																	<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-																	<option>1</option>
-																</object>
-																<object class="sizeritem">
-																	<object class="wxButton" name="btnBrowseDefinitionFileFilename">
-																		<label>...</label>
-																		<size>24,24</size>
-																	</object>
-																	<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-																</object>
-															</object>
-															<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-														</object>
 														<object class="spacer">
 															<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 															<size>0,0</size>
@@ -522,47 +454,9 @@
 															<object class="wxBoxSizer">
 																<orient>wxVERTICAL</orient>
 																<object class="sizeritem">
-																	<object class="wxCheckBox" name="chkAutoGenPrefix">
-																		<label>Auto-generate filename prefix</label>
-																		<checked>1</checked>
-																	</object>
-																	<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-																</object>
-																<object class="sizeritem">
-																	<object class="wxCheckBox" name="chkAutoGenExt">
-																		<label>Auto-generate filename extension</label>
-																		<checked>1</checked>
-																	</object>
-																	<flag>wxTOP|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-																	<border>4</border>
-																</object>
-																<object class="sizeritem">
 																	<object class="wxStaticLine" name="ID_STATICLINE2" />
 																	<flag>wxTOP|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
 																	<border>4</border>
-																</object>
-															</object>
-															<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>
-														</object>
-														<object class="sizeritem">
-															<object class="wxStaticText" name="ID_STATICTEXT14">
-																<label>Execution working dir:</label>
-															</object>
-															<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-														</object>
-														<object class="sizeritem">
-															<object class="wxBoxSizer">
-																<object class="sizeritem">
-																	<object class="wxTextCtrl" name="txtWorkingDir" />
-																	<flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-																	<option>1</option>
-																</object>
-																<object class="sizeritem">
-																	<object class="wxButton" name="btnBrowseWorkingDir">
-																		<label>...</label>
-																		<size>24,24</size>
-																	</object>
-																	<flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
 																</object>
 															</object>
 															<flag>wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP</flag>

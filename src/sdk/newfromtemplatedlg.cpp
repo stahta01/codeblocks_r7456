@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -57,11 +75,6 @@ BEGIN_EVENT_TABLE(NewFromTemplateDlg, wxScrollingDialog)
 	EVT_LIST_ITEM_ACTIVATED(XRCID("listProjects"), NewFromTemplateDlg::OnListActivate)
 	EVT_CHOICE(XRCID("cmbProjectCategories"), NewFromTemplateDlg::OnCategoryChanged)
 
-    // targets
-	EVT_LIST_ITEM_RIGHT_CLICK(XRCID("listTargets"), NewFromTemplateDlg::OnListRightClick)
-	EVT_LIST_ITEM_ACTIVATED(XRCID("listTargets"), NewFromTemplateDlg::OnListActivate)
-	EVT_CHOICE(XRCID("cmbTargetCategories"), NewFromTemplateDlg::OnCategoryChanged)
-
     // files
 	EVT_LIST_ITEM_RIGHT_CLICK(XRCID("listFiles"), NewFromTemplateDlg::OnListRightClick)
 	EVT_LIST_ITEM_ACTIVATED(XRCID("listFiles"), NewFromTemplateDlg::OnListActivate)
@@ -96,8 +109,6 @@ NewFromTemplateDlg::NewFromTemplateDlg(TemplateOutputType initial, const wxArray
     // create image lists
     XRCCTRL(*this, "listProjects", wxListCtrl)->SetImageList(new wxImageList(32, 32), wxIMAGE_LIST_NORMAL);
     XRCCTRL(*this, "listProjects", wxListCtrl)->SetImageList(new wxImageList(32, 32), wxIMAGE_LIST_SMALL);
-    XRCCTRL(*this, "listTargets", wxListCtrl)->SetImageList(new wxImageList(32, 32), wxIMAGE_LIST_NORMAL);
-    XRCCTRL(*this, "listTargets", wxListCtrl)->SetImageList(new wxImageList(32, 32), wxIMAGE_LIST_SMALL);
     XRCCTRL(*this, "listFiles", wxListCtrl)->SetImageList(new wxImageList(32, 32), wxIMAGE_LIST_NORMAL);
     XRCCTRL(*this, "listFiles", wxListCtrl)->SetImageList(new wxImageList(32, 32), wxIMAGE_LIST_SMALL);
     XRCCTRL(*this, "listCustoms", wxListCtrl)->SetImageList(new wxImageList(32, 32), wxIMAGE_LIST_NORMAL);
@@ -124,14 +135,11 @@ NewFromTemplateDlg::~NewFromTemplateDlg()
 {
 	//dtor
     delete XRCCTRL(*this, "listProjects", wxListCtrl)->GetImageList(wxIMAGE_LIST_NORMAL);
-    delete XRCCTRL(*this, "listTargets", wxListCtrl)->GetImageList(wxIMAGE_LIST_NORMAL);
     delete XRCCTRL(*this, "listFiles", wxListCtrl)->GetImageList(wxIMAGE_LIST_NORMAL);
     delete XRCCTRL(*this, "listCustoms", wxListCtrl)->GetImageList(wxIMAGE_LIST_NORMAL);
 
     XRCCTRL(*this, "listProjects", wxListCtrl)->SetImageList(0, wxIMAGE_LIST_NORMAL);
     XRCCTRL(*this, "listProjects", wxListCtrl)->SetImageList(0, wxIMAGE_LIST_SMALL);
-    XRCCTRL(*this, "listTargets", wxListCtrl)->SetImageList(0, wxIMAGE_LIST_NORMAL);
-    XRCCTRL(*this, "listTargets", wxListCtrl)->SetImageList(0, wxIMAGE_LIST_SMALL);
     XRCCTRL(*this, "listFiles", wxListCtrl)->SetImageList(0, wxIMAGE_LIST_NORMAL);
     XRCCTRL(*this, "listFiles", wxListCtrl)->SetImageList(0, wxIMAGE_LIST_SMALL);
     XRCCTRL(*this, "listCustoms", wxListCtrl)->SetImageList(0, wxIMAGE_LIST_NORMAL);
@@ -143,7 +151,6 @@ NewFromTemplateDlg::~NewFromTemplateDlg()
 void NewFromTemplateDlg::ClearList()
 {
 	ClearListFor(XRCCTRL(*this, "listProjects", wxListCtrl));
-	ClearListFor(XRCCTRL(*this, "listTargets", wxListCtrl));
 	ClearListFor(XRCCTRL(*this, "listFiles", wxListCtrl));
 	ClearListFor(XRCCTRL(*this, "listCustoms", wxListCtrl));
 }
@@ -163,7 +170,6 @@ void NewFromTemplateDlg::ClearListFor(wxListCtrl* list)
 void NewFromTemplateDlg::BuildCategories()
 {
 	BuildCategoriesFor(totProject, XRCCTRL(*this, "cmbProjectCategories", wxChoice));
-	BuildCategoriesFor(totTarget, XRCCTRL(*this, "cmbTargetCategories", wxChoice));
 	BuildCategoriesFor(totFiles, XRCCTRL(*this, "cmbFileCategories", wxChoice));
 	BuildCategoriesFor(totCustom, XRCCTRL(*this, "cmbCustomCategories", wxChoice));
 }
@@ -217,7 +223,6 @@ int wxCALLBACK SortTemplates(long item1, long item2, long /*sortData*/)
 void NewFromTemplateDlg::BuildList()
 {
 	BuildListFor(totProject, XRCCTRL(*this, "listProjects", wxListCtrl), XRCCTRL(*this, "cmbProjectCategories", wxChoice));
-	BuildListFor(totTarget, XRCCTRL(*this, "listTargets", wxListCtrl), XRCCTRL(*this, "cmbTargetCategories", wxChoice));
 	BuildListFor(totFiles, XRCCTRL(*this, "listFiles", wxListCtrl), XRCCTRL(*this, "cmbFileCategories", wxChoice));
 	BuildListFor(totCustom, XRCCTRL(*this, "listCustoms", wxListCtrl), XRCCTRL(*this, "cmbCustomCategories", wxChoice));
 }
@@ -273,9 +278,8 @@ wxListCtrl* NewFromTemplateDlg::GetVisibleListCtrl()
     switch (page)
     {
         case 0: return XRCCTRL(*this, "listProjects", wxListCtrl); // projects
-        case 1: return XRCCTRL(*this, "listTargets", wxListCtrl); // targets
-        case 2: return XRCCTRL(*this, "listFiles", wxListCtrl); // files
-        case 3: return XRCCTRL(*this, "listCustoms", wxListCtrl); // workspaces
+        case 1: return XRCCTRL(*this, "listFiles", wxListCtrl); // files
+        case 2: return XRCCTRL(*this, "listCustoms", wxListCtrl); // workspaces
         default: return 0;
     }
 }
@@ -303,9 +307,8 @@ TemplateOutputType NewFromTemplateDlg::GetVisibleOutputType() const
     switch (page)
     {
         case 0: return totProject;
-        case 1: return totTarget;
-        case 2: return totFiles;
-        case 3: return totCustom;
+        case 1: return totFiles;
+        case 2: return totCustom;
         default: return totProject;
     }
 }
@@ -378,7 +381,6 @@ void NewFromTemplateDlg::ChangeView()
     int style = sel == 0 ? wxLC_ICON : wxLC_LIST;
 
     XRCCTRL(*this, "listProjects", wxListCtrl)->SetSingleStyle(style);
-    XRCCTRL(*this, "listTargets", wxListCtrl)->SetSingleStyle(style);
     XRCCTRL(*this, "listFiles", wxListCtrl)->SetSingleStyle(style);
     XRCCTRL(*this, "listCustoms", wxListCtrl)->SetSingleStyle(style);
 
@@ -386,7 +388,6 @@ void NewFromTemplateDlg::ChangeView()
 	// so rebuild them
 #ifndef __WXMSW__
     BuildListFor(totProject, XRCCTRL(*this, "listProjects", wxListCtrl), XRCCTRL(*this, "cmbProjectCategories", wxChoice));
-    BuildListFor(totTarget, XRCCTRL(*this, "listTargets", wxListCtrl), XRCCTRL(*this, "cmbTargetCategories", wxChoice));
     BuildListFor(totFiles, XRCCTRL(*this, "listFiles", wxListCtrl), XRCCTRL(*this, "cmbFileCategories", wxChoice));
     BuildListFor(totCustom, XRCCTRL(*this, "listCustoms", wxListCtrl), XRCCTRL(*this, "cmbCustomCategories", wxChoice));
 #endif
@@ -468,7 +469,7 @@ void NewFromTemplateDlg::OnDiscardScript(wxCommandEvent& /*event*/)
 void NewFromTemplateDlg::OnEditGlobalScript(wxCommandEvent& /*event*/)
 {
     cbMessageBox(_("Any changes you make to the global wizard registration script will "
-                    "take effect after you restart Code::Blocks."),
+                    "take effect after you restart Em::Blocks."),
                     _("Information"), wxICON_INFORMATION, this);
     EditScript(_T("config.script"));
 }
@@ -482,11 +483,11 @@ void NewFromTemplateDlg::OnHelp(wxCommandEvent& /*event*/)
 {
     cbMessageBox(_("When you edit a wizard's script, you actually edit a copy of it which "
                     "is automatically placed inside your user configuration directory.\n"
-                    "This means that if a new version of the script is released, Code::Blocks "
+                    "This means that if a new version of the script is released, Em::Blocks "
                     "will still use your customized script, not the globally installed version.\n\n"
                     "These customized wizard scripts are coloured red just to remind you "
                     "that they are exactly that: customized scripts.\n"
-                    "So, if you update your Code::Blocks copy and find that an updated wizard's "
+                    "So, if you update your Em::Blocks copy and find that an updated wizard's "
                     "behaviour doesn't change, check if you have customized it. If you have, "
                     "the only way to re-enable the globally installed script is to remove "
                     "the customized one.\n\n"

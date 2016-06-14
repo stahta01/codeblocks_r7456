@@ -2,7 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
 
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 #ifndef SDK_EVENTS_H
 #define SDK_EVENTS_H
 
@@ -15,7 +36,7 @@ class EditorBase;
 class cbPlugin;
 class Logger;
 
-/** A generic Code::Blocks event. */
+/** A generic Em::Blocks event. */
 class EVTIMPORT CodeBlocksEvent : public wxCommandEvent
 {
 	public:
@@ -264,6 +285,8 @@ extern EVTIMPORT const wxEventType cbEVT_PROJECT_OPEN;
 #define EVT_PROJECT_OPEN(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_PROJECT_OPEN, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
 extern EVTIMPORT const wxEventType cbEVT_PROJECT_SAVE;
 #define EVT_PROJECT_SAVE(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_PROJECT_SAVE, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
+extern EVTIMPORT const wxEventType cbEVT_IS_PROJECT_MODIFIED; //E::B
+#define EVT_IS_PROJECT_MODIFIED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_IS_PROJECT_MODIFIED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
 extern EVTIMPORT const wxEventType cbEVT_PROJECT_ACTIVATE;
 #define EVT_PROJECT_ACTIVATE(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_PROJECT_ACTIVATE, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
 extern EVTIMPORT const wxEventType cbEVT_PROJECT_BEGIN_ADD_FILES;
@@ -374,6 +397,10 @@ extern EVTIMPORT const wxEventType cbEVT_DEBUGGER_PAUSED;
 extern EVTIMPORT const wxEventType cbEVT_DEBUGGER_FINISHED;
 #define EVT_DEBUGGER_FINISHED(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_DEBUGGER_FINISHED, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
 
+// Navigation events
+extern EVTIMPORT const wxEventType cbEVT_CURSOR_POS_SAVE;
+#define EVT_CURSOR_POS_SAVE(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_CURSOR_POS_SAVE, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksEventFunction)&fn, (wxObject *) NULL ),
+
 // logger-related events
 
 // add a log window
@@ -403,6 +430,10 @@ extern EVTIMPORT const wxEventType cbEVT_LOCK_LOG_MANAGER;
 // "unlock" it (used with auto-hiding functionality)
 extern EVTIMPORT const wxEventType cbEVT_UNLOCK_LOG_MANAGER;
 #define EVT_UNLOCK_LOG_MANAGER(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_UNLOCK_LOG_MANAGER, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksLogEventFunction)&fn, (wxObject *) NULL ),
+
+extern EVTIMPORT const wxEventType cbEVT_TOGGLE_LOG_WINDOW;
+#define cbEVT_TOGGLE_LOG_WINDOW(fn) DECLARE_EVENT_TABLE_ENTRY( cbEVT_TOGGLE_LOG_WINDOW, -1, -1, (wxObjectEventFunction)(wxEventFunction)(CodeBlocksLogEventFunction)&fn, (wxObject *) NULL ),
+
 
 //cbAUiNotebook related events
 // left doubleclick on a tab

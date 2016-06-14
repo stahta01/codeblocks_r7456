@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef COMPILERFACTORY_H
 #define COMPILERFACTORY_H
@@ -45,11 +67,7 @@ class DLLIMPORT CompilerFactory
         static bool CompilerInheritsFrom(Compiler* compiler, const wxString& from_id);
 
         /// Register a supported (builtin) compiler.
-        static void RegisterCompiler(Compiler* compiler);
-        /// Register all user-defined compiler copies.
-        static void RegisterUserCompilers();
-        /// Create a copy of a compiler.
-        static Compiler* CreateCompilerCopy(Compiler* compiler, const wxString& newName);
+        static void RegisterCompiler(Compiler* compiler) { CompilerFactory::Compilers.Add(compiler); }
         /// Remove a compiler.
         static void RemoveCompiler(Compiler* compiler);
         /// Unregister all compilers.
@@ -57,19 +75,15 @@ class DLLIMPORT CompilerFactory
         /// get the version number as string for the compiler with the specified index
         static wxString GetCompilerVersionString(const wxString& Id);
 
+        /// Get the type of file by searching if there is a tool for it
+        static FileType GetFileTypeByCompilerTool(wxString& fileName, const wxString& cmpId);
+
         static void SaveSettings();
         static void LoadSettings();
-
-        static const wxString& GetDefaultCompilerID();
-        static Compiler* GetDefaultCompiler();
-        static void SetDefaultCompiler(size_t index);
-        static void SetDefaultCompiler(const wxString& id);
-        static void SetDefaultCompiler(Compiler* compiler);
 
         static Compiler* SelectCompilerUI(const wxString& message = _("Select compiler"), const wxString& preselectedID = wxEmptyString);
     private:
         static CompilersArray Compilers;
-        static Compiler* s_DefaultCompiler;
 };
 
 #endif // COMPILERFACTORY_H

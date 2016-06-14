@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: sc_wxtypes.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/sdk/scripting/bindings/sc_wxtypes.cpp $
  */
 
 #include "sdk_precomp.h"
@@ -158,6 +158,20 @@ namespace ScriptBindings
         wxString& other = *SqPlus::GetInstance<wxString,false>(v, 2);
         return sa.Return(self.Matches(other));
     }
+    SQInteger wxString_StartsWith(HSQUIRRELVM v)
+    {
+        StackHandler sa(v);
+        wxString& self = *SqPlus::GetInstance<wxString,false>(v, 1);
+        wxString& other = *SqPlus::GetInstance<wxString,false>(v, 2);
+        return sa.Return(self.StartsWith(other));
+    }
+    SQInteger wxString_EndsWith(HSQUIRRELVM v)
+    {
+        StackHandler sa(v);
+        wxString& self = *SqPlus::GetInstance<wxString,false>(v, 1);
+        wxString& other = *SqPlus::GetInstance<wxString,false>(v, 2);
+        return sa.Return(self.EndsWith(other));
+    }
     SQInteger wxString_AfterFirst(HSQUIRRELVM v)
     {
         StackHandler sa(v);
@@ -222,6 +236,14 @@ namespace ScriptBindings
         }
         return SqPlus::ReturnCopy( v, self.BeforeLast( static_cast<wxChar>( search_char ) ) );
     }
+    SQInteger wxString_Add(HSQUIRRELVM v)
+    {
+        StackHandler sa(v);
+        wxString& self = *SqPlus::GetInstance<wxString,false>(v, 1);
+        wxString& toAdd = *SqPlus::GetInstance<wxString,false>(v, 2);
+        self = self + toAdd;
+        return self.Length();
+    }
     SQInteger wxString_Replace(HSQUIRRELVM v)
     {
         StackHandler sa(v);
@@ -233,6 +255,89 @@ namespace ScriptBindings
             all = sa.GetBool(4);
         return sa.Return((SQInteger)self.Replace(from, to, all));
     }
+
+    SQInteger wxString_Format(HSQUIRRELVM v)
+    {
+        StackHandler sa(v);
+        wxString result;
+
+        wxString& self = *SqPlus::GetInstance<wxString,false>(v, 1);
+        wxString format = *SqPlus::GetInstance<wxString,false>(v, 2);
+
+        if (sa.GetParamCount() > 2)
+        {
+            switch(sa.GetType(3)){
+                case OT_INTEGER :
+                    {
+                        SQInteger value = sa.GetInt(3);
+                        result= self.Format(format, value);
+                    }
+                    break;
+                case OT_INSTANCE  :
+                    {
+                       wxString value = *SqPlus::GetInstance<wxString,false>(v, 3);
+                       result= self.Format(format, value.wx_str());
+                    }
+                    break;
+                case OT_FLOAT :
+                    {
+                        SQFloat value = sa.GetFloat(3);
+                        result= self.Format(format, value);
+                    }
+                    break;
+                case OT_BOOL :
+                    {
+                        SQBool value = sa.GetBool(3);
+                        result= self.Format(format, value);
+                    }
+                    break;
+                case OT_STRING :
+                    {
+                        const SQChar *value = sa.GetString(3);
+                        result= self.Format(format, value);
+                    }
+                    break;
+                case OT_USERPOINTER :
+                    {
+                        SQUserPointer value = sa.GetUserPointer(3);
+                        result= self.Format(format, value);
+                    }
+                    break;
+                case OT_NULL :
+                case OT_TABLE :
+                case OT_ARRAY :
+                case OT_USERDATA :
+                case OT_CLOSURE :
+                case OT_NATIVECLOSURE :
+                case OT_GENERATOR :
+                case OT_THREAD    :
+                case OT_FUNCPROTO :
+                case OT_CLASS     :
+                case OT_WEAKREF   :
+                    {
+                        result= self.Format(format);
+                    }
+                    break;
+            }
+        }
+
+        return SqPlus::ReturnCopy( v, result);
+    }
+
+    //Special EmBlocks function to transfer a wxString number (hex or decimal) into real integer.
+    SQInteger wxString_to_number(HSQUIRRELVM v)
+    {
+        StackHandler sa(v);
+        wxString& self = *SqPlus::GetInstance<wxString,false>(v, 1);
+        SQInteger val = 0;
+        if(self.MakeLower().Contains(_T("x")))
+            sscanf(self.mb_str(),"%x",(unsigned int*)&val);
+        else
+            sscanf(self.mb_str(),"%d",(int*)&val);
+        return sa.Return(val);
+    }
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -308,7 +413,7 @@ namespace ScriptBindings
                 func(&wxFileName::IsRelative, "IsRelative").
                 func(&wxFileName::IsDir, "IsDir").
                 func(&wxFileName::MakeAbsolute, "MakeAbsolute").
-                func(&wxFileName::MakeRelativeTo, "MakeRelativeTo").
+                func(&wxFileName::MakeRelativeTo, "MakeRelativeSQIntegerTo").
                 func(&wxFileName::Normalize, "Normalize").
                 func(&wxFileName::PrependDir, "PrependDir").
                 func(&wxFileName::RemoveDir, "RemoveDir").
@@ -361,6 +466,8 @@ namespace ScriptBindings
                 staticFuncVarArgs(&wxString_OpToString, "_tostring", "").
                 func<WXSTR_FIRST_STR>(&wxString::First, "Find").
                 staticFuncVarArgs(&wxString_Matches, "Matches", "*").
+                staticFuncVarArgs(&wxString_StartsWith, "StartsWith", "*").
+                staticFuncVarArgs(&wxString_EndsWith, "EndsWith", "*").
                 staticFuncVarArgs(&wxString_AddChar, "AddChar", "n").
                 staticFuncVarArgs(&wxString_GetChar, "GetChar", "n").
                 func(&wxString::IsEmpty, "IsEmpty").
@@ -373,6 +480,7 @@ namespace ScriptBindings
                 func(&wxString::MakeLower, "MakeLower").
                 func(&wxString::Upper, "Upper").
                 func(&wxString::UpperCase, "UpperCase").
+                staticFuncVarArgs(&wxString_Format, "Format", "*").
                 func(&wxString::MakeUpper, "MakeUpper").
                 func(&wxString::Mid, "Mid").
                 func<WXSTR_REMOVE_2>(&wxString::Remove, "Remove").
@@ -382,6 +490,9 @@ namespace ScriptBindings
                 staticFuncVarArgs(&wxString_AfterFirst, "AfterFirst", "*").
                 staticFuncVarArgs(&wxString_AfterLast, "AfterLast", "*").
                 staticFuncVarArgs(&wxString_BeforeFirst, "BeforeFirst", "*").
-                staticFuncVarArgs(&wxString_BeforeLast, "BeforeLast", "*");
+                staticFuncVarArgs(&wxString_BeforeLast, "BeforeLast", "*").
+                staticFuncVarArgs(&wxString_Add, "Add", "*").
+                staticFuncVarArgs(&wxString_to_number, "Number", "*");
     }
 };
+

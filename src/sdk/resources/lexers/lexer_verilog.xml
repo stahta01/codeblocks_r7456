@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_lexer_properties>
-<CodeBlocks_lexer_properties>
+<!DOCTYPE EmBlocks_lexer_properties>
+<EmBlocks_lexer_properties>
   <Lexer name="Verilog"
          index="56"
          filemasks="*.v,*.verilog">
@@ -125,4 +125,4 @@
         LexerStringStyles="6,12"
         LexerPreprocessorStyles="9"/>
   </Lexer>
-</CodeBlocks_lexer_properties>
+</EmBlocks_lexer_properties>

@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef CBPROJECT_H
 #define CBPROJECT_H
@@ -46,7 +68,7 @@ class DLLIMPORT FileTreeData : public MiscTreeItemData
             ftdkVirtualFolder
         };
 
-        FileTreeData(cbProject* project, FileTreeDataKind kind = ftdkUndefined)
+        FileTreeData(cbProject* project = NULL, FileTreeDataKind kind = ftdkUndefined)
             : m_Index(-1),
             m_Project(project),
             m_file(0),
@@ -85,7 +107,7 @@ enum PCHMode
     pchSourceFile,      /// In a file alongside the source header (with .gch appended).
 };
 
-/** @brief Represents a Code::Blocks project.
+/** @brief Represents a Em::Blocks project.
   *
   * A project is a collection of build targets and files.
   * Each project can contain any number of build targets and files.
@@ -95,7 +117,7 @@ class DLLIMPORT cbProject : public CompileTargetBase
 {
      public:
         /// Constructor
-        cbProject(const wxString& filename = wxEmptyString);
+        cbProject(const wxString& filename = wxEmptyString, cbProject** activeProjectPointer = NULL);
         /// Destructor
         ~cbProject();
 
@@ -175,6 +197,18 @@ class DLLIMPORT cbProject : public CompileTargetBase
           */
         wxString GetMakefileExecutionDir();
 
+        /** The external make tool which should be used for making the external
+          * makefile.
+          * @param tool The external make tool for the custom Makefile
+          */
+        void SetMakeTool(const wxString& tool);
+
+
+        /** @return The external make tool for the custom Makefile.
+          * Defaults to the projects base path, if no custom makefile is used.
+          */
+        wxString GetMakeTool();
+
         /** @return Either the execution directory for the custom Makefile or
           * the projects base path.
           * Defaults to the projects base path, if no custom makefile is used.
@@ -192,16 +226,6 @@ class DLLIMPORT cbProject : public CompileTargetBase
         /** @return The first valid (virtual or real) build target. */
         wxString GetFirstValidBuildTargetName(bool virtuals_too = true) const;
 
-        /** @return The build target index which will be pre-selected when the "Select target"
-          * dialog appears when running the project. Valid only for multi-target projects. */
-        const wxString& GetDefaultExecuteTarget() const;
-
-        /** Set the build target index which will be pre-selected when the "Select target"
-          * dialog appears when running the project.
-          * @param name The build target's name.
-          */
-        void SetDefaultExecuteTarget(const wxString& name);
-
         /** @return The number of build targets this project contains. */
         int GetBuildTargetsCount() { return m_Targets.GetCount(); }
 
@@ -216,6 +240,13 @@ class DLLIMPORT cbProject : public CompileTargetBase
           * @return The build target or NULL if not found.
           */
         ProjectBuildTarget* GetBuildTarget(const wxString& targetName);
+
+
+        /** Test if a build target belongs to the project.
+          * @param pTarget The pointer of the build target to test.
+          * @return bool True if the target is valid.
+          */
+        bool IsValidBuildTarget(ProjectBuildTarget* pTarget);
 
         /** Add a new build target.
           * @param targetName The build target name.
@@ -456,17 +487,6 @@ class DLLIMPORT cbProject : public CompileTargetBase
           */
         void RestoreTreeState(wxTreeCtrl* tree);
 
-        /** Displays a target selection dialog.
-          * When invoked, a selection dialog is presented to the user so that he/she
-          * can select one target from the list of this project's targets.
-          * @param initial The index of the pre-selected target when the dialog is displayed.
-          * Defaults to none (-1).
-          * @param evenIfOne If true, the dialog is still shown even if the project contains only one target.
-          * The default behaviour is to not show the dialog if the project has only one target.
-          * @return The target's index that the user selected or -1 if the dialog was cancelled.
-          */
-        int SelectTarget(int initial = -1, bool evenIfOne = false);
-
         /** Rename the project's title in the tree.
           * @param newname The new title for the project.
           * @note This does *not* actually alter the project's title. It just changes it on the tree.
@@ -562,7 +582,7 @@ class DLLIMPORT cbProject : public CompileTargetBase
           * @note Called by ProjectManager.
           * @return True if succeeded, false if not.
           */
-        bool NodeDragged(wxTreeCtrl* tree, wxTreeItemId from, wxTreeItemId to);
+        bool NodeDragged(wxTreeCtrl* tree, wxArrayTreeItemIds& fromArray, wxTreeItemId to);
 
         /** Notify that a virtual folder has been added.
           * @return True if it is allowed, false if not. */
@@ -601,11 +621,24 @@ class DLLIMPORT cbProject : public CompileTargetBase
           */
         void SetExtendedObjectNamesGeneration(bool ext);
 
+
+        /** Sets object name case forcing mode
+          *
+          * @param dontForce lower case
+          */
+        void SetForceLowerCaseObject(bool dontForce);
+
         /** Gets object names generation mode (extended/normal).
           * @return True for extended mode, false for normal mode.
           * @see SetExtendedObjectNamesGeneration.
           */
         bool GetExtendedObjectNamesGeneration() const;
+
+        /** Gets object name case forcing mode .
+          * @return True keep original, false translate to lower case.
+          * @see SetForceLowerCaseObject.
+          */
+        bool GetForceLowerCaseObject() const;
 
         /** Set notes on the project.
           *
@@ -700,8 +733,8 @@ class DLLIMPORT cbProject : public CompileTargetBase
         BuildTargets m_Targets;
         wxString m_ActiveTarget;
         wxString  m_LastSavedActiveTarget;
-        wxString m_DefaultExecuteTarget;
         wxString m_Makefile;
+        wxString m_MakeTool;
         bool m_CustomMakefile;
         mutable wxString m_MakefileExecutionDir;
 
@@ -726,6 +759,7 @@ class DLLIMPORT cbProject : public CompileTargetBase
         wxDateTime m_LastModified;
 
         bool m_ExtendedObjectNamesGeneration;
+        bool m_ForceLowerCaseObject;
         wxString m_Notes;
         bool m_AutoShowNotesOnLoad;
 
@@ -735,5 +769,4 @@ class DLLIMPORT cbProject : public CompileTargetBase
 };
 
 #endif // CBPROJECT_H
-
 

@@ -1,17 +1,35 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
 #ifndef CB_PRECOMP
     #include <wx/xrc/xmlres.h>
-    #include <wx/fs_zip.h>
+   // #include <wx/fs_zip.h>
     #include <wx/menu.h>
 
     #include "manager.h" // class's header file
@@ -30,12 +48,12 @@
     #include "uservarmanager.h"
     #include "filemanager.h"
     #include "globals.h"
-    #include "xtra_res.h" // our new ToolBarAddOn handler
 #endif
 
 #include <wx/app.h>    // wxTheApp
 #include <wx/toolbar.h>
 #include <wx/fs_mem.h>
+#include "../src/main.h"
 
 static Manager* instance = 0;
 
@@ -48,7 +66,7 @@ Manager::~Manager()
     // remove all event sinks
     for (EventSinksMap::iterator mit = m_EventSinks.begin(); mit != m_EventSinks.end(); ++mit)
     {
-        EventSinksArray::iterator it = mit->second.begin();
+        mit->second.begin();
         while (mit->second.size())
         {
             delete (*(mit->second.begin()));
@@ -58,7 +76,7 @@ Manager::~Manager()
 
     for (DockEventSinksMap::iterator mit = m_DockEventSinks.begin(); mit != m_DockEventSinks.end(); ++mit)
     {
-        DockEventSinksArray::iterator it = mit->second.begin();
+        mit->second.begin();
         while (mit->second.size())
         {
             delete (*(mit->second.begin()));
@@ -68,7 +86,7 @@ Manager::~Manager()
 
     for (LayoutEventSinksMap::iterator mit = m_LayoutEventSinks.begin(); mit != m_LayoutEventSinks.end(); ++mit)
     {
-        LayoutEventSinksArray::iterator it = mit->second.begin();
+        mit->second.begin();
         while (mit->second.size())
         {
             delete (*(mit->second.begin()));
@@ -78,7 +96,7 @@ Manager::~Manager()
 
     for (LogEventSinksMap::iterator mit = m_LogEventSinks.begin(); mit != m_LogEventSinks.end(); ++mit)
     {
-        LogEventSinksArray::iterator it = mit->second.begin();
+        mit->second.begin();
         while (mit->second.size())
         {
             delete (*(mit->second.begin()));
@@ -102,8 +120,10 @@ Manager* Manager::Get(wxFrame *appWindow)
         else
         {
             Get()->m_pAppWindow = appWindow;
-            LoadResource(_T("manager_resources.zip"));
-            Get()->GetLogManager()->Log(_("Manager initialized"));
+            if (!LoadResource(_T("manager_resources.zip")))
+                NotifyMissingFile(_T("manager_resources.zip"));
+            else
+                Get()->GetLogManager()->Log(_("Manager initialized"));
         }
     }
     return Get();
@@ -228,10 +248,8 @@ void Manager::Initxrc(bool force)
     static bool xrcok = false;
     if (!xrcok || force)
     {
-        wxFileSystem::AddHandler(new wxZipFSHandler);
-        wxXmlResource::Get()->InsertHandler(new wxToolBarAddOnXmlHandler);
+        //    wxFileSystem::AddHandler(new wxZipFSHandler); // The application is responsible to have the ZIP handler installed
         wxXmlResource::Get()->InitAllHandlers();
-
         xrcok=true;
     }
 }
@@ -254,43 +272,33 @@ wxMenu *Manager::LoadMenu(wxString menu_id,bool createonfailure)
     if (!m && createonfailure) m = new wxMenu(_T(""));
     return m;
 }
-
-wxToolBar *Manager::LoadToolBar(wxFrame *parent,wxString resid,bool defaultsmall)
+void Manager::AuiToolBar(wxAuiToolBar* toolBar, wxString resid)
 {
-    if (!parent)
-        return 0L;
-    wxToolBar *tb = wxXmlResource::Get()->LoadToolBar(parent,resid);
-    if (!tb)
-    {
-        int flags = wxTB_HORIZONTAL;
-
-        if (platform::WindowsVersion() < platform::winver_WindowsXP)
-            flags |= wxTB_FLAT;
-
-        tb = parent->CreateToolBar(flags, wxID_ANY);
-        tb->SetToolBitmapSize(defaultsmall ? wxSize(16, 16) : wxSize(22, 22));
-    }
-
-    return tb;
-}
-
-void Manager::AddonToolBar(wxToolBar* toolBar,wxString resid)
-{
-    if (!toolBar)
+   if (!toolBar)
         return;
-    wxXmlResource::Get()->LoadObject(toolBar,NULL,resid,_T("wxToolBarAddOn"));
-}
 
-bool Manager::isToolBar16x16(wxToolBar* toolBar)
-{
-    if (!toolBar) return true; // Small by default
-    wxSize mysize=toolBar->GetToolBitmapSize();
-    return (mysize.GetWidth()<=16 && mysize.GetHeight()<=16);
+    wxXmlResource::Get()->LoadObject(toolBar,NULL,resid,_T("wxToolBarAddOn"));
 }
 
 wxFrame* Manager::GetAppFrame() const
 {
     return m_pAppWindow;
+}
+
+const wxBitmap& Manager::GetMenuBitmap(int menuId) const
+{
+    if(m_pAppWindow)
+    {
+        wxMenuBar *pBar = m_pAppWindow->GetMenuBar();
+
+        if(pBar)
+        {
+            wxMenuItem* pMenu = pBar->FindItem(menuId);
+            if(pMenu)
+                return pMenu->GetBitmap();
+        }
+    }
+    return wxNullBitmap;
 }
 
 wxWindow* Manager::GetAppWindow() const
@@ -351,6 +359,20 @@ ConfigManager* Manager::GetConfigManager(const wxString& name_space) const
 FileManager* Manager::GetFileManager() const
 {
     return FileManager::Get();
+}
+
+wxColor Manager::GetLayoutColor(int id) const
+{
+    wxColor ret;
+    wxAuiDockArt* pDart = GetDockArtProvider();
+    if(pDart)
+        ret = pDart->GetColor(id);
+    return ret;
+}
+
+wxAuiDockArt* Manager::GetDockArtProvider() const
+{
+    return ((MainFrame*)m_pAppWindow)->GetLayoutManager()->GetArtProvider();
 }
 
 bool Manager::LoadResource(const wxString& file)

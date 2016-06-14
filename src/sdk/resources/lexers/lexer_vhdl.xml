@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_lexer_properties>
-<CodeBlocks_lexer_properties>
+<!DOCTYPE EmBlocks_lexer_properties>
+<EmBlocks_lexer_properties>
   <Lexer name="VHDL"
          index="64"
          filemasks="*.vhd,*.vhdl">
@@ -133,4 +133,4 @@
         LexerStringStyles="4,7"
         LexerPreprocessorStyles=""/>
   </Lexer>
-</CodeBlocks_lexer_properties>
+</EmBlocks_lexer_properties>

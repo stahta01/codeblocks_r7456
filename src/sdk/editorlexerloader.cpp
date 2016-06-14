@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -50,16 +68,11 @@ void EditorLexerLoader::Load(LoaderBase* loader)
     TiXmlElement* root;
     TiXmlElement* lexer;
 
-    root = doc.FirstChildElement("CodeBlocks_lexer_properties");
+    root = doc.FirstChildElement("EmBlocks_lexer_properties");
     if (!root)
     {
-        // old tag
-        root = doc.FirstChildElement("Code::Blocks_lexer_properties");
-        if (!root)
-        {
-            Manager::Get()->GetLogManager()->Log(_("Not a valid Code::Blocks lexer file..."));
-            return;
-        }
+        Manager::Get()->GetLogManager()->Log(_("Not a valid Em::Blocks lexer file..."));
+        return;
     }
     lexer = root->FirstChildElement("Lexer");
     if (!lexer)
@@ -82,10 +95,19 @@ void EditorLexerLoader::DoLexer(TiXmlElement* node)
     wxString name = wxString( node->Attribute("name"), wxConvUTF8 );
     int lexer = atol(node->Attribute("index"));
     wxString masks = wxString ( node->Attribute("filemasks"), wxConvUTF8 );
+    wxString showStr = wxString ( node->Attribute("show"), wxConvUTF8 );
+    wxString internalStr = wxString ( node->Attribute("internal"), wxConvUTF8 );
+
+    if(showStr.IsEmpty())
+        showStr = _T("false");
+
     HighlightLanguage style = m_pTarget->AddHighlightLanguage(lexer, name);
     if (style == HL_NONE)
         return; // wasn't added
-    m_pTarget->SetFileMasks(style, masks);
+
+    m_pTarget->SetFileMasks(style, masks, showStr);
+    m_pTarget->SetInternalMark(style,  ( internalStr == _T("true")) );
+
 //    LOGSTREAM << "Found lexer: " << name << " (" << style << ")\n";
 
     DoStyles(style, node);

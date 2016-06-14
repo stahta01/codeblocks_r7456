@@ -55,11 +55,11 @@ function myfunc()
       <!-- end #content -->
       <div id="footer">
         <p>
-          &copy; 2006 Code::Blocks.
+          &copy; 2006 Em::Blocks.
         </p>
       </div>
       <!-- end #footer -->
       <bad />
     </div>
   </body>
-</html>
+</html>

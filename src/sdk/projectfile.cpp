@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -164,17 +182,7 @@ void ProjectFile::SetObjName(const wxString& name)
     wxFileName fname(name);
     m_ObjName = name;
     FileType ft = FileTypeOf(name);
-    if (ft == ftResource || ft == ftResourceBin)
-    {
-        if (extendedObjectNames)
-            m_ObjName += FileFilters::RESOURCEBIN_DOT_EXT;
-        else
-        {
-            fname.SetExt(FileFilters::RESOURCEBIN_EXT);
-            m_ObjName = fname.GetFullPath();
-        }
-    }
-    else if (ft == ftHeader) // support precompiled headers?
+    if (ft == ftHeader) // support precompiled headers?
     {
         Compiler* compiler = CompilerFactory::GetCompiler(project->GetCompilerID());
         if (compiler && compiler->GetSwitches().supportsPCH)
@@ -276,6 +284,55 @@ const pfDetails& ProjectFile::GetFileDetails(ProjectBuildTarget* target)
     return *pfd;
 }
 
+
+void ProjectFile::SetCompilerStrOptions(ProjectBuildTarget* target, const wxArrayString& compilerOpts)
+{
+    fileBuildOptionsMap::iterator it = m_buildOptions.find(target);
+    if (it == m_buildOptions.end())
+    {
+        // create an empty set for this project
+        it = m_buildOptions.insert(m_buildOptions.begin(), std::make_pair(target, wxArrayString()));
+    }
+    it->second = compilerOpts;
+}
+
+
+const wxArrayString& ProjectFile::GetCompilerStrOptions(ProjectBuildTarget* target)
+{
+    fileBuildOptionsMap::iterator it = m_buildOptions.find(target);
+    if (it == m_buildOptions.end())
+    {
+        // create an empty set for this project
+        it = m_buildOptions.insert(m_buildOptions.begin(), std::make_pair(target, wxArrayString()));
+    }
+    return it->second;
+}
+
+
+void ProjectFile::SetOptionRelation(ProjectBuildTarget* target, OptionsRelation rel)
+{
+
+    fileRelationOptionMap::iterator it = m_relationOption.find(target);
+    if (it == m_relationOption.end())
+    {
+        // create an empty set for this project
+        it = m_relationOption.insert(m_relationOption.begin(), std::make_pair(target, rel));
+    }
+    else
+        it->second = rel;
+}
+
+OptionsRelation ProjectFile::GetOptionRelation(ProjectBuildTarget* target)
+{
+    fileRelationOptionMap::iterator it = m_relationOption.find(target);
+    if (it == m_relationOption.end())
+    {
+        // create an empty set for this project
+        it = m_relationOption.insert(m_relationOption.begin(), std::make_pair(target, orUseParentOptionsOnly));
+    }
+    return it->second;
+}
+
 FileVisualState ProjectFile::GetFileState() const
 {
     return m_VisualState;
@@ -329,6 +386,9 @@ void pfDetails::Update(ProjectBuildTarget* target, ProjectFile* pf)
     wxString sep = wxFILE_SEP_PATH;
     wxFileName tmp;
 
+    if(!target)
+        return;
+
     wxFileName prjbase(target->GetParentProject()->GetBasePath());
 
     wxString objOut = target ? target->GetObjectOutput() : _T(".");
@@ -345,12 +405,10 @@ void pfDetails::Update(ProjectBuildTarget* target, ProjectFile* pf)
     tmp = pf->GetObjName();
     FileType ft = FileTypeOf(pf->relativeFilename);
 
-    Compiler* compiler = target
-                            ? CompilerFactory::GetCompiler(target->GetCompilerID())
-                            : CompilerFactory::GetDefaultCompiler();
+    Compiler* compiler = CompilerFactory::GetCompiler(target->GetCompilerID());
 
     // support for precompiled headers
-    if (target && ft == ftHeader && compiler && compiler->GetSwitches().supportsPCH)
+    if ( ft == ftHeader && compiler && compiler->GetSwitches().supportsPCH)
     {
         switch (target->GetParentProject()->GetModeForPCH())
         {
@@ -424,30 +482,9 @@ void pfDetails::Update(ProjectBuildTarget* target, ProjectFile* pf)
                 diffVolume = true;
             }
 
-            if (ft == ftResource || ft == ftResourceBin)
-            {
-                if (pf->GetParentProject()->GetExtendedObjectNamesGeneration())
-                {
-                    object_file_native = objOut + sep + obj_file_full_path;
-                    object_file_flat_native = objOut + sep + fname.GetFullName();
 
-                    object_file_native += FileFilters::RESOURCEBIN_DOT_EXT;
-                    object_file_flat_native += FileFilters::RESOURCEBIN_DOT_EXT;
-                }
-                else
-                {
-                    fname.SetExt(FileFilters::RESOURCEBIN_EXT);
-                    wxString obj_file_path = fname.GetFullPath();
-                    if (diffVolume)
-                        obj_file_path = obj_file_path.AfterFirst(_T('\\'));
-                    object_file_native = objOut + sep + obj_file_path;
-                    object_file_flat_native = objOut + sep + fname.GetFullName();
-                }
-            }
-            else
+            if (pf->GetParentProject()->GetExtendedObjectNamesGeneration())
             {
-                if (pf->GetParentProject()->GetExtendedObjectNamesGeneration())
-                {
                     object_file_native = objOut + sep + obj_file_full_path;
                     object_file_flat_native = objOut + sep + fname.GetFullName();
 
@@ -456,9 +493,9 @@ void pfDetails::Update(ProjectBuildTarget* target, ProjectFile* pf)
                         object_file_native += _T('.') + compiler->GetSwitches().objectExtension;
                         object_file_flat_native += _T('.') + compiler->GetSwitches().objectExtension;
                     }
-                }
-                else
-                {
+             }
+             else
+             {
                     if (compiler)
                         fname.SetExt(compiler->GetSwitches().objectExtension);
                     wxString obj_file_path = fname.GetFullPath();
@@ -466,8 +503,7 @@ void pfDetails::Update(ProjectBuildTarget* target, ProjectFile* pf)
                         obj_file_path = obj_file_path.AfterFirst(_T('\\'));
                     object_file_native = objOut + sep + obj_file_path;
                     object_file_flat_native = objOut + sep + fname.GetFullName();
-                }
-            }
+             }
         }
     }
     wxFileName o_file(object_file_native);

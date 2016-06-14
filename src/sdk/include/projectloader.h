@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef PROJECTLOADER_H
 #define PROJECTLOADER_H
@@ -9,8 +31,6 @@
 #include <wx/hashmap.h>
 #include "ibaseloader.h"
 
-#define PROJECT_FILE_VERSION_MAJOR 1
-#define PROJECT_FILE_VERSION_MINOR 6
 
 class cbProject;
 class ProjectBuildTarget;
@@ -18,7 +38,7 @@ class ProjectFile;
 
 WX_DECLARE_STRING_HASH_MAP(wxString, CompilerSubstitutes);
 
-/** Code::Blocks project file loader. */
+/** Em::Blocks project file loader. */
 class DLLIMPORT ProjectLoader : public IBaseLoader
 {
     public:
@@ -70,8 +90,9 @@ class DLLIMPORT ProjectLoader : public IBaseLoader
         bool FileModified(){ return m_OpenDirty; }
     protected:
         void DoProjectOptions(TiXmlElement* parentNode);
+        void DoDeviceOptions(TiXmlElement* parentNode, ProjectBuildTarget* target = 0L);
         void DoCompilerOptions(TiXmlElement* parentNode, ProjectBuildTarget* target = 0L);
-        void DoResourceCompilerOptions(TiXmlElement* parentNode, ProjectBuildTarget* target = 0L);
+        void DoAssemblerOptions(TiXmlElement* parentNode, ProjectBuildTarget* target = 0L);
         void DoLinkerOptions(TiXmlElement* parentNode, ProjectBuildTarget* target = 0L);
         void DoIncludesOptions(TiXmlElement* parentNode, ProjectBuildTarget* target = 0L);
         void DoLibsOptions(TiXmlElement* parentNode, ProjectBuildTarget* target = 0L);
@@ -88,9 +109,6 @@ class DLLIMPORT ProjectLoader : public IBaseLoader
         void DoUnits(TiXmlElement* parentNode);
         void DoUnitOptions(TiXmlElement* parentNode, ProjectFile* file);
     private:
-        void ConvertVersion_Pre_1_1();
-        void ConvertLibraries(CompileTargetBase* object);
-
         // convenience functions, used in Save()
         TiXmlElement* AddElement(TiXmlElement* parent, const char* name, const char* attr = 0, const wxString& attribute = wxEmptyString);
         TiXmlElement* AddElement(TiXmlElement* parent, const char* name, const char* attr, int attribute);
@@ -106,11 +124,7 @@ class DLLIMPORT ProjectLoader : public IBaseLoader
         cbProject* m_pProject;
         bool m_Upgraded;
         bool m_OpenDirty; // set this to true if the project is loaded but modified (like the case when setting another compiler, if invalid)
-        bool m_IsPre_1_2;
-        int m_1_4_to_1_5_deftarget;
-        bool m_IsPre_1_6;
         CompilerSubstitutes m_CompilerSubstitutes;
 };
 
 #endif // PROJECTLOADER_H
-

@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -56,16 +74,11 @@ bool ProjectLayoutLoader::Open(const wxString& filename)
     wxString fname;
     ProjectFile* pf;
 
-    root = doc.FirstChildElement("CodeBlocks_layout_file");
+    root = doc.FirstChildElement("EmBlocks_layout_file");
     if (!root)
     {
-        // old tag
-        root = doc.FirstChildElement("Code::Blocks_layout_file");
-        if (!root)
-        {
-            pMsg->DebugLog(_T("Not a valid Code::Blocks layout file..."));
+            pMsg->DebugLog(_T("Not a valid Em::Blocks layout file..."));
             return false;
-        }
     }
 
     elem = root->FirstChildElement("ActiveTarget");
@@ -127,23 +140,40 @@ bool ProjectLayoutLoader::Open(const wxString& filename)
             if (elem->QueryIntAttribute("zoom_2", &getInt) == TIXML_SUCCESS)
                 pf->editorZoom_2 = getInt;
 
-            TiXmlElement* cursor = elem->FirstChildElement();
+            TiXmlElement* cursor = elem->FirstChildElement("Cursor");
             if (cursor)
             {
-                if (cursor->QueryIntAttribute("position", &getInt) == TIXML_SUCCESS)
-                    pf->editorPos = getInt;
-                if (cursor->QueryIntAttribute("topLine", &getInt) == TIXML_SUCCESS)
-                    pf->editorTopLine = getInt;
-                if (pf->editorSplit != cbEditor::stNoSplit)
+                cursor = cursor->FirstChildElement();
+                if (cursor)
                 {
-                    cursor = cursor->NextSiblingElement();
-                    if (cursor)
+                    if (cursor->QueryIntAttribute("position", &getInt) == TIXML_SUCCESS)
+                        pf->editorPos = getInt;
+                    if (cursor->QueryIntAttribute("topLine", &getInt) == TIXML_SUCCESS)
+                        pf->editorTopLine = getInt;
+                    if (pf->editorSplit != cbEditor::stNoSplit)
                     {
-                        if (cursor->QueryIntAttribute("position", &getInt) == TIXML_SUCCESS)
-                            pf->editorPos_2 = getInt;
-                        if (cursor->QueryIntAttribute("topLine", &getInt) == TIXML_SUCCESS)
-                            pf->editorTopLine_2 = getInt;
+                        cursor = cursor->NextSiblingElement();
+                        if (cursor)
+                        {
+                            if (cursor->QueryIntAttribute("position", &getInt) == TIXML_SUCCESS)
+                                pf->editorPos_2 = getInt;
+                            if (cursor->QueryIntAttribute("topLine", &getInt) == TIXML_SUCCESS)
+                                pf->editorTopLine_2 = getInt;
+                        }
                     }
+                }
+            }
+
+            TiXmlElement* folding = elem->FirstChildElement("Folding");
+            if (folding)
+            {
+                folding = folding->FirstChildElement();
+                while (folding)
+                {
+                    if (folding->QueryIntAttribute("line", &getInt) == TIXML_SUCCESS)
+                        pf->editorFoldLinesArray.Add(getInt);
+
+                    folding = folding->NextSiblingElement();
                 }
             }
         }
@@ -156,7 +186,7 @@ bool ProjectLayoutLoader::Open(const wxString& filename)
 
 bool ProjectLayoutLoader::Save(const wxString& filename)
 {
-    const char* ROOT_TAG = "CodeBlocks_layout_file";
+    const char* ROOT_TAG = "EmBlocks_layout_file";
 
     TiXmlDocument doc;
     doc.SetCondenseWhiteSpace(false);
@@ -191,15 +221,27 @@ bool ProjectLayoutLoader::Save(const wxString& filename)
             node->SetAttribute("zoom_1", f->editorZoom);
             node->SetAttribute("zoom_2", f->editorZoom_2);
 
-            TiXmlElement* cursor_1 = static_cast<TiXmlElement*>(node->InsertEndChild(TiXmlElement("Cursor1")));
+
+            TiXmlElement* cursor = static_cast<TiXmlElement*>(node->InsertEndChild(TiXmlElement("Cursor")));
+            TiXmlElement* cursor_1 = static_cast<TiXmlElement*>(cursor->InsertEndChild(TiXmlElement("Cursor1")));
             cursor_1->SetAttribute("position", f->editorPos);
             cursor_1->SetAttribute("topLine", f->editorTopLine);
 
             if(f->editorSplit != cbEditor::stNoSplit)
             {
-                TiXmlElement* cursor_2 = static_cast<TiXmlElement*>(node->InsertEndChild(TiXmlElement("Cursor2")));
+                 TiXmlElement* cursor_2 = static_cast<TiXmlElement*>(cursor->InsertEndChild(TiXmlElement("Cursor2")));
                 cursor_2->SetAttribute("position", f->editorPos_2);
                 cursor_2->SetAttribute("topLine", f->editorTopLine_2);
+            }
+
+            if (f->editorFoldLinesArray.GetCount() > 0)
+            {
+                TiXmlElement* folding = static_cast<TiXmlElement*>(node->InsertEndChild(TiXmlElement("Folding")));
+                for (unsigned int i = 0; i < f->editorFoldLinesArray.GetCount(); i++)
+                {
+                    TiXmlElement* line = static_cast<TiXmlElement*>(folding->InsertEndChild(TiXmlElement("Collapse")));
+                    line->SetAttribute("line", f->editorFoldLinesArray[i]);
+                }
             }
         }
     }

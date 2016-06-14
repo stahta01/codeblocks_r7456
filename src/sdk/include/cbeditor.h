@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef CBEDITOR_H
 #define CBEDITOR_H
@@ -14,6 +36,7 @@
 #include "settings.h"
 #include "editorbase.h"
 #include "printing_types.h"
+
 
 extern const wxString g_EditorModified;
 
@@ -31,8 +54,8 @@ class wxBoxSizer;
 
 /** @brief A file editor
   *
-  * This class represents one builtin editor in Code::Blocks. It holds all the necessary
-  * information about an editor. When you want to access a Code::Blocks editor,
+  * This class represents one builtin editor in Em::Blocks. It holds all the necessary
+  * information about an editor. When you want to access a Em::Blocks editor,
   * this is the class you want to get at ;)\n
   *
   * To do this, use Manager::Get()->GetEditorManager() functions.
@@ -197,9 +220,6 @@ class DLLIMPORT cbEditor : public EditorBase
           */
         void Print(bool selectionOnly, PrintColourMode pcm, bool line_numbers);
 
-        /** This method is obsolete, use the abbreviations plugin instead. */
-        void AutoComplete();
-
         /** Move the caret at the specified line.
           * @param line Line to move caret to.
           * @param centerOnScreen If true (default), tries to bring the specified line to the centre of the editor.*/
@@ -235,11 +255,14 @@ class DLLIMPORT cbEditor : public EditorBase
         /** Go to previous bookmark. */
         void GotoPreviousBookmark();
 
+        /** Clear all bookmarks. */
+        void ClearBookmarks();
+
         /** Highlight the line the debugger will execute next. */
-        void SetDebugLine(int line);
+        void SetDebugLine(int line, bool highlightLine =false);
 
         /** Highlight the specified line as error. */
-        void SetErrorLine(int line);
+        void SetErrorLine(int line, bool highlightLine =false);
 
         /** Split the editor window.
           * @param split The type of split: horizontal or vertical. */
@@ -247,6 +270,9 @@ class DLLIMPORT cbEditor : public EditorBase
 
         /** Unsplit the editor window. */
         void Unsplit();
+
+        /** Save editor contents. Returns true on success, false otherwise. */
+        void Restyle(bool force = false);
 
         // the following functions, although self-explanatory, are documented
         // in EditorBase.
@@ -311,11 +337,14 @@ class DLLIMPORT cbEditor : public EditorBase
         void SetEditorStyleAfterFileOpen();
         static void InternalSetEditorStyleBeforeFileOpen(cbStyledTextCtrl* control);
         static void InternalSetEditorStyleAfterFileOpen(cbStyledTextCtrl* control);
+        static void lexerCallback(void* pObj, int opcode, void* pData);
         void DetectEncoding();
         bool Open(bool detectEncoding = true);
         void DoAskForCodeCompletion(); // relevant to code-completion plugins
         static wxColour GetOptionColour(const wxString& option, const wxColour _default);
         void NotifyPlugins(wxEventType type, int intArg = 0, const wxString& strArg = wxEmptyString, int xArg = 0, int yArg = 0);
+
+        static void SetLexerCallBack(cbStyledTextCtrl* control);
 
         // events
         void OnMarginClick(wxScintillaEvent& event);
@@ -349,6 +378,7 @@ class DLLIMPORT cbEditor : public EditorBase
         SplitType m_SplitType;
         int m_ID;
         bool m_Modified;
+        bool m_ActiveRestyle;
         int m_Index;
         wxTimer m_timerWait;
         ProjectFile* m_pProjectFile;

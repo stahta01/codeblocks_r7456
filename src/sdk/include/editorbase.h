@@ -2,6 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #ifndef EDITORBASE_H
 #define EDITORBASE_H
@@ -19,6 +41,9 @@ struct EditorBaseInternalData;
 
 WX_DECLARE_HASH_MAP(int, EditorBase*, wxIntegerHash, wxIntegerEqual, SwitchToMap);
 
+
+
+
 /** @brief Base class that all "editors" should inherit from.
   *
   * @note This class descends from wxPanel, so it provides all wxPanel methods
@@ -28,7 +53,7 @@ class DLLIMPORT EditorBase : public wxPanel
 {
     DECLARE_EVENT_TABLE()
     public:
-        EditorBase(wxWindow* parent, const wxString& filename);
+        EditorBase(wxWindow* parent, const wxString& filename, bool staticPage = false );
         virtual ~EditorBase();
 
         /** Don't use this. It throws an exception if you do. */
@@ -52,6 +77,17 @@ class DLLIMPORT EditorBase : public wxPanel
           * Synonym to GetTitle().
           */
         virtual const wxString& GetShortName() const { return m_Shortname; }
+
+
+        /** @brief Sets an alternative status text
+          * @param The text to set.
+          */
+        virtual void SetAltStatusText(const wxString& text){ m_AltStatusText = text; }
+
+        /** @brief Returns the alternative status text
+          *
+          */
+        virtual const wxString& GetAltStatusText(){ return m_AltStatusText; }
 
         /** @brief Is it modified?
           *
@@ -198,7 +234,7 @@ class DLLIMPORT EditorBase : public wxPanel
           * Highlight the line the debugger will execute next.
           * @param line The line in question.
           */
-        virtual void SetDebugLine(int /*line*/){}
+        virtual void SetDebugLine(int /*line*/, bool /*highlightLine */ = false){}
 
         /** @brief Mark line as error.
           *
@@ -279,6 +315,13 @@ class DLLIMPORT EditorBase : public wxPanel
           * @return True if a context menu is open, false if not.
           */
         virtual bool IsContextMenuOpened() const;
+
+        /** Is this a static page (without context menu)
+          *
+          * @return True if it's a static page
+          */
+        virtual bool IsStaticPage() { return m_StaticPage; }
+
     protected:
         /** Initializes filename data.
           * @param filename The editor's filename for initialization.
@@ -321,6 +364,7 @@ class DLLIMPORT EditorBase : public wxPanel
         wxString m_Shortname;
         wxString m_Filename;
         EditorBaseInternalData* m_pData; ///< Use this to add new vars/functions w/out breaking the ABI
+
     private:
         EditorBase(const EditorBase& /*rhs*/); // prevent copy construction
 
@@ -329,7 +373,9 @@ class DLLIMPORT EditorBase : public wxPanel
         void BasicAddToContextMenu(wxMenu* popup, ModuleType type); //pecan 2006/03/22
         SwitchToMap m_SwitchTo;
         wxString m_WinTitle;
+        wxString m_AltStatusText;
         wxString lastWord;
+        bool m_StaticPage;
 };
 
 #endif // EDITORBASE_H

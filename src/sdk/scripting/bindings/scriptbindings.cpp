@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: scriptbindings.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/sdk/scripting/bindings/scriptbindings.cpp $
  */
 
 #include <sdk_precomp.h>
@@ -388,6 +388,10 @@ namespace ScriptBindings
                 func(&ProjectFile::SetCustomBuildCommand, "SetCustomBuildCommand").
                 func(&ProjectFile::GetUseCustomBuildCommand, "GetUseCustomBuildCommand").
                 func(&ProjectFile::GetCustomBuildCommand, "GetCustomBuildCommand").
+                func(&ProjectFile::SetCompilerStrOptions, "SetCompilerStrOptions").
+                func(&ProjectFile::GetCompilerStrOptions, "GetCompilerStrOptions").
+                func(&ProjectFile::SetOptionRelation, "SetOptionRelation").
+                func(&ProjectFile::GetOptionRelation, "GetOptionRelation").
                 var(&ProjectFile::file, "file").
                 var(&ProjectFile::relativeFilename, "relativeFilename").
                 var(&ProjectFile::relativeToCommonTopLevelPath, "relativeToCommonTopLevelPath").
@@ -397,47 +401,49 @@ namespace ScriptBindings
                 var(&ProjectFile::compilerVar, "compilerVar");
 
         SqPlus::SQClassDef<CompileOptionsBase>("CompileOptionsBase").
-                func(&CompileOptionsBase::AddPlatform, "AddPlatform").
-                func(&CompileOptionsBase::RemovePlatform, "RemovePlatform").
-                func(&CompileOptionsBase::SetPlatforms, "SetPlatforms").
-                func(&CompileOptionsBase::GetPlatforms, "GetPlatforms").
                 func(&CompileOptionsBase::SupportsCurrentPlatform, "SupportsCurrentPlatform").
-                func(&CompileOptionsBase::SetLinkerOptions, "SetLinkerOptions").
+                func(&CompileOptionsBase::SetLinkerStrOptions, "SetLinkerStrOptions").
                 func(&CompileOptionsBase::SetLinkLibs, "SetLinkLibs").
-                func(&CompileOptionsBase::SetCompilerOptions, "SetCompilerOptions").
+                func(&CompileOptionsBase::SetDeviceStrOptions, "SetDeviceOptions").
+                func(&CompileOptionsBase::SetCompilerStrOptions, "SetCompilerOptions").
+                func(&CompileOptionsBase::SetAssemblerStrOptions, "SetAssemblerOptions").
                 func(&CompileOptionsBase::SetIncludeDirs, "SetIncludeDirs").
-                func(&CompileOptionsBase::SetResourceIncludeDirs, "SetResourceIncludeDirs").
                 func(&CompileOptionsBase::SetLibDirs, "SetLibDirs").
                 func(&CompileOptionsBase::SetCommandsBeforeBuild, "SetCommandsBeforeBuild").
                 func(&CompileOptionsBase::SetCommandsAfterBuild, "SetCommandsAfterBuild").
-                func(&CompileOptionsBase::GetLinkerOptions, "GetLinkerOptions").
+                func(&CompileOptionsBase::GetLinkerStrOptions, "GetLinkerStrOptions").
                 func(&CompileOptionsBase::GetLinkLibs, "GetLinkLibs").
-                func(&CompileOptionsBase::GetCompilerOptions, "GetCompilerOptions").
+                func(&CompileOptionsBase::GetDeviceStrOptions, "GetDeviceOptions").
+                func(&CompileOptionsBase::GetCompilerStrOptions, "GetCompilerOptions").
+                func(&CompileOptionsBase::GetAssemblerStrOptions, "GetAssemblerOptions").
                 func(&CompileOptionsBase::GetIncludeDirs, "GetIncludeDirs").
-                func(&CompileOptionsBase::GetResourceIncludeDirs, "GetResourceIncludeDirs").
                 func(&CompileOptionsBase::GetLibDirs, "GetLibDirs").
                 func(&CompileOptionsBase::GetCommandsBeforeBuild, "GetCommandsBeforeBuild").
                 func(&CompileOptionsBase::GetCommandsAfterBuild, "GetCommandsAfterBuild").
                 func(&CompileOptionsBase::GetModified, "GetModified").
                 func(&CompileOptionsBase::SetModified, "SetModified").
-                func(&CompileOptionsBase::AddLinkerOption, "AddLinkerOption").
+                func(&CompileOptionsBase::AddLinkerStrOption, "AddLinkerOption").
                 func(&CompileOptionsBase::AddLinkLib, "AddLinkLib").
-                func(&CompileOptionsBase::AddCompilerOption, "AddCompilerOption").
+                func(&CompileOptionsBase::AddDeviceStrOption, "AddDeviceOption").
+                func(&CompileOptionsBase::AddCompilerStrOption, "AddCompilerOption").
+                func(&CompileOptionsBase::AddAssemblerStrOption, "AddAssemblerOption").
                 func(&CompileOptionsBase::AddIncludeDir, "AddIncludeDir").
-                func(&CompileOptionsBase::AddResourceIncludeDir, "AddResourceIncludeDir").
                 func(&CompileOptionsBase::AddLibDir, "AddLibDir").
                 func(&CompileOptionsBase::AddCommandsBeforeBuild, "AddCommandsBeforeBuild").
                 func(&CompileOptionsBase::AddCommandsAfterBuild, "AddCommandsAfterBuild").
-                func(&CompileOptionsBase::RemoveLinkerOption, "RemoveLinkerOption").
+                func(&CompileOptionsBase::RemoveLinkerStrOption, "RemoveLinkerStrOption").
                 func(&CompileOptionsBase::RemoveLinkLib, "RemoveLinkLib").
-                func(&CompileOptionsBase::RemoveCompilerOption, "RemoveCompilerOption").
+                func(&CompileOptionsBase::RemoveDeviceStrOption, "RemoveDeviceOption").
+                func(&CompileOptionsBase::RemoveCompilerStrOption, "RemoveCompilerOption").
+                func(&CompileOptionsBase::RemoveAssemblerStrOption, "RemoveAssemblerOption").
                 func(&CompileOptionsBase::RemoveIncludeDir, "RemoveIncludeDir").
-                func(&CompileOptionsBase::RemoveResourceIncludeDir, "RemoveResourceIncludeDir").
                 func(&CompileOptionsBase::RemoveLibDir, "RemoveLibDir").
                 func(&CompileOptionsBase::RemoveCommandsBeforeBuild, "RemoveCommandsBeforeBuild").
                 func(&CompileOptionsBase::RemoveCommandsAfterBuild, "RemoveCommandsAfterBuild").
-                func(&CompileOptionsBase::GetAlwaysRunPostBuildSteps, "GetAlwaysRunPostBuildSteps").
-                func(&CompileOptionsBase::SetAlwaysRunPostBuildSteps, "SetAlwaysRunPostBuildSteps").
+                func(&CompileOptionsBase::GetPreBuildRunSettings, "GetPreBuildRunSettings").
+                func(&CompileOptionsBase::GetPostBuildRunSettings,"GetPostBuildRunSettings").
+                func(&CompileOptionsBase::SetPreBuildRunSettings, "SetPreBuildRunSettings").
+                func(&CompileOptionsBase::SetPostBuildRunSettings,"SetPostBuildRunSettings").
                 func(&CompileOptionsBase::SetBuildScripts, "SetBuildScripts").
                 func(&CompileOptionsBase::GetBuildScripts, "GetBuildScripts").
                 func(&CompileOptionsBase::AddBuildScript, "AddBuildScript").
@@ -448,8 +454,6 @@ namespace ScriptBindings
                 func(&CompileOptionsBase::UnsetAllVars, "UnsetAllVars");
 
         SqPlus::SQClassDef<CompileTargetBase>("CompileTargetBase", "CompileOptionsBase").
-                func(&CompileTargetBase::SetTargetFilenameGenerationPolicy, "SetTargetFilenameGenerationPolicy").
-//                func(&CompileTargetBase::GetTargetFilenameGenerationPolicy, "GetTargetFilenameGenerationPolicy"). // not exposed because its args are non-const references
                 func(&CompileTargetBase::GetFilename, "GetFilename").
                 func(&CompileTargetBase::GetTitle, "GetTitle").
                 func(&CompileTargetBase::SetTitle, "SetTitle").
@@ -465,16 +469,10 @@ namespace ScriptBindings
                 func(&CompileTargetBase::GetOutputFilename, "GetOutputFilename").
                 func(&CompileTargetBase::SuggestOutputFilename, "SuggestOutputFilename").
                 func(&CompileTargetBase::GetExecutableFilename, "GetExecutableFilename").
-                func(&CompileTargetBase::GetDynamicLibFilename, "GetDynamicLibFilename").
-                func(&CompileTargetBase::GetDynamicLibDefFilename, "GetDynamicLibDefFilename").
-                func(&CompileTargetBase::GetStaticLibFilename, "GetStaticLibFilename").
+                func(&CompileTargetBase::GetLibraryFilename, "GetLibraryFilename").
                 func(&CompileTargetBase::GetBasePath, "GetBasePath").
                 func(&CompileTargetBase::SetTargetType, "SetTargetType").
                 func(&CompileTargetBase::GetTargetType, "GetTargetType").
-                func(&CompileTargetBase::GetExecutionParameters, "GetExecutionParameters").
-                func(&CompileTargetBase::SetExecutionParameters, "SetExecutionParameters").
-                func(&CompileTargetBase::GetHostApplication, "GetHostApplication").
-                func(&CompileTargetBase::SetHostApplication, "SetHostApplication").
                 func(&CompileTargetBase::SetCompilerID, "SetCompilerID").
                 func(&CompileTargetBase::GetCompilerID, "GetCompilerID").
                 func(&CompileTargetBase::GetMakeCommandFor, "GetMakeCommandFor").
@@ -488,14 +486,8 @@ namespace ScriptBindings
                 func(&ProjectBuildTarget::SetExternalDeps, "SetExternalDeps").
                 func(&ProjectBuildTarget::SetAdditionalOutputFiles, "SetAdditionalOutputFiles").
                 func(&ProjectBuildTarget::GetAdditionalOutputFiles, "GetAdditionalOutputFiles").
-                func(&ProjectBuildTarget::GetIncludeInTargetAll, "GetIncludeInTargetAll").
-                func(&ProjectBuildTarget::SetIncludeInTargetAll, "SetIncludeInTargetAll").
-                func(&ProjectBuildTarget::GetCreateDefFile, "GetCreateDefFile").
-                func(&ProjectBuildTarget::SetCreateDefFile, "SetCreateDefFile").
-                func(&ProjectBuildTarget::GetCreateStaticLib, "GetCreateStaticLib").
-                func(&ProjectBuildTarget::SetCreateStaticLib, "SetCreateStaticLib").
-                func(&ProjectBuildTarget::GetUseConsoleRunner, "GetUseConsoleRunner").
-                func(&ProjectBuildTarget::SetUseConsoleRunner, "SetUseConsoleRunner");
+                func(&ProjectBuildTarget::GetCreateHex, "GetCreateHex").
+                func(&ProjectBuildTarget::SetCreateHex, "SetCreateHex");
 
         SqPlus::SQClassDef<cbProject>("cbProject", "CompileTargetBase").
                 func(&cbProject::GetModified, "GetModified").
@@ -526,11 +518,8 @@ namespace ScriptBindings
                 staticFuncVarArgs(&cbProject_ExportTargetAsProject, "ExportTargetAsProject", "*").
                 func(&cbProject::BuildTargetValid, "BuildTargetValid").
                 func(&cbProject::GetFirstValidBuildTargetName, "GetFirstValidBuildTargetName").
-                func(&cbProject::SetDefaultExecuteTarget, "SetDefaultExecuteTarget").
-                func(&cbProject::GetDefaultExecuteTarget, "GetDefaultExecuteTarget").
                 func(&cbProject::SetActiveBuildTarget, "SetActiveBuildTarget").
                 func(&cbProject::GetActiveBuildTarget, "GetActiveBuildTarget").
-                func(&cbProject::SelectTarget, "SelectTarget").
                 func(&cbProject::GetCurrentlyCompilingTarget, "GetCurrentlyCompilingTarget").
                 func(&cbProject::SetCurrentlyCompilingTarget, "SetCurrentlyCompilingTarget").
                 func(&cbProject::GetModeForPCH, "GetModeForPCH").
@@ -634,7 +623,7 @@ namespace ScriptBindings
                 func(&cbEditor::Touch, "Touch").
                 func(&cbEditor::Reload, "Reload").
                 func(&cbEditor::Print, "Print").
-                func(&cbEditor::AutoComplete, "AutoComplete").
+                func(&cbEditor::Restyle, "Restyle").
                 func(&cbEditor::AddBreakpoint, "AddBreakpoint").
                 func(&cbEditor::RemoveBreakpoint, "RemoveBreakpoint").
                 // these are not present in cbEditor; included to help scripts edit text
@@ -673,7 +662,6 @@ namespace ScriptBindings
         SqPlus::SQClassDef<CompilerFactory>("CompilerFactory").
                 staticFunc(&CompilerFactory::IsValidCompilerID, "IsValidCompilerID").
                 staticFuncVarArgs(&CompilerFactory_GetCompilerIndex, "GetCompilerIndex", "*").
-                staticFunc(&CompilerFactory::GetDefaultCompilerID, "GetDefaultCompilerID").
                 staticFunc(&CompilerFactory::GetCompilerVersionString, "GetCompilerVersionString").
                 staticFunc<CF_INHERITSFROM>(&CompilerFactory::CompilerInheritsFrom, "CompilerInheritsFrom");
 

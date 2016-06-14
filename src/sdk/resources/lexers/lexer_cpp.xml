@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_lexer_properties>
-<CodeBlocks_lexer_properties>
+<!DOCTYPE EmBlocks_lexer_properties>
+<EmBlocks_lexer_properties>
         <Lexer name="C/C++"
                 index="3"
-                filemasks="*.c,*.cpp,*.cc,*.cxx,*.h,*.hpp,*.hh,*.hxx,*.inl">
+                filemasks="*.c,*.cpp,*.cc,*.cxx,*.h,*.hpp,*.hh,*.hxx,*.inl"
+                show="true">
                 <Style name="Default"
                         index="0"
                         fg="0,0,0"
@@ -31,6 +32,12 @@
                 <Style name="Comment keyword error (documentation)"
                         index="18"
                         fg="128,0,0"/>
+                <Style name="Inactive preprocessor code"
+                        index="22"
+                        fg="210,210,210"
+                        bg="255,255,255"
+                        bold="0"
+                        italics="1"/>
                 <Style name="Number"
                         index="4"
                         fg="240,0,240"/>
@@ -38,7 +45,7 @@
                         index="5"
                         fg="0,0,160"
                         bold="1"/>
-                <Style name="User keyword"
+                <Style name="User keyword (keywords #2)"
                         index="16"
                         fg="0,160,0"
                         bold="1"/>
@@ -60,7 +67,7 @@
                 <Style name="Selection"
                         index="-99"
                         bg="192,192,192"/>
-                <Style name="Active line"
+                <Style name="Active line under caret"
                         index="-98"
                         bg="255,255,160"/>
                 <Style name="Breakpoint line"
@@ -81,16 +88,11 @@
                         fg="255,255,255"
                         bg="255,0,0"
                         bold="1"/>
-                <Style name="wxSmith-generated code"
-                        index="99"
-                        fg="64,64,128"
-                                                bg="255,255,255"
-                                                italics="1"/>
-                                <Keywords>
+                <Keywords>
                         <!-- Primary keywords and identifiers -->
                         <Set index="0"
                             value="_Char16_t _Char32_t align_union alignof
-                                   asm auto bool break case catch char class const
+                                   asm auto bool _Bool break case catch char class const
                                    const_cast constexpr continue decltype default delete do double
                                    dynamic_cast else enum explicit export extern
                                    false final float for friend goto if import inline int long
@@ -158,4 +160,4 @@
                     LexerStringStyles="6,12"
                     LexerPreprocessorStyles="9"/>
         </Lexer>
-</CodeBlocks_lexer_properties>
+</EmBlocks_lexer_properties>

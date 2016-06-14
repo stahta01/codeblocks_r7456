@@ -76,7 +76,7 @@ struct SQObjectPtr;
 #define __AddRef(type,unval) if(ISREFCOUNTED(type))	\
 		{ \
 			unval.pRefCounted->_uiRef++; \
-		}  
+		}
 
 #define __Release(type,unval) if(ISREFCOUNTED(type) && ((--unval.pRefCounted->_uiRef)<=0))	\
 		{	\
@@ -283,21 +283,21 @@ struct SQObjectPtr : public SQObject
 		__Release(tOldType,unOldVal);
 	}
 	inline SQObjectPtr& operator=(SQInteger i)
-	{ 
+	{
 		__Release(_type,_unVal);
 		_unVal.nInteger = i;
 		_type = OT_INTEGER;
 		return *this;
 	}
 	inline SQObjectPtr& operator=(SQFloat f)
-	{ 
+	{
 		__Release(_type,_unVal);
 		_unVal.fFloat = f;
 		_type = OT_FLOAT;
 		return *this;
 	}
 	inline SQObjectPtr& operator=(const SQObjectPtr& obj)
-	{ 
+	{
 		SQObjectType tOldType;
 		SQObjectValue unOldVal;
 		tOldType=_type;
@@ -309,7 +309,7 @@ struct SQObjectPtr : public SQObject
 		return *this;
 	}
 	inline SQObjectPtr& operator=(const SQObject& obj)
-	{ 
+	{
 		SQObjectType tOldType;
 		SQObjectValue unOldVal;
 		tOldType=_type;

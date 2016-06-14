@@ -1,11 +1,29 @@
 /*
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
- *
- * $Revision$
- * $Id$
- * $HeadURL$
  */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "sdk_precomp.h"
 
@@ -54,10 +72,8 @@
 BEGIN_EVENT_TABLE(ProjectOptionsDlg, wxScrollingDialog)
     EVT_UPDATE_UI( -1,                                          ProjectOptionsDlg::OnUpdateUI)
     EVT_BUTTON(    XRCID("wxID_OK"),                            ProjectOptionsDlg::OnOK)
-    EVT_BUTTON(    XRCID("btnPlatform"),                        ProjectOptionsDlg::OnPlatform)
-    EVT_BUTTON(    XRCID("btnPlatformProj"),                    ProjectOptionsDlg::OnPlatform)
-    EVT_BUTTON(    XRCID("btnProjectBuildOptions"),             ProjectOptionsDlg::OnProjectBuildOptionsClick)
     EVT_BUTTON(    XRCID("btnProjectDeps"),                     ProjectOptionsDlg::OnProjectDepsClick)
+    EVT_BUTTON(    XRCID("btnProjectBuildOptions"),             ProjectOptionsDlg::OnTargetBuildOptionsClick)
     EVT_BUTTON(    XRCID("btnTargetBuildOptions"),              ProjectOptionsDlg::OnTargetBuildOptionsClick)
     EVT_LISTBOX_DCLICK(XRCID("lstBuildTarget"),                 ProjectOptionsDlg::OnTargetBuildOptionsClick)
     EVT_BUTTON(    XRCID("btnBuildOrder"),                      ProjectOptionsDlg::OnBuildOrderClick)
@@ -66,11 +82,9 @@ BEGIN_EVENT_TABLE(ProjectOptionsDlg, wxScrollingDialog)
     EVT_BUTTON(    XRCID("btnCopyBuildTarget"),                 ProjectOptionsDlg::OnCopyBuildTargetClick)
     EVT_BUTTON(    XRCID("btnDelBuildTarget"),                  ProjectOptionsDlg::OnRemoveBuildTargetClick)
     EVT_BUTTON(    XRCID("btnBrowseOutputFilename"),            ProjectOptionsDlg::OnBrowseOutputFilenameClick)
-    EVT_BUTTON(    XRCID("btnBrowseImportLibraryFilename"),     ProjectOptionsDlg::OnBrowseImportLibraryFilenameClick)
-    EVT_BUTTON(    XRCID("btnBrowseDefinitionFileFilename"),    ProjectOptionsDlg::OnBrowseDefinitionFileFilenameClick)
-    EVT_BUTTON(    XRCID("btnBrowseWorkingDir"),                ProjectOptionsDlg::OnBrowseDirClick)
     EVT_BUTTON(    XRCID("btnBrowseObjectDir"),                 ProjectOptionsDlg::OnBrowseDirClick)
     EVT_BUTTON(    XRCID("btnExecutionDir"),                    ProjectOptionsDlg::OnBrowseDirClick)
+    EVT_BUTTON(    XRCID("btnMakeTool"),                        ProjectOptionsDlg::OnBrowseMakeClick)
     EVT_BUTTON(    XRCID("btnVirtualBuildTargets"),             ProjectOptionsDlg::OnVirtualTargets)
     EVT_BUTTON(    XRCID("btnExternalDeps"),                    ProjectOptionsDlg::OnEditDepsClick)
     EVT_BUTTON(    XRCID("btnExportTarget"),                    ProjectOptionsDlg::OnExportTargetClick)
@@ -79,8 +93,6 @@ BEGIN_EVENT_TABLE(ProjectOptionsDlg, wxScrollingDialog)
     EVT_BUTTON(    XRCID("btnToggleCheckmarks"),                ProjectOptionsDlg::OnFileToggleMarkClick)
     EVT_LISTBOX(   XRCID("lstBuildTarget"),                     ProjectOptionsDlg::OnBuildTargetChanged)
     EVT_COMBOBOX(  XRCID("cmbProjectType"),                     ProjectOptionsDlg::OnProjectTypeChanged)
-    EVT_CHECKBOX(  XRCID("chkCreateStaticLib"),                 ProjectOptionsDlg::OnCreateImportFileClick)
-    EVT_CHECKBOX(  XRCID("chkCreateDefFile"),                   ProjectOptionsDlg::OnCreateDefFileClick)
 
     EVT_TREE_SEL_CHANGED(XRCID("tcOverview"),                   ProjectOptionsDlg::OnScriptsOverviewSelChanged)
     EVT_BUTTON(XRCID("btnCheckScripts"),                        ProjectOptionsDlg::OnCheckScripts)
@@ -112,10 +124,10 @@ ProjectOptionsDlg::ProjectOptionsDlg(wxWindow* parent, cbProject* project)
     // general
     XRCCTRL(*this, "txtProjectName", wxTextCtrl)->SetValue(m_Project->GetTitle());
     XRCCTRL(*this, "txtProjectFilename", wxStaticText)->SetLabel(m_Project->GetFilename());
-    XRCCTRL(*this, "txtPlatformProj", wxTextCtrl)->SetValue(GetStringFromPlatforms(m_Project->GetPlatforms()));
     XRCCTRL(*this, "txtProjectMakefile", wxTextCtrl)->SetValue(m_Project->GetMakefile());
     XRCCTRL(*this, "chkCustomMakefile", wxCheckBox)->SetValue(m_Project->IsMakefileCustom());
     XRCCTRL(*this, "txtExecutionDir", wxTextCtrl)->SetValue(m_Project->GetMakefileExecutionDir());
+    XRCCTRL(*this, "txtMakeTool", wxTextCtrl)->SetValue(m_Project->GetMakeTool());
     XRCCTRL(*this, "rbPCHStrategy", wxRadioBox)->SetSelection((int)m_Project->GetModeForPCH());
 
     Compiler* compiler = CompilerFactory::GetCompiler(project->GetCompilerID());
@@ -123,6 +135,7 @@ ProjectOptionsDlg::ProjectOptionsDlg(wxWindow* parent, cbProject* project)
     XRCCTRL(*this, "rbPCHStrategy", wxRadioBox)->Enable(hasPCH);
 
     XRCCTRL(*this, "chkExtendedObjNames", wxCheckBox)->SetValue(m_Project->GetExtendedObjectNamesGeneration());
+    XRCCTRL(*this, "chkNoForceObjectLowCase", wxCheckBox)->SetValue(m_Project->GetForceLowerCaseObject());
 
     XRCCTRL(*this, "chkShowNotes", wxCheckBox)->SetValue(m_Project->GetShowNotesOnLoad());
     XRCCTRL(*this, "txtNotes", wxTextCtrl)->SetValue(m_Project->GetNotes());
@@ -205,8 +218,12 @@ void ProjectOptionsDlg::FillBuildTargets()
     wxListBox* lstTargets = XRCCTRL(*this, "lstBuildTarget", wxListBox);
     lstTargets->Clear();
     for (int i = 0; i < m_Project->GetBuildTargetsCount(); ++i)
+    {
         lstTargets->Append(m_Project->GetBuildTarget(i)->GetTitle());
-    lstTargets->SetSelection(0);
+        if( (i==0) || (m_Project->GetBuildTarget(i)->GetTitle() == m_Project->GetActiveBuildTarget()))
+            lstTargets->SetSelection(i);
+    }
+    m_Project->GetActiveBuildTarget();
     DoTargetChange(false);
 }
 
@@ -224,91 +241,43 @@ void ProjectOptionsDlg::DoTargetChange(bool saveOld)
         return;
 
     // global project options
-    wxTextCtrl* txtP = XRCCTRL(*this, "txtPlatform", wxTextCtrl);
     wxComboBox* cmb = XRCCTRL(*this, "cmbProjectType", wxComboBox);
-    wxCheckBox* chkCR = XRCCTRL(*this, "chkUseConsoleRunner", wxCheckBox);
-    wxCheckBox* chkSL = XRCCTRL(*this, "chkCreateStaticLib", wxCheckBox);
-    wxCheckBox* chkCD = XRCCTRL(*this, "chkCreateDefFile", wxCheckBox);
+    wxCheckBox* chkCH = XRCCTRL(*this, "chkCreateHex", wxCheckBox);
     wxTextCtrl* txt = XRCCTRL(*this, "txtOutputFilename", wxTextCtrl);
-    wxTextCtrl* txtI = XRCCTRL(*this, "txtImportLibraryFilename", wxTextCtrl);
-    wxTextCtrl* txtD = XRCCTRL(*this, "txtDefinitionFileFilename", wxTextCtrl);
-    wxTextCtrl* txtW = XRCCTRL(*this, "txtWorkingDir", wxTextCtrl);
     wxTextCtrl* txtO = XRCCTRL(*this, "txtObjectDir", wxTextCtrl);
     wxButton* browse = XRCCTRL(*this, "btnBrowseOutputFilename", wxButton);
-    wxButton* browseI = XRCCTRL(*this, "btnBrowseImportLibraryFilename", wxButton);
-    wxButton* browseD = XRCCTRL(*this, "btnBrowseDefinitionFileFilename", wxButton);
-    wxButton* browseW = XRCCTRL(*this, "btnBrowseWorkingDir", wxButton);
     wxButton* browseO = XRCCTRL(*this, "btnBrowseObjectDir", wxButton);
 
-    wxString platforms = GetStringFromPlatforms(target->GetPlatforms());
-    txtP->SetValue(platforms);
+    chkCH->SetValue(false);
+    chkCH->Enable(false);
 
-    chkCR->SetValue(false);
-    chkCD->SetValue(target->GetCreateDefFile());
-    chkSL->SetValue(target->GetCreateStaticLib());
-
-    TargetFilenameGenerationPolicy prefixPolicy;
-    TargetFilenameGenerationPolicy extensionPolicy;
-    target->GetTargetFilenameGenerationPolicy(prefixPolicy, extensionPolicy);
-    XRCCTRL(*this, "chkAutoGenPrefix", wxCheckBox)->SetValue(prefixPolicy == tgfpPlatformDefault);
-    XRCCTRL(*this, "chkAutoGenExt", wxCheckBox)->SetValue(extensionPolicy == tgfpPlatformDefault);
-
-    chkCR->Enable(false);
-    chkSL->Enable(target->GetTargetType() == ttDynamicLib);
-    chkCD->Enable(target->GetTargetType() == ttDynamicLib);
-    if (cmb && chkCR && txt && browse)
+    if (cmb && chkCH && txt && txtO && browse && browseO)
     {
         cmb->SetSelection(target->GetTargetType());
 //        Compiler* compiler = CompilerFactory::Compilers[target->GetCompilerIndex()];
         switch ((TargetType)cmb->GetSelection())
         {
-            case ttConsoleOnly:
-                chkCR->Enable(true);
-                chkCR->SetValue(target->GetUseConsoleRunner());
-                // purposely fall-through
-
             case ttExecutable:
-            case ttDynamicLib:
-            case ttNative:
-            case ttStaticLib:
+                chkCH->Enable(true);
+                chkCH->SetValue(target->GetCreateHex());
+
+            case ttLibrary:
                 txt->SetValue(target->GetOutputFilename());
                 txt->Enable(true);
-                txtI->SetValue(target->GetDynamicLibImportFilename());
-                txtI->Enable(chkSL->IsChecked() && (TargetType)cmb->GetSelection() == ttDynamicLib);
-                txtD->SetValue(target->GetDynamicLibDefFilename());
-                txtD->Enable(chkCD->IsChecked() && (TargetType)cmb->GetSelection() == ttDynamicLib);
-                txtW->SetValue(target->GetWorkingDir());
-                txtW->Enable((TargetType)cmb->GetSelection() == ttExecutable ||
-                            (TargetType)cmb->GetSelection() == ttConsoleOnly ||
-                            (TargetType)cmb->GetSelection() == ttNative ||
-                            (TargetType)cmb->GetSelection() == ttDynamicLib);
+
                 txtO->SetValue(target->GetObjectOutput());
                 txtO->Enable(true);
+
                 browse->Enable(true);
-                browseI->Enable(chkSL->IsChecked() && (TargetType)cmb->GetSelection() == ttDynamicLib);
-                browseD->Enable(chkCD->IsChecked() && (TargetType)cmb->GetSelection() == ttDynamicLib);
-                browseW->Enable((TargetType)cmb->GetSelection() == ttExecutable ||
-                                (TargetType)cmb->GetSelection() == ttConsoleOnly ||
-                                (TargetType)cmb->GetSelection() == ttNative ||
-                                (TargetType)cmb->GetSelection() == ttDynamicLib);
                 browseO->Enable(true);
                 break;
 
             default: // for commands-only targets
                 txt->SetValue(_T(""));
                 txt->Enable(false);
-                txtI->SetValue(_T(""));
-                txtI->Enable(false);
-                txtD->SetValue(_T(""));
-                txtD->Enable(false);
-                txtW->SetValue(_T(""));
-                txtW->Enable(false);
                 txtO->SetValue(_T(""));
                 txtO->Enable(false);
                 browse->Enable(false);
-                browseI->Enable(false);
-                browseD->Enable(false);
-                browseW->Enable(false);
                 browseO->Enable(false);
                 break;
         }
@@ -348,39 +317,18 @@ void ProjectOptionsDlg::DoBeforeTargetChange(bool force)
         if (!target)
             return;
 
-        wxString platforms = XRCCTRL(*this, "txtPlatform", wxTextCtrl)->GetValue();
-        int p = GetPlatformsFromString(platforms);
-        target->SetPlatforms(p);
-
-        target->SetTargetFilenameGenerationPolicy(
-            XRCCTRL(*this, "chkAutoGenPrefix", wxCheckBox)->GetValue() ? tgfpPlatformDefault : tgfpNone,
-            XRCCTRL(*this, "chkAutoGenExt", wxCheckBox)->GetValue() ? tgfpPlatformDefault : tgfpNone);
-
         target->SetTargetType(TargetType(XRCCTRL(*this, "cmbProjectType", wxComboBox)->GetSelection()));
         wxFileName fname(XRCCTRL(*this, "txtOutputFilename", wxTextCtrl)->GetValue());
 //        fname.Normalize(wxPATH_NORM_ALL & ~wxPATH_NORM_CASE, m_Project->GetBasePath());
 //        fname.MakeRelativeTo(m_Project->GetBasePath());
         target->SetOutputFilename(fname.GetFullPath());
 
-        fname.Assign(XRCCTRL(*this, "txtImportLibraryFilename", wxTextCtrl)->GetValue());
-        target->SetImportLibraryFilename(fname.GetFullPath());
-
-        fname.Assign(XRCCTRL(*this, "txtDefinitionFileFilename", wxTextCtrl)->GetValue());
-        target->SetDefinitionFileFilename(fname.GetFullPath());
-
-        fname.Assign(XRCCTRL(*this, "txtWorkingDir", wxTextCtrl)->GetValue());
-//        fname.Normalize(wxPATH_NORM_ALL & ~wxPATH_NORM_CASE, m_Project->GetBasePath());
-//        fname.MakeRelativeTo(m_Project->GetBasePath());
-        target->SetWorkingDir(fname.GetFullPath());
-
         fname.Assign(XRCCTRL(*this, "txtObjectDir", wxTextCtrl)->GetValue());
 //        fname.Normalize(wxPATH_NORM_ALL & ~wxPATH_NORM_CASE, m_Project->GetBasePath());
 //        fname.MakeRelativeTo(m_Project->GetBasePath());
         target->SetObjectOutput(fname.GetFullPath());
 
-        target->SetUseConsoleRunner(XRCCTRL(*this, "chkUseConsoleRunner", wxCheckBox)->GetValue());
-        target->SetCreateDefFile(XRCCTRL(*this, "chkCreateDefFile", wxCheckBox)->GetValue());
-        target->SetCreateStaticLib(XRCCTRL(*this, "chkCreateStaticLib", wxCheckBox)->GetValue());
+        target->SetCreateHex(XRCCTRL(*this, "chkCreateHex", wxCheckBox)->GetValue());
 
         // files options
         wxCheckListBox* list = XRCCTRL(*this, "lstFiles", wxCheckListBox);
@@ -406,142 +354,49 @@ void ProjectOptionsDlg::OnProjectTypeChanged(wxCommandEvent& /*event*/)
     ProjectBuildTarget* target = m_Project->GetBuildTarget(m_Current_Sel);
     if (!target)
         return;
+
     wxComboBox* cmb = XRCCTRL(*this, "cmbProjectType", wxComboBox);
-    wxCheckBox* chkSL = XRCCTRL(*this, "chkCreateStaticLib", wxCheckBox);
-    wxCheckBox* chkCD = XRCCTRL(*this, "chkCreateDefFile", wxCheckBox);
+    wxCheckBox* chkCH = XRCCTRL(*this, "chkCreateHex", wxCheckBox);
     wxTextCtrl* txt = XRCCTRL(*this, "txtOutputFilename", wxTextCtrl);
-    wxTextCtrl* txtI = XRCCTRL(*this, "txtImportLibraryFilename", wxTextCtrl);
-    wxTextCtrl* txtD = XRCCTRL(*this, "txtDefinitionFileFilename", wxTextCtrl);
-    wxTextCtrl* txtW = XRCCTRL(*this, "txtWorkingDir", wxTextCtrl);
-    wxTextCtrl* txtO = XRCCTRL(*this, "txtObjectDir", wxTextCtrl);
-    wxButton* browse = XRCCTRL(*this, "btnBrowseOutputFilename", wxButton);
-    wxButton* browseI = XRCCTRL(*this, "btnBrowseImportLibraryFilename", wxButton);
-    wxButton* browseD = XRCCTRL(*this, "btnBrowseDefinitionFileFilename", wxButton);
-    wxButton* browseW = XRCCTRL(*this, "btnBrowseWorkingDir", wxButton);
-    wxButton* browseO = XRCCTRL(*this, "btnBrowseObjectDir", wxButton);
-    if (!cmb || !txt || !browse)
+
+    if (!cmb || !txt || !chkCH)
         return;
 
-    XRCCTRL(*this, "chkUseConsoleRunner", wxCheckBox)->Enable(cmb->GetSelection() == ttConsoleOnly);
-    XRCCTRL(*this, "chkCreateDefFile", wxCheckBox)->Enable(cmb->GetSelection() == ttDynamicLib);
-    XRCCTRL(*this, "chkCreateStaticLib", wxCheckBox)->Enable(cmb->GetSelection() == ttDynamicLib);
+    // Default no hex file
+    target->SetCreateHex(false);
+    chkCH->SetValue(false);
 
-    txt->Enable(true);
-    txtI->Enable(chkSL->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    txtD->Enable(chkCD->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    txtW->SetValue(target->GetWorkingDir());
-    txtW->Enable((TargetType)cmb->GetSelection() == ttExecutable ||
-                (TargetType)cmb->GetSelection() == ttConsoleOnly ||
-                (TargetType)cmb->GetSelection() == ttDynamicLib);
-    txtO->Enable(true);
-    txtO->SetValue(target->GetObjectOutput());
-    browse->Enable(true);
-    browseI->Enable(chkSL->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    browseD->Enable(chkCD->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    browseW->Enable((TargetType)cmb->GetSelection() == ttExecutable ||
-                    (TargetType)cmb->GetSelection() == ttConsoleOnly ||
-                    (TargetType)cmb->GetSelection() == ttDynamicLib);
-    browseO->Enable(true);
+    switch((TargetType)cmb->GetSelection()) {
+        case ttExecutable :
+            chkCH->Enable(true);
+            break;
+
+        case ttLibrary :
+            chkCH->Enable(false);
+            break;
+
+    }
 
     Compiler* compiler = CompilerFactory::GetCompiler(target->GetCompilerID());
 
     wxFileName fname = target->GetOutputFilename();
-    wxFileName fnameI = target->GetDynamicLibImportFilename();
-    wxFileName fnameD = target->GetDynamicLibDefFilename();
     wxString name = fname.GetName();
-    wxString nameI = fnameI.GetName();
-    wxString nameD = fnameD.GetName();
     wxString ext = fname.GetExt();
     wxString extI = fname.GetExt();
     wxString extD = fname.GetExt();
-    wxString libext = compiler ? compiler->GetSwitches().libExtension : _T("");
-    wxString libextI = compiler ? compiler->GetSwitches().libExtension : _T(""); // TODO: add specialized compiler option for this
-    wxString libextD = _T("def");                                                // TODO: add specialized compiler option for this
-    wxString libpre = compiler ? compiler->GetSwitches().libPrefix : _T("");
-    wxString libpreI = compiler ? compiler->GetSwitches().libPrefix : _T("");    // TODO: add specialized compiler option for this
-    wxString libpreD = compiler ? compiler->GetSwitches().libPrefix : _T("");    // TODO: add specialized compiler option for this
+    wxString libext = compiler ? compiler->GetSwitches().libExtension : FileFilters::LIBRARY_EXT;                                                // TODO: add specialized compiler option for this
+    wxString execext = compiler ? compiler->GetSwitches().execExtension : FileFilters::EXECUTABLE_EXT;
 
     switch ((TargetType)cmb->GetSelection())
     {
-        case ttConsoleOnly:
         case ttExecutable:
-            if (ext != FileFilters::EXECUTABLE_EXT)
-                fname.SetExt(FileFilters::EXECUTABLE_EXT);
-            if (!libpre.IsEmpty() && name.StartsWith(libpre))
-            {
-                name.Remove(0, libpre.Length());
-                fname.SetName(name);
-            }
+            fname.SetExt(execext);
             txt->SetValue(fname.GetFullPath());
-            txtI->SetValue(_T(""));
-            txtD->SetValue(_T(""));
             break;
-        case ttDynamicLib:
-            if (ext != FileFilters::DYNAMICLIB_EXT)
-                fname.SetExt(FileFilters::DYNAMICLIB_EXT);
-            if (extI != FileFilters::STATICLIB_EXT)
-                fnameI.SetExt(FileFilters::STATICLIB_EXT);
-            if (extD != _T("def"))
-                fnameD.SetExt(_T("def"));
-            if (!libpre.IsEmpty() && name.StartsWith(libpre))
-            {
-                name.Remove(0, libpre.Length());
-                fname.SetName(name);
-            }
-            if (!libpreI.IsEmpty() && nameI.StartsWith(libpreI))
-            {
-                nameI.Remove(0, libpreI.Length());
-                fnameI.SetName(nameI);
-            }
-            if (!libpreD.IsEmpty() && nameD.StartsWith(libpreD))
-            {
-                nameD.Remove(0, libpreD.Length());
-                fnameD.SetName(nameD);
-            }
+
+        case ttLibrary:
+            fname.SetExt(libext);
             txt->SetValue(fname.GetFullPath());
-            txtI->SetValue(fnameI.GetFullPath());
-            txtD->SetValue(fnameD.GetFullPath());
-            break;
-        case ttStaticLib:
-            if (ext != libext)
-                fname.SetExt(libext);
-            if (!libpre.IsEmpty() && !name.StartsWith(libpre))
-            {
-                name.Prepend(libpre);
-                fname.SetName(name);
-            }
-            txt->SetValue(fname.GetFullPath());
-            txtI->SetValue(_T(""));
-            txtD->SetValue(_T(""));
-            break;
-        case ttNative:
-            if (ext != FileFilters::NATIVE_EXT)
-                fname.SetExt(FileFilters::NATIVE_EXT);
-            if (!libpre.IsEmpty() && name.StartsWith(libpre))
-            {
-                name.Remove(0, libpre.Length());
-                fname.SetName(name);
-            }
-            txt->SetValue(fname.GetFullPath());
-            txtI->SetValue(_T(""));
-            txtD->SetValue(_T(""));
-            break;
-        case ttCommandsOnly:
-            txt->SetValue(_T(""));
-            txtI->SetValue(_T(""));
-            txtD->SetValue(_T(""));
-            txtW->SetValue(_T(""));
-            txtO->SetValue(_T(""));
-            txt->Enable(false);
-            txtI->Enable(false);
-            txtD->Enable(false);
-            txtW->Enable(false);
-            txtO->Enable(false);
-            browse->Enable(false);
-            browseI->Enable(false);
-            browseD->Enable(false);
-            browseW->Enable(false);
-            browseO->Enable(false);
             break;
     }
 }
@@ -595,7 +450,12 @@ void ProjectOptionsDlg::OnTargetBuildOptionsClick(wxCommandEvent& /*event*/)
 
         ProjectBuildTarget* target = m_Project->GetBuildTarget(targetIdx);
         if (target)
-            m_pCompiler->Configure(m_Project, target);
+        {
+            bool tmp = m_Project->IsMakefileCustom();  // Remember our makeFile settings so that we can set it back.
+            m_Project->SetMakefileCustom(XRCCTRL(*this, "chkCustomMakefile", wxCheckBox)->GetValue()); // Get the current button state
+            m_pCompiler->Configure(m_Project, target); // Call the configure dialog
+            m_Project->SetMakefileCustom(tmp);         // restore the old state of the custom makefile flag, it is saved at the end.
+        }
     }
 }
 
@@ -706,14 +566,19 @@ void ProjectOptionsDlg::OnRemoveBuildTargetClick(wxCommandEvent& /*event*/)
 
     lstTargets->Delete(targetIdx);
     lstTargets->SetSelection(targetIdx);
+
     // the target name in the units is changed by the project...
     m_Project->RemoveBuildTarget(targetIdx);
+
     m_Current_Sel = -1;
     DoTargetChange();
     BuildScriptsTree();
-    CodeBlocksEvent e(cbEVT_PROJECT_TARGETS_MODIFIED);
-    e.SetProject(m_Project);
-    Manager::Get()->GetPluginManager()->NotifyPlugins(e);
+
+    {
+        CodeBlocksEvent e(cbEVT_PROJECT_TARGETS_MODIFIED);
+        e.SetProject(m_Project);
+        Manager::Get()->GetPluginManager()->NotifyPlugins(e);
+    }
 }
 
 void ProjectOptionsDlg::OnVirtualTargets(wxCommandEvent& /*event*/)
@@ -755,12 +620,36 @@ void ProjectOptionsDlg::OnExportTargetClick(wxCommandEvent& /*event*/)
     }
 }
 
+
+void ProjectOptionsDlg::OnBrowseMakeClick(wxCommandEvent& event)
+{
+    wxTextCtrl* obj = XRCCTRL(*this, "txtMakeTool", wxTextCtrl);
+    wxFileName fname = obj->GetValue();
+
+    // common part follows
+    wxString file_selection = _("All files (*)|*");
+    if (platform::windows)
+        file_selection = _("Executable files (*.exe)|*.exe");
+
+    wxFileDialog dlg(this,
+                     _("Select file"),
+                     fname.GetCwd(),
+                     fname.GetFullName(),
+                     file_selection,
+                     wxFD_OPEN | wxFD_FILE_MUST_EXIST | compatibility::wxHideReadonly );
+    dlg.SetFilterIndex(0);
+
+    PlaceWindow(&dlg);
+    if (dlg.ShowModal() != wxID_OK)
+        return;
+
+    obj->SetValue(dlg.GetDirectory()+wxFileName::GetPathSeparator()+dlg.GetFilename());
+}
+
 void ProjectOptionsDlg::OnBrowseDirClick(wxCommandEvent& event)
 {
     wxTextCtrl* targettext = 0;
-    if (event.GetId() == XRCID("btnBrowseWorkingDir"))
-        targettext = XRCCTRL(*this, "txtWorkingDir", wxTextCtrl);
-    else if (event.GetId() == XRCID("btnBrowseObjectDir"))
+    if (event.GetId() == XRCID("btnBrowseObjectDir"))
         targettext = XRCCTRL(*this, "txtObjectDir", wxTextCtrl);
     else if (event.GetId() == XRCID("btnExecutionDir"))
         targettext = XRCCTRL(*this, "txtExecutionDir", wxTextCtrl);
@@ -803,45 +692,6 @@ void ProjectOptionsDlg::OnBrowseOutputFilenameClick(wxCommandEvent& /*event*/)
     XRCCTRL(*this, "txtOutputFilename", wxTextCtrl)->SetValue(fname.GetFullPath());
 }
 
-void ProjectOptionsDlg::OnBrowseImportLibraryFilenameClick(wxCommandEvent& event)
-{
-    wxFileName fname;
-    fname.Assign(XRCCTRL(*this, "txtImportLibraryFilename", wxTextCtrl)->GetValue());
-    fname.Normalize(wxPATH_NORM_ALL & ~wxPATH_NORM_CASE, m_Project->GetBasePath());
-    wxFileDialog dlg(this,
-                    _("Select import library filename"),
-                    fname.GetPath(),
-                    fname.GetFullName(),
-                    FileFilters::GetFilterAll(),
-                    wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
-
-    PlaceWindow(&dlg);
-    if (dlg.ShowModal() != wxID_OK)
-        return;
-    fname.Assign(dlg.GetPath());
-    fname.MakeRelativeTo(m_Project->GetBasePath());
-    XRCCTRL(*this, "txtImportLibraryFilename", wxTextCtrl)->SetValue(fname.GetFullPath());
-}
-
-void ProjectOptionsDlg::OnBrowseDefinitionFileFilenameClick(wxCommandEvent& event)
-{
-    wxFileName fname;
-    fname.Assign(XRCCTRL(*this, "txtDefinitionFileFilename", wxTextCtrl)->GetValue());
-    fname.Normalize(wxPATH_NORM_ALL & ~wxPATH_NORM_CASE, m_Project->GetBasePath());
-    wxFileDialog dlg(this,
-                    _("Select definition file filename"),
-                    fname.GetPath(),
-                    fname.GetFullName(),
-                    FileFilters::GetFilterAll(),
-                    wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
-
-    PlaceWindow(&dlg);
-    if (dlg.ShowModal() != wxID_OK)
-        return;
-    fname.Assign(dlg.GetPath());
-    fname.MakeRelativeTo(m_Project->GetBasePath());
-    XRCCTRL(*this, "txtDefinitionFileFilename", wxTextCtrl)->SetValue(fname.GetFullPath());
-}
 
 void ProjectOptionsDlg::OnFileOptionsClick(wxCommandEvent& event)
 {
@@ -1028,37 +878,6 @@ void ProjectOptionsDlg::OnRemoveScript(wxCommandEvent& /*event*/)
     ctrl->SetSelection(isel < (int)(ctrl->GetCount()) ? isel : --isel );
 }
 
-void ProjectOptionsDlg::OnPlatform(wxCommandEvent& event)
-{
-    wxTextCtrl* txtP;
-    if (event.GetId() == XRCID("btnPlatform"))
-        txtP = XRCCTRL(*this, "txtPlatform", wxTextCtrl);
-    else
-        txtP = XRCCTRL(*this, "txtPlatformProj", wxTextCtrl);
-    bool isAll = txtP->GetValue().Contains(_("All"));
-
-    wxArrayString arr = GetArrayFromString(GetStringFromPlatforms(spAll, true));
-    MultiSelectDlg dlg(this, arr, isAll, _("Select supported platforms:"), _("Build target platforms"));
-    if (!isAll)
-    {
-        wxArrayString sel = GetArrayFromString(txtP->GetValue());
-        for (size_t i = 0; i < sel.GetCount(); ++i)
-            dlg.SelectWildCard(sel[i].Lower(), true, false);
-    }
-
-    if (dlg.ShowModal() == wxID_OK)
-    {
-        wxArrayString ret = dlg.GetSelectedStrings();
-        if (ret.GetCount() == 3)
-            txtP->SetValue(_("All"));
-        else
-        {
-            wxString platform = GetStringFromArray(ret);
-            txtP->SetValue(platform);
-        }
-    }
-}
-
 void ProjectOptionsDlg::OnScriptMoveUp(wxSpinEvent& /*event*/)
 {
     wxListBox* ctrl = XRCCTRL(*this, "lstPreScripts", wxListBox);
@@ -1132,15 +951,19 @@ void ProjectOptionsDlg::OnUpdateUI(wxUpdateUIEvent& /*event*/)
     // disable some stuff if using a custom makefile
     bool customMake = XRCCTRL(*this, "chkCustomMakefile", wxCheckBox)->GetValue();
     XRCCTRL(*this, "rbPCHStrategy", wxRadioBox)->Enable(!customMake);
-    XRCCTRL(*this, "txtObjectDir", wxTextCtrl)->Enable(!customMake && en);
+    XRCCTRL(*this, "cmbProjectType", wxComboBox)->Enable(!customMake && en);
+    XRCCTRL(*this, "txtOutputFilename", wxTextCtrl)->Enable(!customMake && en);
+    XRCCTRL(*this, "btnBrowseOutputFilename", wxButton)->Enable(!customMake && en);
     XRCCTRL(*this, "txtObjectDir", wxTextCtrl)->Enable(!customMake && en);
     XRCCTRL(*this, "btnBrowseObjectDir", wxButton)->Enable(!customMake && en);
     XRCCTRL(*this, "btnToggleCheckmarks", wxButton)->Enable(!customMake && en);
     list->Enable(!customMake);
 
     // enable some stuff if using a custom makefile
+    XRCCTRL(*this, "txtMakeTool", wxTextCtrl)->Enable(customMake);
     XRCCTRL(*this, "txtExecutionDir", wxTextCtrl)->Enable(customMake);
     XRCCTRL(*this, "btnExecutionDir", wxButton)->Enable(customMake);
+    XRCCTRL(*this, "btnMakeTool", wxButton)->Enable(customMake);
 
     // scripts page
     wxTreeCtrl* tc = XRCCTRL(*this, "tcOverview", wxTreeCtrl);
@@ -1167,73 +990,21 @@ void ProjectOptionsDlg::OnOK(wxCommandEvent& event)
     event.Skip();
 }
 
-void ProjectOptionsDlg::OnCreateDefFileClick(wxCommandEvent& event)
-{
-    wxListBox* lstTargets = XRCCTRL(*this, "lstBuildTarget", wxListBox);
-
-    if (lstTargets->GetSelection() == -1)
-        lstTargets->SetSelection(0);
-
-    ProjectBuildTarget* target = m_Project->GetBuildTarget(lstTargets->GetSelection());
-    if (!target)
-        return;
-
-    wxComboBox* cmb     = XRCCTRL(*this, "cmbProjectType", wxComboBox);
-    wxCheckBox* chkSL   = XRCCTRL(*this, "chkCreateStaticLib", wxCheckBox);
-    wxCheckBox* chkCD   = XRCCTRL(*this, "chkCreateDefFile", wxCheckBox);
-    wxTextCtrl* txtI    = XRCCTRL(*this, "txtImportLibraryFilename", wxTextCtrl);
-    wxTextCtrl* txtD    = XRCCTRL(*this, "txtDefinitionFileFilename", wxTextCtrl);
-    wxButton*   browseI = XRCCTRL(*this, "btnBrowseImportLibraryFilename", wxButton);
-    wxButton*   browseD = XRCCTRL(*this, "btnBrowseDefinitionFileFilename", wxButton);
-
-    wxString platforms = GetStringFromPlatforms(target->GetPlatforms());
-
-    txtI->Enable(chkSL->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    txtD->Enable(chkCD->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    browseI->Enable(chkSL->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    browseD->Enable(chkCD->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-}
-
-void ProjectOptionsDlg::OnCreateImportFileClick(wxCommandEvent& event)
-{
-    wxListBox* lstTargets = XRCCTRL(*this, "lstBuildTarget", wxListBox);
-
-    if (lstTargets->GetSelection() == -1)
-        lstTargets->SetSelection(0);
-
-    ProjectBuildTarget* target = m_Project->GetBuildTarget(lstTargets->GetSelection());
-    if (!target)
-        return;
-
-    wxComboBox* cmb     = XRCCTRL(*this, "cmbProjectType", wxComboBox);
-    wxCheckBox* chkSL   = XRCCTRL(*this, "chkCreateStaticLib", wxCheckBox);
-    wxCheckBox* chkCD   = XRCCTRL(*this, "chkCreateDefFile", wxCheckBox);
-    wxTextCtrl* txtI    = XRCCTRL(*this, "txtImportLibraryFilename", wxTextCtrl);
-    wxTextCtrl* txtD    = XRCCTRL(*this, "txtDefinitionFileFilename", wxTextCtrl);
-    wxButton*   browseI = XRCCTRL(*this, "btnBrowseImportLibraryFilename", wxButton);
-    wxButton*   browseD = XRCCTRL(*this, "btnBrowseDefinitionFileFilename", wxButton);
-
-    wxString platforms = GetStringFromPlatforms(target->GetPlatforms());
-
-    txtI->Enable(chkSL->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    txtD->Enable(chkCD->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    browseI->Enable(chkSL->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-    browseD->Enable(chkCD->IsChecked() && cmb->GetSelection() == ttDynamicLib);
-}
-
 void ProjectOptionsDlg::EndModal(int retCode)
 {
     if (retCode == wxID_OK)
     {
         m_Project->SetTitle(XRCCTRL(*this, "txtProjectName", wxTextCtrl)->GetValue());
-        m_Project->SetPlatforms(GetPlatformsFromString(XRCCTRL(*this, "txtPlatformProj", wxTextCtrl)->GetValue()));
+
         m_Project->RenameInTree(m_Project->GetTitle());
         m_Project->SetMakefile(XRCCTRL(*this, "txtProjectMakefile", wxTextCtrl)->GetValue());
         m_Project->SetMakefileCustom(XRCCTRL(*this, "chkCustomMakefile", wxCheckBox)->GetValue());
+        m_Project->SetMakeTool(XRCCTRL(*this, "txtMakeTool", wxTextCtrl)->GetValue());
         m_Project->SetMakefileExecutionDir(XRCCTRL(*this, "txtExecutionDir", wxTextCtrl)->GetValue());
         m_Project->SetTargetType(TargetType(XRCCTRL(*this, "cmbProjectType", wxComboBox)->GetSelection()));
         m_Project->SetModeForPCH((PCHMode)XRCCTRL(*this, "rbPCHStrategy", wxRadioBox)->GetSelection());
         m_Project->SetExtendedObjectNamesGeneration(XRCCTRL(*this, "chkExtendedObjNames", wxCheckBox)->GetValue());
+        m_Project->SetForceLowerCaseObject(XRCCTRL(*this, "chkNoForceObjectLowCase", wxCheckBox)->GetValue());
         m_Project->SetShowNotesOnLoad(XRCCTRL(*this, "chkShowNotes", wxCheckBox)->GetValue());
         m_Project->SetNotes(XRCCTRL(*this, "txtNotes", wxTextCtrl)->GetValue());
 

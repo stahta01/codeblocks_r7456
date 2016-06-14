@@ -2,7 +2,28 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
 
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 #ifndef CBAUIBOOK_H_INCLUDED
 #define CBAUIBOOK_H_INCLUDED
 
@@ -14,6 +35,7 @@ class cbAuiNotebook;
 
 WX_DEFINE_ARRAY_PTR(wxAuiTabCtrl*,cbAuiTabCtrlArray);
 WX_DEFINE_ARRAY_PTR(cbAuiNotebook*,cbAuiNotebookArray);
+
 
 /** \brief A notebook class
   * This class is derived from wxAuiNotebook, to enhance its abilities.
@@ -125,6 +147,21 @@ class cbAuiNotebook : public wxAuiNotebook
         /** \brief Set Focus on the tabCtrl belonging to the active tab
          */
         void FocusActiveTabCtrl();
+        /** \brief Get the number of tab controls position
+         *
+         * \return the number of tab controls
+         */
+        size_t GetTabControlCount() { return m_TabCtrls.GetCount(); }
+        /** \brief Check if the current index is within a tab control
+         *
+         * \return bool
+         */
+        bool IsIndexOnActiveCtrl(size_t idx, wxAuiTabCtrl *tabCtrl);
+        /** \brief Get the current active tab control
+         *
+         * \return bool
+         */
+        wxAuiTabCtrl *ActiveTabCtrl() { return GetActiveTabCtrl(); }
     protected:
         /** \brief Minmize free horizontal page of tabCtrl
          *
@@ -217,12 +254,6 @@ class cbAuiNotebook : public wxAuiNotebook
          */
         void RestoreFocus();
 #endif // #ifdef __WXMSW__
-        /** \brief Reset tabctrl events
-         */
-        void ResetTabCtrlEvents();
-        /** \brief Updates the array, that holds the wxTabCtrls
-         */
-        void UpdateTabControlsArray();
         /** \brief Shows tooltip for win
          *
          * \param win
@@ -365,6 +396,14 @@ class cbAuiNotebook : public wxAuiNotebook
         /** \brief Mouseweheel advance direction: negative => invert
          */
         static int s_advanceDirection;
+
+        /** \brief Event hooks for new tab controls from wxAuiTabControl
+        */
+        void OnNewTabControl(wxAuiNotebookEvent &event);
+
+        /** \brief Event hooks for deleted tab controls from wxAuiTabControl
+        */
+        void OnDeleteTabControl(wxAuiNotebookEvent &event);
 
         DECLARE_EVENT_TABLE()
 };

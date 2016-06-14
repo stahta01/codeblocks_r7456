@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_lexer_properties>
-<CodeBlocks_lexer_properties>
+<!DOCTYPE EmBlocks_lexer_properties>
+<EmBlocks_lexer_properties>
 		<Lexer name="Motorola 68k"
 		       index="100"
 		       filemasks="*.asm">
@@ -376,4 +376,4 @@
 				</Keywords>
 				<SampleCode value="lexer_A68k.sample"/>
 		</Lexer>
-</CodeBlocks_lexer_properties>
+</EmBlocks_lexer_properties>

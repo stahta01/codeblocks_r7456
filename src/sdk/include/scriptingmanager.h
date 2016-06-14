@@ -2,9 +2,31 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  */
+/*
+    This file is part of Em::Blocks.
 
-#ifndef SCRIPTING_H
-#define SCRIPTING_H
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
+
+#ifndef SCRIPTING_MANAGER_H
+#define SCRIPTING_MANAGER_H
 
 #include <map>
 #include <set>
@@ -21,7 +43,7 @@
 
 class SquirrelError;
 
-/** @brief Provides scripting in Code::Blocks.
+/** @brief Provides scripting in Em::Blocks.
   *
   * The scripting engine used is Squirrel (http:://www.squirrel-lang.org).
   *
@@ -118,7 +140,7 @@ class DLLIMPORT ScriptingManager : public Mgr<ScriptingManager>, public wxEvtHan
           */
         void InjectScriptOutput(const wxString& output);
 
-        /** @brief Configure scripting in Code::Blocks.
+        /** @brief Configure scripting in Em::Blocks.
           *
           * @return 0 on success or a negative value on error.
           */
@@ -221,6 +243,9 @@ class DLLIMPORT ScriptingManager : public Mgr<ScriptingManager>, public wxEvtHan
         	cbThrow(_T("Can't assign a ScriptingManager* !!!"));
         	return *this;
 		}
+
+		 bool CallScriptFunction(wxString funcName);
+
     private:
         // needed for SqPlus bindings
         ScriptingManager(const ScriptingManager& /*rhs*/); // prevent copy construction
@@ -254,5 +279,11 @@ class DLLIMPORT ScriptingManager : public Mgr<ScriptingManager>, public wxEvtHan
 
         DECLARE_EVENT_TABLE()
 };
+
+// Macro to make a class scriptable
+#define DECLARE_SCRIPTABLE_CLASS(classname)                                                             \
+    public:                                                                                             \
+        virtual void operator=(const classname& /*rhs*/){ cbThrow(_T("Can't assign an object* !!!")); } \
+        classname(const classname& /*rhs*/); // prevent copy construction
 
 #endif // SCRIPTING_H

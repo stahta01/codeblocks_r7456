@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_lexer_properties>
-<CodeBlocks_lexer_properties>
+<!DOCTYPE EmBlocks_lexer_properties>
+<EmBlocks_lexer_properties>
 		<Lexer name="Windows resource"
 				index="3"
 				filemasks="*.rc">
@@ -73,4 +73,4 @@
                     BoxCommentMid=" * "
                     BoxCommentEnd=" */"/>
 		</Lexer>
-</CodeBlocks_lexer_properties>
+</EmBlocks_lexer_properties>

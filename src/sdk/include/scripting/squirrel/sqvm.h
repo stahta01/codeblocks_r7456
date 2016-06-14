@@ -4,6 +4,7 @@
 
 #include "sqopcodes.h"
 #include "sqobject.h"
+
 #define MAX_NATIVE_CALLS 100
 #define MIN_STACK_OVERHEAD 10
 

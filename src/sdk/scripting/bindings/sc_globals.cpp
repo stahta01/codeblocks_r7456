@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
  * http://www.gnu.org/licenses/lgpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: sc_globals.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/sdk/scripting/bindings/sc_globals.cpp $
  */
 
 #include <sdk_precomp.h>
@@ -76,7 +76,7 @@ namespace ScriptBindings
     }
     bool InstallPlugin(const wxString& pluginName, bool allUsers, bool confirm)
     {
-        if (cbMessageBox(_("A script is trying to install a Code::Blocks plugin.\n"
+        if (cbMessageBox(_("A script is trying to install a Em::Blocks plugin.\n"
                             "Do you wish to allow this?\n\n") + pluginName,
                             _("Security warning"), wxICON_WARNING | wxYES_NO) == wxID_NO)
         {

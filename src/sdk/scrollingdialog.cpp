@@ -1,13 +1,29 @@
-/////////////////////////////////////////////////////////////////////////////
-// Name:        scrollingdialog.cpp
-// Purpose:     wxScrollingDialog
-// Author:      Julian Smart
-// Modified by: Jens Lody
-// Created:     2007-12-11
-// RCS-ID:      $Id$
-// Copyright:   (c) Julian Smart
-// Licence:
-/////////////////////////////////////////////////////////////////////////////
+/*
+ * This file is part of the Code::Blocks IDE and licensed under the GNU Lesser General Public License, version 3
+ * http://www.gnu.org/licenses/lgpl-3.0.html
+ */
+/*
+    This file is part of Em::Blocks.
+
+    Copyright (c) 2011-2013 Em::Blocks
+
+    Em::Blocks is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Em::Blocks is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with Em::Blocks.  If not, see <http://www.gnu.org/licenses/>.
+
+	@version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+*/
 
 #include "wx/wx.h"
 #include "wx/module.h"
@@ -485,6 +501,50 @@ int wxScrollingPropertySheetDialog::ShowModal()
         DoLayoutAdaptation();
 
     return wxPropertySheetDialog::ShowModal();
+}
+
+/////////////////////////////////////////////////////////////////////////////
+//
+//
+//
+
+IMPLEMENT_DYNAMIC_CLASS(wxScrollingDialogXmlHandler, wxDialogXmlHandler)
+
+wxScrollingDialogXmlHandler::wxScrollingDialogXmlHandler() : wxDialogXmlHandler()
+{
+}
+
+wxObject *wxScrollingDialogXmlHandler::DoCreateResource()
+{
+    XRC_MAKE_INSTANCE(dlg, wxScrollingDialog);
+
+    dlg->Create(m_parentAsWindow,
+                GetID(),
+                GetText(wxT("title")),
+                wxDefaultPosition, wxDefaultSize,
+                GetStyle(wxT("style"), wxDEFAULT_DIALOG_STYLE),
+                GetName());
+
+    if (HasParam(wxT("size")))
+        dlg->SetClientSize(GetSize(wxT("size"), dlg));
+    if (HasParam(wxT("pos")))
+        dlg->Move(GetPosition());
+    if (HasParam(wxT("icon")))
+        dlg->SetIcon(GetIcon(wxT("icon"), wxART_FRAME_ICON));
+
+    SetupWindow(dlg);
+
+    CreateChildren(dlg);
+
+    if (GetBool(wxT("centered"), false))
+        dlg->Centre();
+
+    return dlg;
+}
+
+bool wxScrollingDialogXmlHandler::CanHandle(wxXmlNode *node)
+{
+    return IsOfClass(node, wxT("wxScrollingDialog"));
 }
 #endif //#if !wxCHECK_VERSION(2,9,0)
 
