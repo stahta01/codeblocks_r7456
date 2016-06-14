@@ -1,15 +1,38 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- */
+ *
+*/
+/*
+    Copyright (C) Em::Blocks 2011-2013
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+    @version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+
+ */
 #ifndef MAIN_H
 #define MAIN_H
 
 #include <map>
 
 #include <wx/aui/aui.h> // wxAuiManager
-#include <wx/toolbar.h>
+#include <wx/aui/auibar.h> // wxAuiManager
+//#include <wx/toolbar.h>
 #include <wx/docview.h> // for wxFileHistory
 #include <wx/notebook.h>
 #include <wx/dynarray.h>
@@ -20,9 +43,10 @@
 #include "sdk_events.h"
 #include "scripting/bindings/sc_base_types.h"
 #include "scrollingdialog.h"
+#include "rssreader.h"
 
 WX_DECLARE_HASH_MAP(int, wxString, wxIntegerHash, wxIntegerEqual, PluginIDsMap);
-WX_DECLARE_HASH_MAP(cbPlugin*, wxToolBar*, wxPointerHash, wxPointerEqual, PluginToolbarsMap);
+WX_DECLARE_HASH_MAP(cbPlugin*, wxAuiToolBar*, wxPointerHash, wxPointerEqual, PluginToolbarsMap);
 WX_DECLARE_STRING_HASH_MAP(wxString, LayoutViewsMap);
 
 extern int idStartHerePageLink;
@@ -31,6 +55,7 @@ extern int idStartHerePageVarSubst;
 class cbAuiNotebook;
 class InfoPane;
 class wxGauge;
+
 
 class MainFrame : public wxFrame
 {
@@ -54,9 +79,15 @@ class MainFrame : public wxFrame
         MainFrame(wxWindow* parent = (wxWindow*)NULL);
         ~MainFrame();
 
+        wxAuiManager *GetLayoutManager() {return &m_LayoutManager;}
         bool Open(const wxString& filename, bool addToHistory = true);
         bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& filenames);
         void ShowTips(bool forceShow = false);
+        bool IsShutdown(void) {return m_InitiatedShutdown;}
+
+        // This function tests if the window is really on screen even if the application
+        // is resized.
+        bool IsWindowReallyVisible(wxWindow* win);
 
         wxScrollingDialog* GetBatchBuildDialog(){ return m_pBatchBuildDialog; }
 
@@ -83,10 +114,6 @@ class MainFrame : public wxFrame
         void OnFileReopen(wxCommandEvent& event);
         void OnFileOpenRecentClearHistory(wxCommandEvent& event);
         void OnFileImportProjectDevCpp(wxCommandEvent& event);
-        void OnFileImportProjectMSVC(wxCommandEvent& event);
-        void OnFileImportProjectMSVCWksp(wxCommandEvent& event);
-        void OnFileImportProjectMSVS(wxCommandEvent& event);
-        void OnFileImportProjectMSVSWksp(wxCommandEvent& event);
         void OnFileSave(wxCommandEvent& event);
         void OnFileSaveAs(wxCommandEvent& event);
         void OnFileSaveAllFiles(wxCommandEvent& event);
@@ -120,9 +147,6 @@ class MainFrame : public wxFrame
         void OnEditHighlightMode(wxCommandEvent& event);
         void OnEditFoldAll(wxCommandEvent& event);
         void OnEditUnfoldAll(wxCommandEvent& event);
-        void OnEditToggleAllFolds(wxCommandEvent& event);
-        void OnEditFoldBlock(wxCommandEvent& event);
-        void OnEditUnfoldBlock(wxCommandEvent& event);
         void OnEditToggleFoldBlock(wxCommandEvent& event);
         void OnEditEOLMode(wxCommandEvent& event);
         void OnEditEncoding(wxCommandEvent& event);
@@ -159,9 +183,15 @@ class MainFrame : public wxFrame
         void OnEditBookmarksPrevious(wxCommandEvent& event);
 
         void OnViewLayout(wxCommandEvent& event);
+        void OnViewLayoutSaveAs(wxCommandEvent& event);
         void OnViewLayoutSave(wxCommandEvent& event);
         void OnViewLayoutDelete(wxCommandEvent& event);
         void OnViewScriptConsole(wxCommandEvent& event);
+
+        void OnToggleBookmark(wxCommandEvent& event);
+        void OnPrevBookmark(wxCommandEvent& event);
+        void OnNextBookmark(wxCommandEvent& event);
+        void OnClearBookmark(wxCommandEvent& event);
 
         void OnSearchFind(wxCommandEvent& event);
         void OnSearchFindNext(wxCommandEvent& event);
@@ -176,7 +206,7 @@ class MainFrame : public wxFrame
         void OnSettingsKeyBindings(wxCommandEvent& event);
         void OnGlobalUserVars(wxCommandEvent& event);
         void OnSettingsEditor(wxCommandEvent& event);
-        void OnSettingsCompilerDebugger(wxCommandEvent& event);
+        void OnSettingsTools(wxCommandEvent& event);
         void OnSettingsPlugins(wxCommandEvent& event);
         void OnPluginSettingsMenu(wxCommandEvent& event);
         void OnSettingsScripting(wxCommandEvent& event);
@@ -187,11 +217,11 @@ class MainFrame : public wxFrame
 
         void OnToggleBar(wxCommandEvent& event);
         void OnToggleStatusBar(wxCommandEvent& event);
-        void OnFocusEditor(wxCommandEvent& event);
-        void OnFocusManagement(wxCommandEvent& event);
         void OnFocusLogsAndOthers(wxCommandEvent& event);
         void OnSwitchTabs(wxCommandEvent& event);
         void OnToggleFullScreen(wxCommandEvent& event);
+
+        void OnMenu(wxCommandEvent& event);
 
         // plugin events
         void OnPluginLoaded(CodeBlocksEvent& event);
@@ -201,12 +231,12 @@ class MainFrame : public wxFrame
 
         // general UpdateUI events
         void OnEditorUpdateUI(CodeBlocksEvent& event);
-
         void OnFileMenuUpdateUI(wxUpdateUIEvent& event);
         void OnEditMenuUpdateUI(wxUpdateUIEvent& event);
         void OnViewMenuUpdateUI(wxUpdateUIEvent& event);
         void OnSearchMenuUpdateUI(wxUpdateUIEvent& event);
         void OnProjectMenuUpdateUI(wxUpdateUIEvent& event);
+        void OnBookmarkMenuUpdateUI(wxUpdateUIEvent& event);
 
         // project events
         void OnProjectActivated(CodeBlocksEvent& event);
@@ -235,6 +265,7 @@ class MainFrame : public wxFrame
         void OnHideLogManager(CodeBlocksLogEvent& event);
         void OnLockLogManager(CodeBlocksLogEvent& event);
         void OnUnlockLogManager(CodeBlocksLogEvent& event);
+        void OnToggleLogView(CodeBlocksLogEvent& event);
 
         // editor changed events
         void OnEditorOpened(CodeBlocksEvent& event);
@@ -247,15 +278,20 @@ class MainFrame : public wxFrame
         void OnCtrlAltTab(wxCommandEvent& event);
         void StartupDone();
         void OnNotebookDoubleClick(CodeBlocksEvent& /*event*/);
+
+        // Rss feed update
+        void OnRssFeedUpdate(CodeBlocksEvent& event);
+        void OnStartPageUpdate(CodeBlocksEvent& event);
+
     protected:
         void CreateIDE();
         void CreateMenubar();
         void CreateToolbars();
         void ScanForPlugins();
-        void AddToolbarItem(int id, const wxString& title, const wxString& shortHelp, const wxString& longHelp, const wxString& image);
         void RecreateMenuBar();
         void RegisterEvents();
         void SetupGUILogging();
+        void BuildLogViewMenu();
 
         void RegisterScriptFunctions();
         void RunStartupScripts();
@@ -288,7 +324,7 @@ class MainFrame : public wxFrame
         bool DoCloseCurrentWorkspace();
         bool DoOpenProject(const wxString& filename, bool addToHistory = true);
         bool DoOpenFile(const wxString& filename, bool addToHistory = true);
-        void DoOnFileOpen(bool bProject = false);
+        void DoOnFileOpen();
 
         void DoCreateStatusBar();
         void DoUpdateStatusBar();
@@ -298,7 +334,7 @@ class MainFrame : public wxFrame
         void DoUpdateEditorStyle();
         void DoUpdateEditorStyle(cbAuiNotebook* target, const wxString& prefix, long defaultStyle);
 
-        void ShowHideStartPage(bool forceHasProject = false);
+        void ShowHideStartPage();
         void ShowHideScriptConsole();
 
         void LoadWindowState();
@@ -323,7 +359,8 @@ class MainFrame : public wxFrame
         LogManager*     m_pLogMan;
         InfoPane*       m_pInfoPane;
 
-        wxToolBar* m_pToolbar;
+        wxAuiToolBar* m_pToolbar;
+        wxAuiToolBar* m_pBookmarkBar;
         PluginToolbarsMap m_PluginsTools;
 
         PluginIDsMap m_PluginIDsMap;
@@ -331,7 +368,6 @@ class MainFrame : public wxFrame
         wxMenu* m_PluginsMenu;
         wxMenu* m_HelpPluginsMenu;
 
-        bool m_SmallToolBar;
         bool m_StartupDone;
         bool m_InitiatedShutdown;
 
@@ -352,9 +388,10 @@ class MainFrame : public wxFrame
         wxScrollingDialog* m_pBatchBuildDialog;
         wxGauge* m_pProgressBar;
 
+        wxRSSReader m_RssReader;
+
         DECLARE_EVENT_TABLE()
 };
 
 #endif // MAIN_H
-
 

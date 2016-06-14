@@ -16,10 +16,6 @@
           <label>Project...</label>
           <help>Create a new project</help>
         </object>
-        <object class="wxMenuItem" name="idFileNewTarget">
-          <label>Build target...</label>
-          <help>Create a new build target for the active project</help>
-        </object>
         <object class="wxMenuItem" name="idFileNewFile">
           <label>File...</label>
           <help>Create a new file</help>
@@ -71,7 +67,6 @@
       </object>
       <object class="wxMenuItem" name="idFileSaveAs">
         <label>Save file &amp;as...</label>
-        <bitmap>images\16x16\filesaveas.png</bitmap>
         <help>Save the active file under a different name</help>
       </object>
       <object class="wxMenuItem" name="idFileSaveAllFiles">
@@ -147,7 +142,7 @@
         <label>&amp;Quit</label>
         <bitmap>images\16x16\exit.png</bitmap>
         <accel>Ctrl-Q</accel>
-        <help>Exit Code::Blocks</help>
+        <help>Exit Em::Blocks</help>
       </object>
     </object>
     <object class="wxMenu" name="edit_menu">
@@ -192,7 +187,7 @@
       <object class="separator"/>
       <object class="wxMenuItem" name="idEditSwapHeaderSource">
         <label>S&amp;wap header/source</label>
-        <accel>F11</accel>
+        <accel>Ctrl-H</accel>
         <help>Swap between header and source file pair</help>
       </object>
       <object class="separator"/>
@@ -209,18 +204,20 @@
         <label>&amp;Bookmarks</label>
         <object class="wxMenuItem" name="idEditBookmarksToggle">
           <label>&amp;Toggle bookmark</label>
-          <bitmap>images\16x16\bookmark_add.png</bitmap>
+          <bitmap>images\16x16\mark_toggle.png</bitmap>
           <accel>Ctrl-B</accel>
           <help>Toggle a bookmark for the current position</help>
         </object>
         <object class="wxMenuItem" name="idEditBookmarksPrevious">
           <label>Goto &amp;previous bookmark</label>
-          <accel>Alt-PgUp</accel>
+          <bitmap>images\16x16\mark_prev.png</bitmap>
+          <accel>Alt-A</accel>
           <help>Goto previous bookmark</help>
         </object>
         <object class="wxMenuItem" name="idEditBookmarksNext">
           <label>Goto &amp;next bookmark</label>
-          <accel>Alt-PgDn</accel>
+          <bitmap>images\16x16\mark_next.png</bitmap>
+          <accel>Alt-Z</accel>
           <help>Goto next bookmark</help>
         </object>
       </object>
@@ -240,14 +237,6 @@
           <help>Toggle all folds</help>
         </object>
         <object class="separator"/>
-        <object class="wxMenuItem" name="idEditFoldBlock">
-          <label>Fold &amp;current block</label>
-          <help>Fold current block</help>
-        </object>
-        <object class="wxMenuItem" name="idEditUnfoldBlock">
-          <label>Unfold cu&amp;rrent block</label>
-          <help>Unfold current block</help>
-        </object>
         <object class="wxMenuItem" name="idEditToggleFoldBlock">
           <label>Toggle current &amp;block</label>
           <accel>F12</accel>
@@ -493,6 +482,11 @@
           <label>Delete current</label>
           <help>Delete current perspective</help>
         </object>
+        <object class="separator"/>
+        <object class="wxMenuItem" name="idViewLayoutSaveAs">
+          <label>Save as...</label>
+          <help>Save current perspective with new name</help>
+        </object>
       </object>
       <object class="wxMenu" name="idViewToolbars">
         <label>Toolbars</label>
@@ -502,6 +496,15 @@
           <checkable>1</checkable>
           <enabled>1</enabled>
         </object>
+        <object class="wxMenuItem" name="idViewToolBookmark">
+          <label>&amp;Bookmarks</label>
+          <help>Show/hide bookmark toolbar</help>
+          <checkable>1</checkable>
+          <enabled>1</enabled>
+        </object>
+      </object>
+      <object class="wxMenu" name="idViewLogs">
+        <label>Log views...</label>
       </object>
       <object class="wxMenuItem" name="idViewManager">
         <label>&amp;Manager</label>
@@ -535,19 +538,6 @@
         <help>Switch to full screen view</help>
         <checkable>1</checkable>
         <enabled>1</enabled>
-      </object>
-      <object class="separator"/>
-      <object class="wxMenuItem" name="idViewFocusEditor">
-        <label>Focus editor</label>
-        <help>Set focus on the active editor</help>
-      </object>
-      <object class="wxMenuItem" name="idViewFocusManagement">
-        <label>Focus management panel</label>
-        <help>Set focus on the management panel</help>
-      </object>
-      <object class="wxMenuItem" name="idViewFocusLogsAndOthers">
-        <label>Focus logs and others</label>
-        <help>Set focus on the logs and others panel</help>
       </object>
       <object class="separator"/>
       <object class="wxMenuItem" name="idViewSwitchTabs">
@@ -639,9 +629,9 @@
         <label>E&amp;ditor...</label>
         <help>Change editor's settings</help>
       </object>
-      <object class="wxMenuItem" name="idSettingsCompilerDebugger">
-        <label>&amp;Compiler and debugger...</label>
-        <help>Change compiler and debugger settings</help>
+      <object class="wxMenuItem" name="idSettingsTools">
+        <label>&amp;Tools...</label>
+        <help>Change global compiler, debugger and other tool settings</help>
       </object>
       <object class="wxMenuItem" name="idSettingsGlobalUserVars">
         <label>&amp;Global variables...</label>
@@ -657,12 +647,12 @@
       <object class="wxMenuItem" name="wxID_ABOUT">
         <label>&amp;About...</label>
         <bitmap>images\16x16\info.png</bitmap>
-        <help>About Code::Blocks</help>
+        <help>About Em::Blocks</help>
       </object>
       <object class="wxMenuItem" name="idHelpTips">
         <label>&amp;Tips</label>
         <bitmap>images\16x16\idea.png</bitmap>
-        <help>Tips on using Code::Blocks</help>
+        <help>Tips on using Em::Blocks</help>
       </object>
       <object class="wxMenu" name="idHelpPlugins">
         <label>&amp;Plugins</label>

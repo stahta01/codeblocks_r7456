@@ -1,12 +1,30 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
- */
+*/
+/*
+    Copyright (C) Em::Blocks 2011-2013
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+    @version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+
+ */
 #include <sdk.h>
 #include <wx/wxhtml.h>
 #include <wx/intl.h>
@@ -28,6 +46,7 @@
 
 const wxString g_StartHereTitle = _("Start here");
 int idWin = wxNewId();
+
 
 class MyHtmlWin : public wxHtmlWindow
 {
@@ -55,10 +74,13 @@ class MyHtmlWin : public wxHtmlWindow
 BEGIN_EVENT_TABLE(StartHerePage, EditorBase)
 END_EVENT_TABLE()
 
+
 StartHerePage::StartHerePage(wxEvtHandler* owner, wxWindow* parent)
-    : EditorBase(parent, g_StartHereTitle),
+    : EditorBase(parent, g_StartHereTitle, true),
     m_pOwner(owner)
 {
+    SetAltStatusText(_("Open an existing or start a new project"));
+
     //ctor
     wxBoxSizer* bs = new wxBoxSizer(wxVERTICAL);
 
@@ -106,7 +128,7 @@ StartHerePage::StartHerePage(wxEvtHandler* owner, wxWindow* parent)
         delete f;
     }
     else
-        buf = _("<html><body><h1>Welcome to Code::Blocks!</h1><br>The default start page seems to be missing...</body></html>");
+        buf = _("<html><body><h1>Welcome to Em::Blocks!</h1><br>The default start page seems to be missing...</body></html>");
     delete fs;
 
     #if defined(_LP64) || defined(_WIN64)
@@ -116,19 +138,19 @@ StartHerePage::StartHerePage(wxEvtHandler* owner, wxWindow* parent)
     #endif
 
     #ifdef __GNUC__
-    revInfo.Printf(_T("%s (%s)   gcc %d.%d.%d %s/%s - %d bit"),
-                    appglobals::AppActualVersionVerb.c_str(), ConfigManager::GetSvnDate().c_str(),
+    revInfo.Printf(_T("%s (gcc %d.%d.%d) %s/%s - %d bit"),
+                    appglobals::AppActualVersionVerb.c_str(),
                     __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__, appglobals::AppPlatform.c_str(), appglobals::AppWXAnsiUnicode.c_str(), bit_type);
     #else
-    revInfo.Printf(_T("%s (%s)   %s/%s"),
-                    appglobals::AppActualVersionVerb.c_str(), ConfigManager::GetSvnDate().c_str(),
+    revInfo.Printf(_T("%s %s/%s"),
+                    appglobals::AppActualVersionVerb.c_str(),
                     appglobals::AppPlatform.c_str(), appglobals::AppWXAnsiUnicode.c_str());
     #endif
     // perform var substitution
-    buf.Replace(_T("CB_VAR_REVISION_INFO"), revInfo);
-    buf.Replace(_T("CB_VAR_VERSION_VERB"), appglobals::AppActualVersionVerb);
-    buf.Replace(_T("CB_VAR_VERSION"), appglobals::AppActualVersion);
-    buf.Replace(_T("CB_SAFE_MODE"), PluginManager::GetSafeMode() ? _("SAFE MODE") : _T(""));
+    buf.Replace(_T("EB_VAR_REVISION_INFO"), revInfo);
+    buf.Replace(_T("EB_VAR_VERSION_VERB"), appglobals::AppActualVersionVerb);
+    buf.Replace(_T("EB_VAR_VERSION"), appglobals::AppActualVersion);
+    buf.Replace(_T("EB_SAFE_MODE"), PluginManager::GetSafeMode() ? _("SAFE MODE") : _T(""));
     m_pWin->SetPage(buf);
 
     m_OriginalPageContent = buf; // keep a copy of original for Reload()
@@ -142,7 +164,8 @@ StartHerePage::StartHerePage(wxEvtHandler* owner, wxWindow* parent)
 StartHerePage::~StartHerePage()
 {
     //dtor
-    //m_pWin->Destroy();
+    if(m_pWin)
+        m_pWin->Destroy();
 }
 
 void StartHerePage::Reload()
@@ -173,7 +196,7 @@ bool StartHerePage::LinkClicked(const wxHtmlLinkInfo& link)
         return true;
 
     wxString href = link.GetHref();
-    if (href.StartsWith(_T("CB_CMD_")))
+    if (href.StartsWith(_T("EB_CMD_")))
     {
         wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, idStartHerePageLink);
         evt.SetString(link.GetHref());
@@ -181,23 +204,21 @@ bool StartHerePage::LinkClicked(const wxHtmlLinkInfo& link)
         return true;
     }
 
-    if (   href.IsSameAs(_T("http://www.codeblocks.org/"))
+    if (   href.IsSameAs(_T("http://www.emblocks.org/"))
         || href.StartsWith(_T("http://developer.berlios.de/bugs/")) )
     {
-        wxTextDataObject *data = new wxTextDataObject(revInfo);
         if (wxTheClipboard->Open())
         {
-            wxTheClipboard->SetData(data);
+            wxTheClipboard->SetData(new wxTextDataObject(revInfo));
             wxTheClipboard->Close();
         }
     }
 
     if(href.IsSameAs(_T("rev")))
     {
-        wxTextDataObject *data = new wxTextDataObject(revInfo);
         if (wxTheClipboard->Open())
         {
-            wxTheClipboard->SetData(data);
+            wxTheClipboard->SetData(new wxTextDataObject(revInfo));
             wxTheClipboard->Close();
         }
         return true;

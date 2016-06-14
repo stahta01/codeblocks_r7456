@@ -1,18 +1,40 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
+ *
+*/
+/*
+    Copyright (C) Em::Blocks 2011-2013
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+    @version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+
  */
 
 #ifndef INFOPANE_H
 #define INFOPANE_H
-
 
 #include <limits>
 #include <logmanager.h>
 
 #include "cbauibook.h"
 
-static const int infopane_flags = wxAUI_NB_WINDOWLIST_BUTTON | wxAUI_NB_SCROLL_BUTTONS | wxAUI_NB_TAB_MOVE | wxAUI_NB_TAB_SPLIT;
+static const int infopane_flags = wxAUI_NB_WINDOWLIST_BUTTON | wxAUI_NB_TAB_MOVE | wxAUI_NB_TAB_SPLIT;
 
 class wxWindow;
 class wxCommandEvent;
@@ -44,16 +66,12 @@ class InfoPane : public cbAuiNotebook
 
     wxArrayOfPage page;
 
-    void Toggle(size_t index);
-    void Hide(size_t i);
-
     void OnMenu(wxCommandEvent& event);
     void OnCopy(wxCommandEvent& event);
     void OnClear(wxCommandEvent& event);
     void ContextMenu(wxContextMenuEvent& event);
     void OnTabContextMenu(wxAuiNotebookEvent& event);
     void OnCloseClicked(wxAuiNotebookEvent& event);
-    void OnTabPosition(wxCommandEvent& event);
     void DoShowContextMenu();
     int AddPagePrivate(wxWindow* p, const wxString& title, wxBitmap* icon = 0);
     bool InsertPagePrivate(wxWindow* p, const wxString& title, wxBitmap* icon = 0 , int index = -1);
@@ -61,6 +79,9 @@ public:
 
     InfoPane(wxWindow* parent);
     ~InfoPane();
+
+    void Toggle(size_t index);
+    void Hide(size_t i);
 
     /*
     *  Show a tab, or bring it to the foreground if already shown.
@@ -77,6 +98,8 @@ public:
 
     int GetPageIndexByWindow(wxWindow* win);
     int GetCurrentPage(bool &is_logger);
+    int GetPageCount() {return page.GetCount();};
+    Page* GetPageByIndex(int item) {return page.Item(item);};
 
     Logger* GetLogger(int index);
     wxWindow* GetWindow(int index);

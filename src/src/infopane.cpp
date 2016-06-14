@@ -1,12 +1,30 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
- */
+*/
+/*
+    Copyright (C) Em::Blocks 2011-2013
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+    @version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+
+ */
 #include <sdk.h>
 
 #ifndef CB_PRECOMP
@@ -21,6 +39,7 @@
 #include <wx/tokenzr.h>
 #include "infopane.h"
 #include "logmanager.h"
+#include "sdk_events.h"
 
 namespace
 {
@@ -28,8 +47,6 @@ namespace
     int idCopySelectedToClipboard = wxNewId();
     int idCopyAllToClipboard = wxNewId();
     int idNB = wxNewId();
-    int idNB_TabTop = wxNewId();
-    int idNB_TabBottom = wxNewId();
 };
 
 BEGIN_EVENT_TABLE(InfoPane, cbAuiNotebook)
@@ -38,15 +55,28 @@ BEGIN_EVENT_TABLE(InfoPane, cbAuiNotebook)
     EVT_MENU(wxID_ANY,  InfoPane::OnMenu)
     EVT_CONTEXT_MENU(InfoPane::ContextMenu)
     EVT_AUINOTEBOOK_TAB_RIGHT_UP(idNB, InfoPane::OnTabContextMenu)
-    EVT_MENU(idNB_TabTop, InfoPane::OnTabPosition)
-    EVT_MENU(idNB_TabBottom, InfoPane::OnTabPosition)
     EVT_AUINOTEBOOK_PAGE_CLOSE(idNB, InfoPane::OnCloseClicked)
 END_EVENT_TABLE()
 
 
+/*
+void InfoPane::OnTabPosition(wxCommandEvent& event)
+{
+    long style = GetWindowStyleFlag();
+    style &= ~wxAUI_NB_BOTTOM;
+
+    if (event.GetId() == idNB_TabBottom)
+        style |= wxAUI_NB_BOTTOM;
+    SetWindowStyleFlag(style);
+    Refresh();
+    // (style & wxAUI_NB_BOTTOM) saves info only about the the tabs position
+    Manager::Get()->GetConfigManager(_T("app"))->Write(_T("/environment/infopane_tabs_bottom"), (bool)(style & wxAUI_NB_BOTTOM));
+}
+*/
+
 InfoPane::InfoPane(wxWindow* parent) : cbAuiNotebook(parent, idNB, wxDefaultPosition, wxDefaultSize, infopane_flags)
 {
-    defaultBitmap = cbLoadBitmap(ConfigManager::GetDataFolder() + _T("/images/edit_16x16.png"), wxBITMAP_TYPE_PNG);
+    defaultBitmap = wxXmlResource::Get()->LoadBitmap(_T("edit_16x16_png"));
 }
 
 InfoPane::~InfoPane()
@@ -171,6 +201,9 @@ void InfoPane::Toggle(size_t i)
         RemovePage(GetPageIndex(page.Item(i)->window));
         page.Item(i)->indexInNB = ~page.Item(i)->indexInNB;
     }
+
+    CodeBlocksLogEvent event(cbEVT_TOGGLE_LOG_WINDOW, i);
+    Manager::Get()->ProcessEvent(event);
 }
 
 int InfoPane::GetPageIndexByWindow(wxWindow* win)
@@ -335,21 +368,21 @@ void InfoPane::DoShowContextMenu()
     page.Sort(&CompareIndexes);
     wxMenu menu;
     wxMenu* view = new wxMenu;
-    menu.Append(idNB_TabTop, _("Tabs at top"));
-    menu.Append(idNB_TabBottom, _("Tabs at bottom"));
-    if (Manager::Get()->GetConfigManager(_T("app"))->ReadBool(_T("/environment/infopane_tabs_bottom"), false))
-    	menu.FindItem(idNB_TabBottom)->Enable(false);
-    else
-    	menu.FindItem(idNB_TabTop)->Enable(false);
 
-    if (page.Item(GetPageIndexByWindow(GetPage(GetSelection())))->islogger)
+
+    int curSelection = GetSelection();
+
+    if ( (curSelection !=-1) &&
+         (page.Item(GetPageIndexByWindow(GetPage(curSelection)))->islogger) )
     {
+        menu.AppendSubMenu(view, _("Show/hide"));
         menu.AppendSeparator();
         menu.Append(idCopyAllToClipboard, _("Copy contents to clipboard"));
         menu.Append(idCopySelectedToClipboard, _("Copy selection to clipboard"));
         menu.AppendSeparator();
         menu.Append(idClear, _("Clear contents"));
     }
+
     for (size_t i = 0; i < page.GetCount(); ++i)
     {
         if (page.Item(i)->window)
@@ -359,26 +392,10 @@ void InfoPane::DoShowContextMenu()
         }
     }
 
-    if (view->GetMenuItemCount() > 0)
-    {
-        menu.AppendSeparator();
-        menu.AppendSubMenu(view, _("Toggle..."));
-    }
     PopupMenu(&menu);
 }
 
-void InfoPane::OnTabPosition(wxCommandEvent& event)
-{
-    long style = GetWindowStyleFlag();
-    style &= ~wxAUI_NB_BOTTOM;
 
-    if (event.GetId() == idNB_TabBottom)
-        style |= wxAUI_NB_BOTTOM;
-    SetWindowStyleFlag(style);
-    Refresh();
-    // (style & wxAUI_NB_BOTTOM) saves info only about the the tabs position
-    Manager::Get()->GetConfigManager(_T("app"))->Write(_T("/environment/infopane_tabs_bottom"), (bool)(style & wxAUI_NB_BOTTOM));
-}
 
 bool InfoPane::AddLogger(Logger* logger, wxWindow* p, const wxString& title, wxBitmap* icon)
 {
@@ -480,4 +497,3 @@ bool InfoPane::DeleteNonLogger(wxWindow* p)
 
    return false;
 }
-

@@ -1,10 +1,33 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
+ *
+*/
+/*
+    Copyright (C) Em::Blocks 2011-2013
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+    @version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+
  */
 
-#ifndef CODEBLOCKS_APP_H
-#define CODEBLOCKS_APP_H
+#ifndef EMBLOCKS_APP_H
+#define EMBLOCKS_APP_H
 
 #include <wx/wxprec.h>
 
@@ -27,14 +50,11 @@
 #endif
 
 #include <wx/taskbar.h>
-#include <wx/splash.h>
 #include <wx/snglinst.h>
 #include "manager.h"
 #include "main.h"
 
-class cbSplashScreen;
-
-class CodeBlocksApp : public wxApp
+class EmBlocksApp : public wxApp
 {
     public:
         virtual bool OnInit();
@@ -47,10 +67,11 @@ class CodeBlocksApp : public wxApp
         void OnFatalException();
         void LoadDelayedFiles(MainFrame* frame); // command line or DDE (if available) files
         void SetAutoFile(wxString& file); // method to set m_AutoFile
+
 #ifdef __WXMAC__
         // in response of an open-document apple event
         virtual void         MacOpenFile(const wxString &fileName) ;
-        // in response of a print-document apple event
+        // in response ofEmBlocksApp a print-document apple event
         virtual void         MacPrintFile(const wxString &fileName) ;
 #endif
     protected:
@@ -87,8 +108,8 @@ class CodeBlocksApp : public wxApp
         bool m_Clean;
         bool m_HasProject;
         bool m_HasWorkSpace;
-        bool m_Splash; // splash screen enabled
         bool m_HasDebugLog; // display debug log
+        bool m_HasDebugDbgLog; // display debug log
         bool m_CrashHandler; // crash handler enabled
         bool m_SafeMode; // all plugins disabled
 
@@ -104,6 +125,6 @@ class CodeBlocksApp : public wxApp
         DECLARE_EVENT_TABLE()
 };
 
-DECLARE_APP(CodeBlocksApp);
+DECLARE_APP(EmBlocksApp);
 
-#endif // CODEBLOCKS_APP_H
+#endif // EMBLOCKS_APP_H

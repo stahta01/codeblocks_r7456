@@ -1,12 +1,30 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
- */
+*/
+/*
+    Copyright (C) Em::Blocks 2011-2013
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+    @version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+
+ */
 #include <sdk.h>
 #include <wx/aui/aui.h>
 #include <wx/button.h>
@@ -47,17 +65,17 @@
     #include "cbplugin.h" // cgCompiler, cgDebugger...
 #endif
 
+
 // images by order of pages
 const wxString base_imgs[] =
 {
-    _T("general-prefs"),
-    _T("view"),
-    _T("notebook-appearance"),
-    _T("colours"),
-    _T("dialogs"),
-    _T("net"),
+    _T("bmp_general_prefs"),
+    _T("bmp_view"),
+    _T("bmp_notebook-appearance"),
+    _T("bmp_dialogs"),
+    _T("bmp_net")
 };
-const int IMAGES_COUNT = sizeof(base_imgs) / sizeof(wxString);
+const int IMAGES_COUNT = sizeof(base_imgs) / sizeof(base_imgs[0]);
 
 BEGIN_EVENT_TABLE(EnvironmentSettingsDlg, wxScrollingDialog)
     EVT_BUTTON(XRCID("btnSetAssocs"), EnvironmentSettingsDlg::OnSetAssocs)
@@ -99,12 +117,11 @@ EnvironmentSettingsDlg::EnvironmentSettingsDlg(wxWindow* parent, wxAuiDockArt* a
     LoadListbookImages();
 
     // this setting is not available under wxGTK
-    #ifndef __WXMSW__
+#ifndef __WXMSW__
     XRCCTRL(*this, "rbSettingsIconsSize", wxRadioBox)->Enable(false);
-    #endif
+#endif
 
     // tab "General"
-    XRCCTRL(*this, "chkShowSplash", wxCheckBox)->SetValue(cfg->ReadBool(_T("/environment/show_splash"), true));
     XRCCTRL(*this, "chkSingleInstance", wxCheckBox)->SetValue(cfg->ReadBool(_T("/environment/single_instance"), true));
 #ifdef __WXMSW__
     static_cast<wxStaticBoxSizer*>(XRCCTRL(*this, "chkUseIPC", wxCheckBox)->GetContainingSizer())->GetStaticBox()->SetLabel(_("Dynamic Data Exchange (will take place after restart)"));
@@ -131,6 +148,16 @@ EnvironmentSettingsDlg::EnvironmentSettingsDlg(wxWindow* parent, wxAuiDockArt* a
     txt->Enable(false);
 #endif
 
+#if defined __WXMSW__
+    const wxString openFolderCmds = _T("explorer.exe /select,");
+#elif defined __WXMAC__
+    const wxString openFolderCmds = _T("open -R");
+#else
+    const wxString openFolderCmds = _T("xdg-open");
+#endif
+
+    XRCCTRL(*this, "txtOpenFolder", wxTextCtrl)->SetValue(cfg->Read(_T("/open_containing_folder"), openFolderCmds));
+
     // tab "View"
     bool do_place = cfg->ReadBool(_T("/dialog_placement/do_place"), false);
     XRCCTRL(*this, "chkDoPlace", wxCheckBox)->SetValue(do_place);
@@ -138,9 +165,7 @@ EnvironmentSettingsDlg::EnvironmentSettingsDlg(wxWindow* parent, wxAuiDockArt* a
     XRCCTRL(*this, "chkPlaceHead", wxCheckBox)->Enable(do_place);
 
     XRCCTRL(*this, "rbProjectOpen", wxRadioBox)->SetSelection(pcfg->ReadInt(_T("/open_files"), 1));
-    XRCCTRL(*this, "rbToolbarSize", wxRadioBox)->SetSelection(cfg->ReadBool(_T("/environment/toolbar_size"), true) ? 1 : 0);
     XRCCTRL(*this, "rbSettingsIconsSize", wxRadioBox)->SetSelection(cfg->ReadInt(_T("/environment/settings_size"), 0));
-    XRCCTRL(*this, "chkShowStartPage", wxCheckBox)->SetValue(cfg->ReadBool(_T("/environment/start_here_page"), true));
     XRCCTRL(*this, "spnLogFontSize", wxSpinCtrl)->SetValue(mcfg->ReadInt(_T("/log_font_size"), 8));
 
     bool en = mcfg->ReadBool(_T("/auto_hide"), false);
@@ -207,9 +232,6 @@ EnvironmentSettingsDlg::EnvironmentSettingsDlg(wxWindow* parent, wxAuiDockArt* a
 
 
     // tab "Notebook"
-    XRCCTRL(*this, "cmbEditorTabs",               wxComboBox)->SetSelection(cfg->ReadInt(_T("/environment/tabs_style"), 0));
-    XRCCTRL(*this, "chkCloseOnAll",               wxCheckBox)->SetValue(cfg->ReadBool(_T("/environment/tabs_close_on_all"), 0));
-    XRCCTRL(*this, "chkListTabs",                 wxCheckBox)->SetValue(cfg->ReadBool(_T("/environment/tabs_list"), 0));
     XRCCTRL(*this, "chkStackedBasedTabSwitching", wxCheckBox)->SetValue(cfg->ReadBool(_T("/environment/tabs_stacked_based_switching"), 0));
     bool enableTabMousewheel = cfg->ReadBool(_T("/environment/tabs_use_mousewheel"),true);
     bool modToAdvance = cfg->ReadBool(_T("/environment/tabs_mousewheel_advance"),false);
@@ -232,6 +254,7 @@ EnvironmentSettingsDlg::EnvironmentSettingsDlg(wxWindow* parent, wxAuiDockArt* a
     XRCCTRL(*this, "spnNBDwellTime",              wxSpinCtrl)->Enable(useToolTips);
 
     // tab "Docking"
+/*
     XRCCTRL(*this, "spnAuiBorder",                        wxSpinCtrl)->SetValue(cfg->ReadInt(_T("/environment/aui/border_size"), m_pArt->GetMetric(wxAUI_DOCKART_PANE_BORDER_SIZE)));
     XRCCTRL(*this, "spnAuiSash",                          wxSpinCtrl)->SetValue(cfg->ReadInt(_T("/environment/aui/sash_size"), m_pArt->GetMetric(wxAUI_DOCKART_SASH_SIZE)));
     XRCCTRL(*this, "spnAuiCaption",                       wxSpinCtrl)->SetValue(cfg->ReadInt(_T("/environment/aui/caption_size"), m_pArt->GetMetric(wxAUI_DOCKART_CAPTION_SIZE)));
@@ -241,7 +264,7 @@ EnvironmentSettingsDlg::EnvironmentSettingsDlg(wxWindow* parent, wxAuiDockArt* a
     XRCCTRL(*this, "btnAuiInactiveCaptionColour",         wxButton)->SetBackgroundColour(cfg->ReadColour(_T("/environment/aui/inactive_caption_colour"), m_pArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR)));
     XRCCTRL(*this, "btnAuiInactiveCaptionGradientColour", wxButton)->SetBackgroundColour(cfg->ReadColour(_T("/environment/aui/inactive_caption_gradient_colour"), m_pArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_GRADIENT_COLOUR)));
     XRCCTRL(*this, "btnAuiInactiveCaptionTextColour",     wxButton)->SetBackgroundColour(cfg->ReadColour(_T("/environment/aui/inactive_caption_text_colour"), m_pArt->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR)));
-
+*/
     // tab "Dialogs"
     wxCheckListBox* clb = XRCCTRL(*this, "chkDialogs", wxCheckListBox);
     clb->Clear();
@@ -288,15 +311,10 @@ void EnvironmentSettingsDlg::AddPluginPanels()
         panel->SetParentDialog(this);
         lb->AddPage(panel, panel->GetTitle());
 
-        wxString onFile = ConfigManager::LocateDataFile(base + panel->GetBitmapBaseName() + _T(".png"), sdDataGlobal | sdDataUser);
-        if (onFile.IsEmpty())
-            onFile = ConfigManager::LocateDataFile(noimg + _T(".png"), sdDataGlobal | sdDataUser);
-        wxString offFile = ConfigManager::LocateDataFile(base + panel->GetBitmapBaseName() + _T("-off.png"), sdDataGlobal | sdDataUser);
-        if (offFile.IsEmpty())
-            offFile = ConfigManager::LocateDataFile(noimg + _T("-off.png"), sdDataGlobal | sdDataUser);
+        wxBitmap bmp = panel->GetBitmap();
+        lb->GetImageList()->Add(bmp);
+        lb->GetImageList()->Add(MakeDiasbledBitmap(bmp, *wxWHITE));
 
-        lb->GetImageList()->Add(cbLoadBitmap(onFile));
-        lb->GetImageList()->Add(cbLoadBitmap(offFile));
         lb->SetPageImage(lb->GetPageCount() - 1, lb->GetImageList()->GetImageCount() - 2);
     }
 
@@ -308,13 +326,11 @@ void EnvironmentSettingsDlg::LoadListbookImages()
     const wxString base = ConfigManager::GetDataFolder() + _T("/images/settings/");
 
     wxImageList* images = new wxImageList(80, 80);
-    wxBitmap bmp;
     for (int i = 0; i < IMAGES_COUNT; ++i)
     {
-        bmp = cbLoadBitmap(base + base_imgs[i] + _T(".png"));
+        wxBitmap bmp = wxXmlResource::Get()->LoadBitmap(base_imgs[i]);
         images->Add(bmp);
-        bmp = cbLoadBitmap(base + base_imgs[i] + _T("-off.png"));
-        images->Add(bmp);
+        images->Add(MakeDiasbledBitmap(bmp, *wxWHITE));
     }
     wxListbook* lb = XRCCTRL(*this, "nbMain", wxListbook);
     lb->AssignImageList(images);
@@ -364,7 +380,7 @@ void EnvironmentSettingsDlg::OnSetAssocs(wxCommandEvent& /*event*/)
 {
 #ifdef __WXMSW__
     Associations::SetCore();
-    //cbMessageBox(_("Code::Blocks associated with C/C++ files."), _("Information"), wxICON_INFORMATION, this);
+    //cbMessageBox(_("Em::Blocks associated with C/C++ files."), _("Information"), wxICON_INFORMATION, this);
 #endif
 }
 
@@ -394,6 +410,7 @@ void EnvironmentSettingsDlg::OnChooseColour(wxCommandEvent& event)
 
 void EnvironmentSettingsDlg::OnResetDefaultColours(wxCommandEvent& /*event*/)
 {
+/*
     wxAuiDockArt* art = new wxAuiDefaultDockArt;
 
     XRCCTRL(*this, "spnAuiBorder", wxSpinCtrl)->SetValue(art->GetMetric(wxAUI_DOCKART_PANE_BORDER_SIZE));
@@ -407,6 +424,7 @@ void EnvironmentSettingsDlg::OnResetDefaultColours(wxCommandEvent& /*event*/)
     XRCCTRL(*this, "btnAuiInactiveCaptionTextColour", wxButton)->SetBackgroundColour(art->GetColour(wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR));
 
     delete art;
+*/
 }
 
 void EnvironmentSettingsDlg::OnAutoHide(wxCommandEvent& /*event*/)
@@ -496,7 +514,6 @@ void EnvironmentSettingsDlg::EndModal(int retCode)
         ConfigManager *acfg = Manager::Get()->GetConfigManager(_T("an_dlg"));
 
         // tab "General"
-        cfg->Write(_T("/environment/show_splash"),           (bool) XRCCTRL(*this, "chkShowSplash", wxCheckBox)->GetValue());
         cfg->Write(_T("/environment/single_instance"),       (bool) XRCCTRL(*this, "chkSingleInstance", wxCheckBox)->GetValue());
         cfg->Write(_T("/environment/use_ipc"),               (bool) XRCCTRL(*this, "chkUseIPC", wxCheckBox)->GetValue());
         cfg->Write(_T("/environment/raise_via_ipc"),         (bool) XRCCTRL(*this, "chkRaiseViaIPC", wxCheckBox)->GetValue());
@@ -509,7 +526,6 @@ void EnvironmentSettingsDlg::EndModal(int retCode)
         // tab "View"
         cfg->Write(_T("/environment/blank_workspace"),       (bool) XRCCTRL(*this, "rbAppStart", wxRadioBox)->GetSelection() ? true : false);
         pcfg->Write(_T("/open_files"),                       (int)  XRCCTRL(*this, "rbProjectOpen", wxRadioBox)->GetSelection());
-        cfg->Write(_T("/environment/toolbar_size"),          (bool) XRCCTRL(*this, "rbToolbarSize", wxRadioBox)->GetSelection() == 1);
         cfg->Write(_T("/environment/settings_size"),         (int)  XRCCTRL(*this, "rbSettingsIconsSize", wxRadioBox)->GetSelection());
         mcfg->Write(_T("/auto_hide"),                        (bool) XRCCTRL(*this, "chkAutoHideMessages", wxCheckBox)->GetValue());
         mcfg->Write(_T("/auto_show_search"),                 (bool) XRCCTRL(*this, "chkAutoShowMessagesOnSearch", wxCheckBox)->GetValue());
@@ -517,7 +533,7 @@ void EnvironmentSettingsDlg::EndModal(int retCode)
         mcfg->Write(_T("/auto_show_build_errors"),           (bool) XRCCTRL(*this, "chkAutoShowMessagesOnErr", wxCheckBox)->GetValue());
         mcfg->Write(_T("/save_selection_change_in_mp"),       (bool) XRCCTRL(*this, "chkSaveSelectionChangeInMP", wxCheckBox)->GetValue());
 
-        cfg->Write(_T("/environment/start_here_page"),       (bool) XRCCTRL(*this, "chkShowStartPage", wxCheckBox)->GetValue());
+        cfg->Write(_T("/open_containing_folder"),              XRCCTRL(*this, "txtOpenFolder", wxTextCtrl)->GetValue());
 
         cfg->Write(_T("/environment/view/dbl_clk_maximize"),    (bool)XRCCTRL(*this, "chkDblClkMaximizes", wxCheckBox)->GetValue());
         cfg->Write(_T("/environment/view/layout_to_toggle"),    XRCCTRL(*this, "choLayoutToToggle", wxChoice)->GetStringSelection());
@@ -534,9 +550,6 @@ void EnvironmentSettingsDlg::EndModal(int retCode)
         cfg->Write(_T("/dialog_placement/dialog_position"),  (int)  XRCCTRL(*this, "chkPlaceHead",   wxCheckBox)->GetValue() ? pdlHead : pdlCentre);
 
         // tab "Appearence"
-        cfg->Write(_T("/environment/tabs_style"),            (int)  XRCCTRL(*this, "cmbEditorTabs",               wxComboBox)->GetSelection());
-        cfg->Write(_T("/environment/tabs_close_on_all"),     (bool) XRCCTRL(*this, "chkCloseOnAll",               wxCheckBox)->GetValue());
-        cfg->Write(_T("/environment/tabs_list"),             (bool) XRCCTRL(*this, "chkListTabs",                 wxCheckBox)->GetValue());
         bool tab_switcher_mode =                             (bool) XRCCTRL(*this, "chkStackedBasedTabSwitching", wxCheckBox)->GetValue();
         if (Manager::Get()->GetConfigManager(_T("app"))->ReadBool(_T("/environment/tabs_stacked_based_switching")) != tab_switcher_mode)
         {
@@ -566,7 +579,7 @@ void EnvironmentSettingsDlg::EndModal(int retCode)
         cbAuiNotebook::UseModToAdvance(cfg->ReadBool(_T("/environment/tabs_mousewheel_advance"),false));
         cbAuiNotebook::InvertAdvanceDirection(cfg->ReadBool(_T("/environment/tabs_invert_advance"),false));
         cbAuiNotebook::InvertMoveDirection(cfg->ReadBool(_T("/environment/tabs_invert_move"),false));
-
+/*
         cfg->Write(_T("/environment/aui/border_size"),                (int)  XRCCTRL(*this, "spnAuiBorder", wxSpinCtrl)->GetValue());
         cfg->Write(_T("/environment/aui/sash_size"),                  (int)  XRCCTRL(*this, "spnAuiSash", wxSpinCtrl)->GetValue());
         cfg->Write(_T("/environment/aui/caption_size"),               (int)  XRCCTRL(*this, "spnAuiCaption", wxSpinCtrl)->GetValue());
@@ -586,7 +599,7 @@ void EnvironmentSettingsDlg::EndModal(int retCode)
         m_pArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_COLOUR,         XRCCTRL(*this, "btnAuiInactiveCaptionColour", wxButton)->GetBackgroundColour());
         m_pArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_GRADIENT_COLOUR,XRCCTRL(*this, "btnAuiInactiveCaptionGradientColour", wxButton)->GetBackgroundColour());
         m_pArt->SetColour(wxAUI_DOCKART_INACTIVE_CAPTION_TEXT_COLOUR,    XRCCTRL(*this, "btnAuiInactiveCaptionTextColour", wxButton)->GetBackgroundColour());
-
+*/
         // tab "Dialogs"
         wxCheckListBox* lb = XRCCTRL(*this, "chkDialogs", wxCheckListBox);
 

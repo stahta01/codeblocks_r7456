@@ -8,7 +8,7 @@
             <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
             <border>5</border>
             <object class="wxStaticText">
-                <label>Associate Code::Blocks with the following file types:</label>
+                <label>Associate Em::Blocks with the following file types:</label>
             </object>
         </object>
         <object class="sizeritem">

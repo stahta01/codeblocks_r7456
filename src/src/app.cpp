@@ -1,11 +1,32 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+*/
+/*
+    Copyright (C) Em::Blocks 2011-2013
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+    @version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+
  */
+
+
 
 #include <sdk.h>
 #include "app.h"
@@ -36,7 +57,6 @@
 #include <globals.h>
 #include <logmanager.h>
 #include <loggers.h>
-#include "splashscreen.h"
 #include "crashhandler.h"
 #include "cbstyledtextctrl.h"
 #include <wx/ipc.h>
@@ -47,6 +67,7 @@
     #include "prefix.h" // binreloc
 #endif
 #include "associations.h"
+#include "xtra_res.h"
 
 #if defined(__APPLE__) && defined(__MACH__)
 #include <sys/param.h>
@@ -118,7 +139,7 @@ bool DDEConnection::OnExecute(const wxString& /*topic*/, wxChar *data, int /*siz
         {
             const wxString file = reCmd.GetMatch(strData, 1);
             // always put files in the delayed queue, the will either be loaded in OnDisconnect, or after creating of MainFrame
-            // if we open the files directly it can lead to an applicaton hang (at least when opening C::B's project-file on linux)
+            // if we open the files directly it can lead to an application hang (at least when opening C::B's project-file on linux)
             s_DelayedFilesToOpen.Add(file);
         }
         return true;
@@ -129,7 +150,7 @@ bool DDEConnection::OnExecute(const wxString& /*topic*/, wxChar *data, int /*siz
         if (reCmd.Matches(strData))
         {
             wxString file = reCmd.GetMatch(strData, 1);
-            CodeBlocksApp* cb = (CodeBlocksApp*)wxTheApp;
+            EmBlocksApp* cb = (EmBlocksApp*)wxTheApp;
             cb->SetAutoFile(file);
         }
         return true;
@@ -151,7 +172,7 @@ bool DDEConnection::OnDisconnect()
     // otherwise it happens automatically in OnInit after MainFrame is created
     if(!s_Loading && m_Frame)
     {
-        CodeBlocksApp* cb = (CodeBlocksApp*)wxTheApp;
+        EmBlocksApp* cb = (EmBlocksApp*)wxTheApp;
         cb->LoadDelayedFiles(m_Frame);
     }
     return true;
@@ -189,11 +210,11 @@ const wxCmdLineEntryDesc cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, CMD_ENTRY("ni"), CMD_ENTRY("no-ipc"),                CMD_ENTRY("don't start an IPC server"),
       wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
 #endif
-    { wxCMD_LINE_SWITCH, CMD_ENTRY("ns"), CMD_ENTRY("no-splash-screen"),      CMD_ENTRY("don't display a splash screen while loading"),
-      wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
     { wxCMD_LINE_SWITCH, CMD_ENTRY(""),   CMD_ENTRY("multiple-instance"),     CMD_ENTRY("allow running multiple instances"),
       wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
     { wxCMD_LINE_SWITCH, CMD_ENTRY("d"),  CMD_ENTRY("debug-log"),             CMD_ENTRY("display application's debug log"),
+      wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
+    { wxCMD_LINE_SWITCH, CMD_ENTRY(""),  CMD_ENTRY("debug-dbg"),             CMD_ENTRY(""),
       wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
     { wxCMD_LINE_SWITCH, CMD_ENTRY("nc"), CMD_ENTRY("no-crash-handler"),      CMD_ENTRY("don't use the crash handler (useful for debugging C::B)"),
       wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
@@ -231,37 +252,14 @@ const wxCmdLineEntryDesc cmdLineDesc[] =
 };
 #endif // wxUSE_CMDLINE_PARSER
 
-class Splash
-{
-    public:
-        Splash(const bool show) : m_pSplash(0)
-        {
-            if (show)
-            {
-                wxBitmap bmp = cbLoadBitmap(ConfigManager::ReadDataPath() + _T("/images/splash_1005.png"));
-                m_pSplash = new cbSplashScreen(bmp, -1, 0, -1, wxNO_BORDER | wxFRAME_NO_TASKBAR | wxFRAME_SHAPED);
-                Manager::Yield();
-            }
-        }
-        ~Splash() { Hide(); }
-        void Hide()
-        {
-            if (m_pSplash)
-            {
-                m_pSplash->Destroy();
-                m_pSplash = 0;
-            }
-        }
-    private:
-        cbSplashScreen* m_pSplash;
-};
+
 }; // namespace
 
-IMPLEMENT_APP(CodeBlocksApp)
+IMPLEMENT_APP(EmBlocksApp)
 
-BEGIN_EVENT_TABLE(CodeBlocksApp, wxApp)
-    EVT_ACTIVATE_APP(CodeBlocksApp::OnAppActivate)
-    EVT_TASKBAR_LEFT_DOWN(CodeBlocksApp::OnTBIconLeftDown)
+BEGIN_EVENT_TABLE(EmBlocksApp, wxApp)
+    EVT_ACTIVATE_APP(EmBlocksApp::OnAppActivate)
+    EVT_TASKBAR_LEFT_DOWN(EmBlocksApp::OnTBIconLeftDown)
 END_EVENT_TABLE()
 
 #ifdef __WXMAC__
@@ -284,7 +282,7 @@ static wxString GetResourcesDir()
 }
 #endif
 
-bool CodeBlocksApp::LoadConfig()
+bool EmBlocksApp::LoadConfig()
 {
     if (ParseCmdLine(0L) == -1) // only abort if '--help' was passed in the command line
         return false;
@@ -319,22 +317,23 @@ bool CodeBlocksApp::LoadConfig()
     {
 
         wxString env;
-        wxGetEnv(_T("CODEBLOCKS_DATA_DIR"), &env);
+        wxGetEnv(_T("EMBLOCKS_DATA_DIR"), &env);
         if (!env.IsEmpty())
             data = env;
     }
 
-    data.append(_T("/share/codeblocks"));
+    data.append(_T(STANDARD_DATA_PATH));
 
     cfg->Write(_T("data_path"), data);
 
     //m_HasDebugLog = Manager::Get()->GetConfigManager(_T("message_manager"))->ReadBool(_T("/has_debug_log"), false) || m_HasDebugLog;
-    //Manager::Get()->GetConfigManager(_T("message_manager"))->Write(_T("/has_debug_log"), m_HasDebugLog);
+    Manager::Get()->GetConfigManager(_T("message_manager"))->Write(_T("/has_debug_log"), m_HasDebugLog);
+    Manager::Get()->GetConfigManager(_T("message_manager"))->Write(_T("/has_debug_dbg"), m_HasDebugDbgLog);
 
     return true;
 }
 
-void CodeBlocksApp::InitAssociations()
+void EmBlocksApp::InitAssociations()
 {
 #ifdef __WXMSW__
     ConfigManager *cfg = Manager::Get()->GetConfigManager(_T("app"));
@@ -352,7 +351,7 @@ void CodeBlocksApp::InitAssociations()
                 break;
             case ASC_ASSOC_DLG_NO_ONLY_NOW:
                 break;
-            case ASC_ASSOC_DLG_YES_C_FILES:
+            case ASC_ASSOC_DLG_YES_CORE_FILES:
                 Associations::SetCore();
                 break;
             case ASC_ASSOC_DLG_YES_ALL_FILES:
@@ -365,7 +364,7 @@ void CodeBlocksApp::InitAssociations()
 #endif
 }
 
-void CodeBlocksApp::InitDebugConsole()
+void EmBlocksApp::InitDebugConsole()
 {
 #ifdef __WXMSW__
     #ifdef __CBDEBUG__
@@ -380,15 +379,16 @@ void CodeBlocksApp::InitDebugConsole()
 #endif
 }
 
-void CodeBlocksApp::InitExceptionHandler()
+void EmBlocksApp::InitExceptionHandler()
 {
 #ifdef __WXMSW__
-    m_ExceptionHandlerLib = LoadLibrary(_T("exchndl.dll"));
+//    m_ExceptionHandlerLib = LoadLibrary(_T("exchndl.dll"));
+    m_ExceptionHandlerLib = NULL;
 #endif
 }
 
 
-bool CodeBlocksApp::InitXRCStuff()
+bool EmBlocksApp::InitXRCStuff()
 {
     if (!Manager::LoadResource(_T("resources.zip")))
     {
@@ -398,9 +398,9 @@ bool CodeBlocksApp::InitXRCStuff()
     return true;
 }
 
-MainFrame* CodeBlocksApp::InitFrame()
+MainFrame* EmBlocksApp::InitFrame()
 {
-    CompileTimeAssertion<wxMinimumVersion<2,6>::eval>::Assert();
+    CompileTimeAssertion<wxMinimumVersion<2,8>::eval>::Assert();
 
     MainFrame *frame = new MainFrame();
     wxUpdateUIEvent::SetUpdateInterval(100);
@@ -419,7 +419,7 @@ MainFrame* CodeBlocksApp::InitFrame()
     return frame;
 }
 
-void CodeBlocksApp::CheckVersion()
+void EmBlocksApp::CheckVersion()
 {
     // This is a rudiment from early 2006 (Windows only), but keep the revision tag for possible future use
     ConfigManager *cfg = Manager::Get()->GetConfigManager(_T("app"));
@@ -428,7 +428,7 @@ void CodeBlocksApp::CheckVersion()
         cfg->Write(_T("version"), appglobals::AppActualVersion);
 }
 
-void CodeBlocksApp::InitLocale()
+void EmBlocksApp::InitLocale()
 {
     ConfigManager* cfg = Manager::Get()->GetConfigManager(_T("app"));
 
@@ -472,11 +472,11 @@ void CodeBlocksApp::InitLocale()
     }while(dir.GetNext(&moName));
 }
 
-bool CodeBlocksApp::OnInit()
+bool EmBlocksApp::OnInit()
 {
     wxLog::EnableLogging(false);
 
-    SetAppName(_T("codeblocks"));
+    SetAppName(_T(APP_NAME));
     s_Loading = true;
     m_pBatchBuildDialog = 0;
     m_BatchExitCode = 0;
@@ -504,7 +504,8 @@ bool CodeBlocksApp::OnInit()
     // we'll do this once and for all at startup
     wxFileSystem::AddHandler(new wxZipFSHandler);
     wxFileSystem::AddHandler(new wxMemoryFSHandler);
-    wxXmlResource::Get()->InsertHandler(new wxToolBarAddOnXmlHandler);
+ //   wxXmlResource::Get()->InsertHandler(new wxToolBarAddOnXmlHandler);
+    wxXmlResource::Get()->InsertHandler(new wxAuiToolBarXmlHandler);
     wxXmlResource::Get()->InsertHandler(new wxScrollingDialogXmlHandler);
     wxInitAllImageHandlers();
     wxXmlResource::Get()->InitAllHandlers();
@@ -615,22 +616,18 @@ bool CodeBlocksApp::OnInit()
         if (   Manager::Get()->GetConfigManager(_T("app"))->ReadBool(_T("/environment/single_instance"), true)
             && !parser.Found(_T("multiple-instance")) )
         {
-            const wxString name = wxString::Format(_T("Code::Blocks-%s"), wxGetUserId().c_str());
+            const wxString name = wxString::Format(_T("Em::Blocks-%s"), wxGetUserId().c_str());
 
             m_pSingleInstance = new wxSingleInstanceChecker(name, ConfigManager::GetTempFolder());
             if (m_pSingleInstance->IsAnotherRunning())
             {
                 /* NOTE: Due to a recent change in logging code, this visual warning got disabled.
                    So the wxLogError() has been changed to a cbMessageBox(). */
-                cbMessageBox(_("Another program instance is already running.\nCode::Blocks is currently configured to only allow one running instance.\n\nYou can access this Setting under the menu item 'Environment'."),
-                            _T("Code::Blocks"), wxOK | wxICON_ERROR);
+                cbMessageBox(_("Another program instance is already running.\nEm::Blocks is currently configured to only allow one running instance.\n\nYou can access this Setting under the menu item 'Environment'."),
+                            _T("Em::Blocks"), wxOK | wxICON_ERROR);
                 return false;
             }
         }
-        // Splash screen moved to this place, otherwise it would be short visible, even if we only pass filenames via DDE/IPC
-        // we also don't need it, if only a single instance is allowed
-        Splash splash(!m_Batch && m_Script.IsEmpty() && m_Splash &&
-                      Manager::Get()->GetConfigManager(_T("app"))->ReadBool(_T("/environment/show_splash"), true));
         InitDebugConsole();
 
         Manager::SetBatchBuild(m_Batch || !m_Script.IsEmpty());
@@ -647,7 +644,7 @@ bool CodeBlocksApp::OnInit()
             CodeBlocksEvent event(cbEVT_APP_STARTUP_DONE);
             Manager::Get()->ProcessEvent(event);
 
-            Manager::Get()->RegisterEventSink(cbEVT_COMPILER_FINISHED, new cbEventFunctor<CodeBlocksApp, CodeBlocksEvent>(this, &CodeBlocksApp::OnBatchBuildDone));
+            Manager::Get()->RegisterEventSink(cbEVT_COMPILER_FINISHED, new cbEventFunctor<EmBlocksApp, CodeBlocksEvent>(this, &EmBlocksApp::OnBatchBuildDone));
             s_Loading = false;
             LoadDelayedFiles(frame);
 
@@ -689,8 +686,8 @@ bool CodeBlocksApp::OnInit()
         }
         Manager::ProcessPendingEvents();
 
+
         // finally, show the app
-        splash.Hide();
         SetTopWindow(frame);
         frame->Show();
 
@@ -732,7 +729,7 @@ bool CodeBlocksApp::OnInit()
     return false;
 }
 
-int CodeBlocksApp::OnExit()
+int EmBlocksApp::OnExit()
 {
     wxTheClipboard->Flush();
 
@@ -780,7 +777,7 @@ int CodeBlocksApp::OnExit()
     inline void EnableLFH() {}
 #endif
 
-int CodeBlocksApp::OnRun()
+int EmBlocksApp::OnRun()
 {
     EnableLFH();
     try
@@ -809,12 +806,12 @@ int CodeBlocksApp::OnRun()
     return -1;
 }
 
-bool CodeBlocksApp::OnCmdLineParsed(wxCmdLineParser& parser)
+bool EmBlocksApp::OnCmdLineParsed(wxCmdLineParser& parser)
 {
     return wxApp::OnCmdLineParsed(parser);
 }
 
-void CodeBlocksApp::OnFatalException()
+void EmBlocksApp::OnFatalException()
 {
 #if wxUSE_DEBUGREPORT && wxUSE_XML && wxUSE_ON_FATAL_EXCEPTION
     wxDebugReport report;
@@ -830,7 +827,7 @@ void CodeBlocksApp::OnFatalException()
 #endif
 }
 
-int CodeBlocksApp::BatchJob()
+int EmBlocksApp::BatchJob()
 {
     if (!m_Batch)
         return -1;
@@ -844,13 +841,14 @@ int CodeBlocksApp::BatchJob()
     if (!compiler)
         return -3;
 
-    if (!m_Clean && m_BatchTarget.Lower() == _T("ask"))
+
+    if (!m_Clean && (m_BatchTarget.Lower() == _T("ask")) )
     {
         m_BatchTarget.Clear();
         cbProject* prj = Manager::Get()->GetProjectManager()->GetActiveProject();
         if (prj)
         {
-            int idx = -1;
+            int idx = 1;
             wxString defTarget = prj->GetActiveBuildTarget();
             // find active target's index
             // TODO: make this easier in the SDK
@@ -863,7 +861,6 @@ int CodeBlocksApp::BatchJob()
                     break;
                 }
             }
-            idx = prj->SelectTarget(idx, false);
             if (idx == -1)
                 return 0; // no target selected: just abort
             m_BatchTarget = prj->GetBuildTarget(idx)->GetTitle();
@@ -919,7 +916,7 @@ int CodeBlocksApp::BatchJob()
     }
 
     // the batch build log might have been deleted in
-    // CodeBlocksApp::OnBatchBuildDone().
+    // EmBlocksApp::OnBatchBuildDone().
     // if it hasn't, it's still compiling
     //
     // also note that if operation is "--clean", there is no need
@@ -940,7 +937,7 @@ int CodeBlocksApp::BatchJob()
     return 0;
 }
 
-void CodeBlocksApp::OnBatchBuildDone(CodeBlocksEvent& event)
+void EmBlocksApp::OnBatchBuildDone(CodeBlocksEvent& event)
 {
     event.Skip();
     // the event comes more than once. deal with it...
@@ -977,7 +974,7 @@ void CodeBlocksApp::OnBatchBuildDone(CodeBlocksEvent& event)
     }
 }
 
-void CodeBlocksApp::OnTBIconLeftDown(wxTaskBarIconEvent& event)
+void EmBlocksApp::OnTBIconLeftDown(wxTaskBarIconEvent& event)
 {
     event.Skip();
     if (m_pBatchBuildDialog)
@@ -987,13 +984,13 @@ void CodeBlocksApp::OnTBIconLeftDown(wxTaskBarIconEvent& event)
     }
 }
 
-void CodeBlocksApp::ComplainBadInstall()
+void EmBlocksApp::ComplainBadInstall()
 {
     wxString msg;
     msg.Printf(_T("Cannot find resources...\n"
         "%s was configured to be installed in '%s'.\n"
         "Please use the command-line switch '--prefix' or "
-        "set the CODEBLOCKS_DATA_DIR environment variable "
+        "set the EMBLOCKS_DATA_DIR environment variable "
         "to point where %s is installed,\n"
         "or try re-installing the application..."),
         appglobals::AppName.c_str(),
@@ -1002,7 +999,7 @@ void CodeBlocksApp::ComplainBadInstall()
     cbMessageBox(msg);
 }
 
-wxString CodeBlocksApp::GetAppPath() const
+wxString EmBlocksApp::GetAppPath() const
 {
     wxString base;
 #ifdef __WXMSW__
@@ -1039,12 +1036,12 @@ wxString CodeBlocksApp::GetAppPath() const
     return base;
 }
 
-void CodeBlocksApp::SetAutoFile(wxString& file)
+void EmBlocksApp::SetAutoFile(wxString& file)
 {
     m_AutoFile = file;
 }
 
-int CodeBlocksApp::ParseCmdLine(MainFrame* handlerFrame)
+int EmBlocksApp::ParseCmdLine(MainFrame* handlerFrame)
 {
     // code shamelessely taken from the console wxWindows sample :)
     bool filesInCmdLine = false;
@@ -1079,7 +1076,7 @@ int CodeBlocksApp::ParseCmdLine(MainFrame* handlerFrame)
                             m_HasProject = true;
                             s_DelayedFilesToOpen.Add(parser.GetParam(param));
                         }
-                        else if (ft == ftSource || ft == ftHeader || ft == ftResource)
+                        else if (ft == ftSource || ft == ftHeader  || ft == ftAssembler)
                         {
                             s_DelayedFilesToOpen.Add(parser.GetParam(param));
                         }
@@ -1108,8 +1105,8 @@ int CodeBlocksApp::ParseCmdLine(MainFrame* handlerFrame)
                     m_DDE = !parser.Found(_T("no-ipc"));
 #endif
                     m_SafeMode = parser.Found(_T("safe-mode"));
-                    m_Splash = !parser.Found(_T("no-splash-screen"));
                     m_HasDebugLog = parser.Found(_T("debug-log"));
+                    m_HasDebugDbgLog = parser.Found(_T("debug-dbg"));
                     m_CrashHandler = !parser.Found(_T("no-crash-handler"));
                     if (parser.Found(_T("personality"), &val) ||
                         parser.Found(_T("profile"), &val))
@@ -1149,7 +1146,7 @@ int CodeBlocksApp::ParseCmdLine(MainFrame* handlerFrame)
     return filesInCmdLine ? 1 : 0;
 }
 
-void CodeBlocksApp::SetupPersonality(const wxString& personality)
+void EmBlocksApp::SetupPersonality(const wxString& personality)
 {
     if (personality.CmpNoCase(_T("ask")) == 0)
     {
@@ -1170,7 +1167,7 @@ void CodeBlocksApp::SetupPersonality(const wxString& personality)
     }
 }
 
-void CodeBlocksApp::LoadDelayedFiles(MainFrame *const frame)
+void EmBlocksApp::LoadDelayedFiles(MainFrame *const frame)
 {
     for (size_t i = 0; i < s_DelayedFilesToOpen.GetCount(); ++i)
     {
@@ -1210,7 +1207,7 @@ void CodeBlocksApp::LoadDelayedFiles(MainFrame *const frame)
 
 #ifdef __WXMAC__
 
-void CodeBlocksApp::MacOpenFile(const wxString & fileName )
+void EmBlocksApp::MacOpenFile(const wxString & fileName )
 {
     if (s_Loading)
     {
@@ -1222,7 +1219,7 @@ void CodeBlocksApp::MacOpenFile(const wxString & fileName )
     }
 }
 
-void CodeBlocksApp::MacPrintFile(const wxString & fileName )
+void EmBlocksApp::MacPrintFile(const wxString & fileName )
 {
     //TODO
     wxApp::MacPrintFile(fileName);
@@ -1230,9 +1227,10 @@ void CodeBlocksApp::MacPrintFile(const wxString & fileName )
 
 #endif // __WXMAC__
 
+
 // event handlers
 
-void CodeBlocksApp::OnAppActivate(wxActivateEvent& event)
+void EmBlocksApp::OnAppActivate(wxActivateEvent& event)
 {
     // allow others to process this event
     event.Skip();

@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: ipc.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/src/ipc.cpp $
  */
 
 #include "ipc.h"
@@ -30,7 +30,7 @@ void IPC::Send(const wxString& in)
 			// Let's just throw and see how often we see this exception in normal everyday use.
 			// If it never happens, then simply ignoring the issue is a perfectly acceptable solution.
 			//
-			cbThrow(_T("Congrats, you managed to kill process 1 within nanoseconds after launching process 2, which is quite hard to do.\n\nPlease inform the Code::Blocks team of your achievement."));
+			cbThrow(_T("Congrats, you managed to kill process 1 within nanoseconds after launching process 2, which is quite hard to do.\n\nPlease inform the Em::Blocks team of your achievement."));
 		}
 
 	memcpy(shm.BasePointer(), in.c_str(), (in.length()+1) * sizeof(wxChar));
@@ -276,7 +276,6 @@ void SharedMemory::Unlock(rw_t rw)
 }
 
 #endif                  /* ------------------------------------------------------------- */
-
 
 
 

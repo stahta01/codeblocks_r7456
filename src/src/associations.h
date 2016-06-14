@@ -1,8 +1,30 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
- */
+ *
+*/
+/*
+    Copyright (C) Em::Blocks 2011-2013
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+    @version $Revision: 4 $:
+    @author  $Author: gerard $:
+    @date    $Date: 2013-11-02 16:53:52 +0100 (Sat, 02 Nov 2013) $:
+
+ */
 #ifndef ASSOCIATIONS_H
 #define ASSOCIATIONS_H
 
@@ -16,11 +38,11 @@
         #include <windows.h>
         #include <wincon.h>
     #endif
-    #define DDE_SERVICE    _T("CODEBLOCKS")
+    #define DDE_SERVICE    _T("EMBLOCKS")
 #else
-    #define DDE_SERVICE    _T("/tmp/CODEBLOCKS%s.socket")
+    #define DDE_SERVICE    _T("/tmp/EMBLOCKS%s.socket")
 #endif
-#define DDE_TOPIC    _T("CodeBlocksDDEServer")
+#define DDE_TOPIC    _T("EmBlocksDDEServer")
 #include <wx/ipc.h>
 
 class wxCheckListBox;
@@ -35,8 +57,6 @@ namespace Associations
     wxString descr;
     int index;
     };
-
-    unsigned int CountAssocs();
 
     void SetCore();
     void SetAll();
@@ -67,7 +87,7 @@ class ManageAssocsDialog : public wxScrollingDialog
 
 #define ASC_ASSOC_DLG_NO_DONT_ASK       0
 #define ASC_ASSOC_DLG_NO_ONLY_NOW       1
-#define ASC_ASSOC_DLG_YES_C_FILES       2
+#define ASC_ASSOC_DLG_YES_CORE_FILES    2
 #define ASC_ASSOC_DLG_YES_ALL_FILES     3
 
 class AskAssocDialog : public wxScrollingDialog
