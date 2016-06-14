@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      CppCheck.h
- * Purpose:   Code::Blocks CppCheck plugin: main functions
+ * Purpose:   Em::Blocks CppCheck plugin: main functions
  * Author:    Lieven de Cock (aka killerbot)
  * Created:   12/11/2009
  * Copyright: (c) Lieven de Cock (aka killerbot)
