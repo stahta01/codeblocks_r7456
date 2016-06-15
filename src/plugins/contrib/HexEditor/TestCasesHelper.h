@@ -1,5 +1,5 @@
 /*
-* This file is part of HexEditor plugin for Code::Blocks studio
+* This file is part of HexEditor plugin for Em::Blocks studio
 * Copyright (C) 2009 Bartlomiej Swiecki
 *
 * HexEditor plugin is free software; you can redistribute it and/or modify
@@ -15,9 +15,9 @@
 * You should have received a copy of the GNU General Public License
 * along with HexEditor plugin. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision$
-* $Id$
-* $HeadURL$
+* $Revision: 4 $
+* $Id: TestCasesHelper.h 4 2013-11-02 15:53:52Z gerard $
+* $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/HexEditor/TestCasesHelper.h $
 */
 
 #ifndef TESTCASESHELPER_H
