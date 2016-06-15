@@ -3,7 +3,7 @@
 // Purpose:     XRC resource for wxFlatNotebook
 // Author:      Armel Asselin
 // Created:     2006/10/30
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: xh_fnb.cpp 4 2013-11-02 15:53:52Z gerard $
 // Copyright:   (c) 2006 Armel Asselin (copied from Vaclav Slavik xh_notbk)
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
 /*
-* This file is part of wxSmithContribItems plugin for Code::Blocks Studio
+* This file is part of wxSmithContribItems plugin for Em::Blocks Studio
 * Copyright (C) 2007  Bartlomiej Swiecki
 *
 * wxSmith is free software; you can redistribute it and/or modify
@@ -16,16 +16,16 @@
 * along with wxSmith; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 *
-* $Revision$
-* $Id$
-* $HeadURL$
+* $Revision: 4 $
+* $Id: wxSmithContribItems.cpp 4 2013-11-02 15:53:52Z gerard $
+* $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/wxSmithContribItems/wxSmithContribItems.cpp $
 */
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #include <configurationpanel.h>
 #include "wxSmithContribItems.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -66,7 +66,7 @@ void wxSmithContribItems::OnAttach()
 void wxSmithContribItems::OnRelease(bool appShutDown)
 {
 	// do de-initialization for your plugin
-	// if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
+	// if appShutDown is true, the plugin is unloaded because Em::Blocks is being shut down,
 	// which means you must not use any of the SDK Managers
 	// NOTE: after this function, the inherited member variable
 	// m_IsAttached will be FALSE...

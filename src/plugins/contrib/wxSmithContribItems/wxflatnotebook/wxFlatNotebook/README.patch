@@ -1,6 +1,6 @@
 [killerbot : to be  update for wxFNB 2.1]
 
-The file cb_wxfn.patch contains the differences between the base wxFlatNotebook version used here and the required changes for use in Code::Blocks.
+The file cb_wxfn.patch contains the differences between the base wxFlatNotebook version used here and the required changes for use in Em::Blocks.
 wxFlatNotebook version used is 2.00.
 
 
@@ -43,4 +43,4 @@ modified files :
 	- wxPageContainer::OnLeftDown() : event generation (re)moved, is being put in "wxFlatNotebook::SetSelection" because otherwise there were no events generated when the user swicthed tabs by means of ctrl-tab (without this modification it only worked when the change was made with the mouse)
 	- wxPageContainer::IsTabVisible : correct spelling of the Don's name : Yiannis   ;-)
 	- wxPageContainer::OnDropTarget: prevent dragging tabs from one notebook to another notebook (is only allowed when the style wxFNB_ALLOW_FOREIGN_DND is active)
-
+

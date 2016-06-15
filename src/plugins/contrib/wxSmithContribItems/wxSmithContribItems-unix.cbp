@@ -8,7 +8,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="wxFlatNoteBook">
-				<Option output="../../../devel/libwxflatnotebook.so" prefix_auto="0" extension_auto="0" />
+				<Option output="../../../build/libwxflatnotebook.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="../../../.objs/plugins/contrib/wxSmithContribItems" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -18,7 +18,7 @@
 				</Compiler>
 			</Target>
 			<Target title="wxChartCtrl">
-				<Option output="../../../devel/libwxchartctrl" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../build/libwxchartctrl" prefix_auto="1" extension_auto="1" />
 				<Option object_output="../../../.objs/plugins/contrib/wxSmithContribItems" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -28,7 +28,7 @@
 				</Compiler>
 			</Target>
 			<Target title="wxCustomButton">
-				<Option output="../../../devel/libwxcustombutton" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../build/libwxcustombutton" prefix_auto="1" extension_auto="1" />
 				<Option object_output="../../../.objs/plugins/contrib/wxSmithContribItems" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -38,13 +38,13 @@
 				</Compiler>
 			</Target>
 			<Target title="wxSmithContribItems">
-				<Option output="../../../devel/share/codeblocks/plugins/libwxSmithContribItems.so" prefix_auto="0" extension_auto="0" />
+				<Option output="../../../build/share/codeblocks/plugins/libwxSmithContribItems.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="../../../.objs/plugins/contrib/wxSmithContribItems" />
-				<Option external_deps="../../../devel/libwxsmithlib.so;" />
+				<Option external_deps="../../../build/libwxsmithlib.so;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance -ns -ni" />
-				<Option host_application="../../../devel/codeblocks" />
+				<Option host_application="../../../build/codeblocks" />
 				<Option projectLinkerOptionsRelation="2" />
 				<Compiler>
 					<Add option="-DWXMAKINGLIB_PROPGRID" />
@@ -60,10 +60,10 @@
 					<Add library="wxflatnotebook" />
 					<Add library="wxchartctrl" />
 					<Add library="wxcustombutton" />
-					<Add directory="../../../devel" />
+					<Add directory="../../../build" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip -j9 ../../../devel/share/codeblocks/wxSmithContribItems.zip manifest.xml" />
+					<Add after="zip -j9 ../../../build/share/codeblocks/wxSmithContribItems.zip manifest.xml" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
@@ -346,4 +346,4 @@
 			<debugger />
 		</Extensions>
 	</Project>
-</CodeBlocks_project_file>
+</CodeBlocks_project_file>
