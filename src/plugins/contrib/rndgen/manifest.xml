@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_plugin_manifest_file>
+<EmBlocks_plugin_manifest_file>
     <SdkVersion major="1" minor="11"  release="12" />
     <Plugin name="rndgen">
         <Value title="rndgen" />
@@ -11,4 +11,4 @@
         <Value thanksTo="" />
         <Value license="NFL" />
     </Plugin>
-</CodeBlocks_plugin_manifest_file>
+</EmBlocks_plugin_manifest_file>
