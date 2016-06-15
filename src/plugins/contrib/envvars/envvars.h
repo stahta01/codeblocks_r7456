@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -86,7 +86,7 @@ private:
   { return; }
 
   /// hooks into the toolbar build process to allow the plugin to add an own toolbar
-  bool     BuildToolBar(wxToolBar* /*toolBar*/)
+  bool     BuildToolBar(wxAuiToolBar* /*toolBar*/)
   { return false; }
 
   /// issues a warning if an activated project has a reference to an envvar set that does not exist

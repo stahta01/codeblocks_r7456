@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: envvars.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/envvars/envvars.cpp $
  */
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
@@ -56,6 +56,14 @@ EnvVars::EnvVars()
     new ProjectLoaderHooks::HookFunctor<EnvVars>(this, &EnvVars::OnProjectLoadingHook);
 
   m_EnvVarHookID = ProjectLoaderHooks::RegisterHook(envvar_hook);
+
+    // Make sure our resources are available.
+    // In the generated boilerplate code we have no resources but when
+    // we add some, it will be nice that this code is in place already ;)
+    if(!Manager::LoadResource(wxT("envvars.zip"))){
+        NotifyMissingFile(wxT("envvars.zip"));
+    }
+
 }// EnvVars
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----

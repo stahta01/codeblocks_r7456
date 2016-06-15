@@ -1,5 +1,5 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  */
 
@@ -30,8 +30,7 @@ public:
   { return _("EnvVars options"); }
 
   /// returns the title of the plugin's bitmap to use for settings
-  virtual wxString GetBitmapBaseName() const
-  { return _T("generic-plugin"); }
+  virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_envvars"));}
 
 protected:
   /// Fires if the UI is being updated (wx event)
