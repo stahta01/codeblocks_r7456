@@ -7,12 +7,12 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="../../../devel/share/codeblocks/plugins/libMouseSap" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../build/share/codeblocks/plugins/libMouseSap" prefix_auto="1" extension_auto="1" />
 				<Option object_output="../../../.objs/plugins/contrib/MouseSap" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance -ns -ni" />
-				<Option host_application="../../../devel/codeblocks" />
+				<Option host_application="../../../build/codeblocks" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
@@ -31,10 +31,10 @@
 				<Linker>
 					<Add option="`wx-config --libs`" />
 					<Add library="codeblocks" />
-					<Add directory="../../../devel" />
+					<Add directory="../../../build" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip -j9 ../../../devel/share/codeblocks/MouseSap.zip manifest.xml" />
+					<Add after="zip -j9 ../../../build/share/codeblocks/MouseSap.zip manifest.xml" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>
@@ -51,4 +51,4 @@
 			<debugger />
 		</Extensions>
 	</Project>
-</CodeBlocks_project_file>
+</CodeBlocks_project_file>

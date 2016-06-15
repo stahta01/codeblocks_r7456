@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_plugin_manifest_file>
-    <SdkVersion major="1" minor="11" release="12" />
+<EmBlocks_plugin_manifest_file>
+    <SdkVersion major="1" minor="0" release="0" />
     <Plugin name="MouseSap">
         <Value title="MouseSap" />
         <Value version="0.0 2008/02/13" />
@@ -11,4 +11,4 @@
         <Value thanksTo="wxWidgets & Code::Blocks Team" />
         <Value license="GPL" />
     </Plugin>
-</CodeBlocks_plugin_manifest_file>
+</EmBlocks_plugin_manifest_file>

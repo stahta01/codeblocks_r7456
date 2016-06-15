@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      MouseSap.cpp
- * Purpose:   Code::Blocks plugin
+ * Purpose:   Em::Blocks plugin
  * Author:    Pecan<>
  * Copyright: (c) Pecan
  * License:   GPL
@@ -171,7 +171,7 @@ void MouseSap::OnRelease(bool /*appShutDown*/)
 // ----------------------------------------------------------------------------
 {
 	// do de-initialization for your plugin
-	// if appShutDown is false, the plugin is unloaded because Code::Blocks is being shut down,
+	// if appShutDown is false, the plugin is unloaded because Em::Blocks is being shut down,
 	// which means you must not use any of the SDK Managers
 	// NOTE: after this function, the inherited member variable
 	// IsAttached() will be FALSE...
@@ -563,8 +563,6 @@ void MMSapEvents::OnMouseEvent(wxMouseEvent& event)    //MSW
     // differentiate window, left, right split window
     cbEditor* ed = 0;
     cbStyledTextCtrl* pControl = 0;
-    cbStyledTextCtrl* pLeftSplitWin = 0;
-    cbStyledTextCtrl* pRightSplitWin = 0;
 
     ed  = Manager::Get()->GetEditorManager()->GetBuiltinActiveEditor();
     if ( not ed ) { event.Skip(); return; }
@@ -573,9 +571,6 @@ void MMSapEvents::OnMouseEvent(wxMouseEvent& event)    //MSW
     // editor must have the current focus
     if ( pControl not_eq wxWindow::FindFocus()  )
         { event.Skip(); return; }
-
-    pLeftSplitWin = ed->GetLeftSplitViewControl();
-    pRightSplitWin = ed->GetRightSplitViewControl();
 
     #if defined(LOGGING)
     //LOGIT(_T("OnMouseSap[%d]"), eventType);
