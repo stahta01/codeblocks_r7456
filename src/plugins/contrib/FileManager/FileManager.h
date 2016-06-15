@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      CB-Plugin
- * Purpose:   Code::Blocks plugin
+ * Purpose:   Em::Blocks plugin
  * Author:     ()
  * Created:   2009-02-02
  * Copyright:
@@ -30,7 +30,7 @@ class FileManagerPlugin : public cbPlugin
     protected:
         virtual void BuildMenu(wxMenuBar* menuBar) {}
         virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0);
-        virtual bool BuildToolBar(wxToolBar* toolBar) {return false;}
+        virtual bool BuildToolBar(wxAuiToolBar* toolBar) {return false;}
         virtual void OnAttach();
         virtual void OnRelease(bool appShutDown);
         void OnOpenProjectInFileBrowser(wxCommandEvent& event);

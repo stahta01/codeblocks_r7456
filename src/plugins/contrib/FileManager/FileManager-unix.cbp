@@ -7,12 +7,12 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="../../../devel/share/codeblocks/plugins/libFileManager.so" prefix_auto="0" extension_auto="0" />
+				<Option output="../../../build/share/codeblocks/plugins/libFileManager.so" prefix_auto="0" extension_auto="0" />
 				<Option object_output="../../../.objs/plugins/contrib/FileManager" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance -na -ns -nd" />
-				<Option host_application="../../../devel/codeblocks" />
+				<Option host_application="../../../build/codeblocks" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -42,10 +42,10 @@
 			<Add option="`wx-config --libs`" />
 			<Add option="`pkg-config --libs gamin`" />
 			<Add library="codeblocks" />
-			<Add directory="../../../devel" />
+			<Add directory="../../../build" />
 		</Linker>
 		<ExtraCommands>
-			<Add after="zip -j9 ../../../devel/share/codeblocks/FileManager.zip manifest.xml Resources/fileexplorersettings.xrc" />
+			<Add after="zip -j9 ../../../build/share/codeblocks/FileManager.zip manifest.xml Resources/fileexplorersettings.xrc" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="FileExplorer.cpp" />
@@ -68,4 +68,4 @@
 			<debugger />
 		</Extensions>
 	</Project>
-</CodeBlocks_project_file>
+</CodeBlocks_project_file>

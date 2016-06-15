@@ -126,7 +126,7 @@ bool FileExplorerUpdater::GetCurrentState(const wxString &path)
         bool match=true;
         wxString fullpath=wxFileName(path,filename).GetFullPath();
         if(wxFileName::DirExists(fullpath))
-            itemstate=fvsFolder;
+            itemstate=fvsFolderOpen;
         if(wxFileName::FileExists(fullpath))
         {
             if(is_vcs&&!is_cvs)

@@ -1,5 +1,5 @@
 #include <wx/aui/aui.h>
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     #include <cbauibook.h>
     #include <cbproject.h>
@@ -9,7 +9,7 @@
 
 #include "FileManager.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -42,7 +42,9 @@ void FileManagerPlugin::OnAttach()
 {
     //Create a new instance of the FileExplorer and attach it to the Project Manager notebook
     m_fe=new FileExplorer(Manager::Get()->GetAppWindow());
-    Manager::Get()->GetProjectManager()->GetNotebook()->AddPage(m_fe,_T("Files"));
+
+    const wxBitmap bmp = wxXmlResource::Get()->LoadBitmap(_T("files_manager_png"));
+    Manager::Get()->GetProjectManager()->GetNotebook()->AddPage(m_fe,_T("Files"), false, bmp);
 }
 
 void FileManagerPlugin::OnRelease(bool appShutDown)
