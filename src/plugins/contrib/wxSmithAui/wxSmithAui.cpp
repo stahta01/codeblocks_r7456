@@ -1,8 +1,8 @@
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #include <configurationpanel.h>
 #include "wxSmithAui.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -41,7 +41,7 @@ void wxSmithAui::OnAttach()
 void wxSmithAui::OnRelease(bool /*appShutDown*/)
 {
     // do de-initialization for your plugin
-    // if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
+    // if appShutDown is true, the plugin is unloaded because Em::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...

@@ -1,5 +1,5 @@
 /*
-* This file is part of wxSmithAui plugin for Code::Blocks Studio
+* This file is part of wxSmithAui plugin for Em::Blocks Studio
 * Copyright (C) 2008-2009  César Fernández Domínguez
 *
 * wxSmithAui is free software; you can redistribute it and/or modify
