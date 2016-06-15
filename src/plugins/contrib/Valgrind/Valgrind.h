@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      Valgrind.h
- * Purpose:   Code::Blocks Valgrind plugin: main functions
+ * Purpose:   Em::Blocks Valgrind plugin: main functions
  * Author:    Lieven de Cock (aka killerbot)
  * Created:   28/07/2007
  * Copyright: (c) Lieven de Cock (aka killerbot)
