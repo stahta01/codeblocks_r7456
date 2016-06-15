@@ -5,7 +5,7 @@
 // Author:      Julian Smart
 // Modified by:
 // Created:     1995
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: printing.h 4 2013-11-02 15:53:52Z gerard $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////

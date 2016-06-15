@@ -96,8 +96,8 @@ const char *ODTExporter::ODTMetaFile =
   "  xmlns:meta=\"urn:oasis:names:tc:opendocument:xmlns:meta:1.0\"\n"
   "  office:version=\"1.0\">\n"
   "  <office:meta>\n"
-  "    <meta:generator>Code::Blocks Source Exporter plugin</meta:generator>\n"
-  "    <dc:title>Source file exported from Code::Blocks Source Exporter plugin</dc:title>\n"
+  "    <meta:generator>Em::Blocks Source Exporter plugin</meta:generator>\n"
+  "    <dc:title>Source file exported from Em::Blocks Source Exporter plugin</dc:title>\n"
   "  </office:meta>\n"
   "</office:document-meta>";
 

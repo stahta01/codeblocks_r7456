@@ -13,7 +13,7 @@
 #endif
 
 #include <cbplugin.h> // the base class we 're inheriting
-#include <settings.h> // needed to use the Code::Blocks SDK
+#include <settings.h> // needed to use the Em::Blocks SDK
 
 #include "BaseExporter.h"
 
@@ -35,7 +35,7 @@ class Exporter : public cbPlugin
     void OnUpdateUI(wxUpdateUIEvent &event);
   private:
     void BuildModuleMenu(const ModuleType /*type*/, wxMenu * /*menu*/, const FileTreeData* /*data*/ = 0) {}
-    bool BuildToolBar(wxToolBar * /*toolBar*/) { return false; }
+    bool BuildToolBar(wxAuiToolBar * /*toolBar*/) { return false; }
     void RemoveToolBar(wxToolBar * /*toolBar*/) {}
 
     DECLARE_EVENT_TABLE();

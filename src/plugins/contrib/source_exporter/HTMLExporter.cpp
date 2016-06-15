@@ -62,7 +62,7 @@ const char *HTMLExporter::HTMLHeaderBEG =
 
 const char *HTMLExporter::HTMLMeta =
   "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-  "<meta name=\"generator\" content=\"Code::Blocks Exporter plugin\" />\n";
+  "<meta name=\"generator\" content=\"Em::Blocks Exporter plugin\" />\n";
 
 const char *HTMLExporter::HTMLStyleBEG =
   "<style type=\"text/css\">\n"

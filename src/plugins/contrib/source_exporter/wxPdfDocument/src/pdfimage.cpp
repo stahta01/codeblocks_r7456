@@ -178,7 +178,7 @@ wxPdfImage::Parse()
 
   if (m_imageStream)
   {
-    if ((m_type.StartsWith(wxT("image/")) && m_type.EndsWith(wxT("png"))) || 
+    if ((m_type.StartsWith(wxT("image/")) && m_type.EndsWith(wxT("png"))) ||
         m_type == wxT("png"))
     {
       isValid = ParsePNG(m_imageStream);
@@ -188,14 +188,14 @@ wxPdfImage::Parse()
     {
       isValid = ParseJPG(m_imageStream);
     }
-    else if ((m_type.StartsWith(wxT("image/")) && m_type.EndsWith(wxT("gif"))) || 
+    else if ((m_type.StartsWith(wxT("image/")) && m_type.EndsWith(wxT("gif"))) ||
              m_type == wxT("gif"))
     {
       isValid = ParseGIF(m_imageStream);
     }
     else
     {
-      if ((m_type.StartsWith(wxT("image/")) && m_type.EndsWith(wxT("wmf"))) || 
+      if ((m_type.StartsWith(wxT("image/")) && m_type.EndsWith(wxT("wmf"))) ||
           m_type == wxT("wmf") || m_name.Right(2) == wxT(".wmf"))
       {
         m_isFormObj = true;
@@ -275,7 +275,7 @@ wxPdfImage::ParsePNG(wxInputStream* imageStream)
                wxString::Format(_("Alpha channel not supported: '%s'."), m_name.c_str()));
     return false;
   }
-  
+
   imageStream->Read(buffer,3);
   if (buffer[0] != 0)
   {
@@ -455,8 +455,8 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
   }
 
   // Extract info from a JPEG file
-  unsigned int   marker = M_PSEUDO;
-  unsigned short length, ffRead = 1;
+  unsigned int   marker   = M_PSEUDO;
+  unsigned short ffRead   = 1;
   unsigned char  bits     = 0;
   unsigned short height   = 0;
   unsigned short width    = 0;
@@ -518,7 +518,7 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
         marker = M_EOI;
         break;
       }
-    } 
+    }
     while (marker == 0xff);
 
     if (a < 2)
@@ -547,7 +547,7 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
       case M_SOF14:
       case M_SOF15:
         // handle SOFn block
-        length = ReadUShortBE(imageStream);
+        ReadUShortBE(imageStream);  // Read length-field
         imageStream->Read(&bits,1);
         height = ReadUShortBE(imageStream);
         width  = ReadUShortBE(imageStream);
@@ -657,7 +657,7 @@ wxPdfImage::ParseGIF(wxInputStream* imageStream)
     m_trns[1] = m_pal[3*trns + 1];
     m_trns[2] = m_pal[3*trns + 2];
   }
-  
+
   m_dataSize = m_width * m_height;
   if (m_document->m_compress)
   {
@@ -712,7 +712,7 @@ wxPdfImage::ParseGIF(wxInputStream* imageStream)
     m_trns[1] = m_pal[3*trns + 1];
     m_trns[2] = m_pal[3*trns + 2];
   }
-  
+
   m_dataSize = m_width * m_height;
   if (m_document->m_compress)
   {
@@ -1124,7 +1124,7 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
             }
           }
 
-          if (polyFillMode == 1 && (op == wxT("b") || op == wxT("f"))) 
+          if (polyFillMode == 1 && (op == wxT("b") || op == wxT("f")))
           {
             op += wxT("*");  // use even-odd fill rule
           }

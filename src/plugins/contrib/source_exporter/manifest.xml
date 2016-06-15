@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_plugin_manifest_file>
-    <SdkVersion major="1" minor="10" release="0" />
+<EmBlocks_plugin_manifest_file>
+    <SdkVersion major="1" minor="0" release="0" />
     <Plugin name="Exporter">
         <Value title="Source Exporter" />
         <Value version="1.0" />
@@ -12,4 +12,4 @@
 wxPdfDocument Development Team" />
         <Value license="GPL" />
     </Plugin>
-</CodeBlocks_plugin_manifest_file>
+</EmBlocks_plugin_manifest_file>
