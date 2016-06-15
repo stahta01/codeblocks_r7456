@@ -28,8 +28,8 @@ class RegExTestbed : public cbToolPlugin
     protected:
 		/** Any descendent plugin should override this virtual method and
 		  * perform any necessary initialization. This method is called by
-		  * Code::Blocks (PluginManager actually) when the plugin has been
-		  * loaded and should attach in Code::Blocks. When Code::Blocks
+		  * Em::Blocks (PluginManager actually) when the plugin has been
+		  * loaded and should attach in Em::Blocks. When Em::Blocks
 		  * starts up, it finds and <em>loads</em> all plugins but <em>does
 		  * not</em> activate (attaches) them. It then activates all plugins
 		  * that the user has selected to be activated on start-up.\n
@@ -40,8 +40,8 @@ class RegExTestbed : public cbToolPlugin
 
 		/** Any descendent plugin should override this virtual method and
 		  * perform any necessary de-initialization. This method is called by
-		  * Code::Blocks (PluginManager actually) when the plugin has been
-		  * loaded, attached and should de-attach from Code::Blocks.\n
+		  * Em::Blocks (PluginManager actually) when the plugin has been
+		  * loaded, attached and should de-attach from Em::Blocks.\n
 		  * Think of this method as the actual destructor...
 		  * @param appShutDown If true, the application is shutting down. In this
 		  *         case *don't* use Manager::Get()->Get...() functions or the

@@ -1,13 +1,13 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: RegExTestbed.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/regex_testbed/RegExTestbed.cpp $
  */
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #include <configurationpanel.h>
 #include "RegExTestbed.h"
 #include "regexdlg.h"
@@ -16,7 +16,7 @@
     #include <globals.h>
 #endif
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -54,7 +54,7 @@ void RegExTestbed::OnAttach()
 void RegExTestbed::OnRelease(bool /*appShutDown*/)
 {
 	// do de-initialization for your plugin
-	// if appShutDown is false, the plugin is unloaded because Code::Blocks is being shut down,
+	// if appShutDown is false, the plugin is unloaded because Em::Blocks is being shut down,
 	// which means you must not use any of the SDK Managers
 	// NOTE: after this function, the inherited member variable
 	// m_IsAttached will be FALSE...
