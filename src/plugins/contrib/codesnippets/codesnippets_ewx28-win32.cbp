@@ -64,7 +64,6 @@
 			<Add option="-DBUILDING_PLUGIN" />
 			<Add option="-DNO_LOGGING" />
 			<Add directory="../../../sdk/include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
 			<Add directory="../../../src" />
 			<Add directory="$(#EWX.include)" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
