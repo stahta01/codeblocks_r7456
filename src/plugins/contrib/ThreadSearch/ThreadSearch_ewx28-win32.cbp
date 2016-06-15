@@ -19,7 +19,7 @@
 				</Compiler>
 				<Linker>
 					<Add library="emblocks" />
-					<Add library="wxmsw28$(WX_SUFFIX)" />
+					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="wxcustombutton" />
 					<Add directory="../../../build" />
 					<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)" />
@@ -28,6 +28,7 @@
 			<Environment>
 				<Variable name="WX_CFG" value="" />
 				<Variable name="WX_SUFFIX" value="u" />
+				<Variable name="WX_VERSION" value="28" />
 			</Environment>
 		</Build>
 		<VirtualTargets>
@@ -52,7 +53,6 @@
 			<Add option="-DWXMAKINGDLL_PROPGRID" />
 			<Add option="-DwxPG_USE_WXMODULE=0" />
 			<Add directory="../../../sdk/include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
 			<Add directory="../../../sdk/include/mozilla_chardet" />
 			<Add directory="$(#wx.include)" />
 			<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
