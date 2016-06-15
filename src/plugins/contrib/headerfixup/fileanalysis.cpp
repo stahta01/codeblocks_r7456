@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
+ * $Revision: 4 $
+ * $Id: fileanalysis.cpp 4 2013-11-02 15:53:52Z gerard $
  * $HeadURL$
  */
 
@@ -134,13 +134,13 @@ wxString FileAnalysis::GetEOL()
   wxString EOL = _T('\n');
 
   // Detect end-of-line style to prevent inconsistent EOLs
-  for ( int i=0; i<m_FileContent.Length(); i++ )
+  for ( size_t i=0; i<m_FileContent.Len(); i++ )
   {
     if (   m_FileContent.GetChar(i)==_T('\n')
         || m_FileContent.GetChar(i)==_T('\r') )
     {
       EOL = m_FileContent.GetChar(i);
-      if ( ++i<m_FileContent.Length() )
+      if ( ++i<m_FileContent.Len() )
       {
         if (   m_FileContent.GetChar(i)==_T('\n')
             || m_FileContent.GetChar(i)==_T('\r') )
@@ -165,9 +165,9 @@ wxArrayString FileAnalysis::ParseForIncludes()
 
   m_IncludedHeaders.Clear();
 
-  for ( size_t i=0; i<m_LinesOfFile.GetCount(); i++ )
+  for (size_t LineIdx = 0; LineIdx < m_LinesOfFile.GetCount(); ++LineIdx )
   {
-    wxString Line = m_LinesOfFile.Item(i);
+    const wxString Line = m_LinesOfFile.Item(LineIdx);
     const wxRegEx RegEx(reInclude);
     wxString Include;
     if (RegEx.Matches(Line))
@@ -199,7 +199,7 @@ wxArrayString FileAnalysis::ParseForIncludes()
           wxArrayString MoreIncludedHeaders = fa.ParseForIncludes();
 
           // Only add headers that are not included by the source file
-          for ( size_t i=0; i<MoreIncludedHeaders.GetCount(); i++ )
+          for ( size_t i = 0; i < MoreIncludedHeaders.GetCount(); ++i )
             if ( m_IncludedHeaders.Index(MoreIncludedHeaders[i]) == wxNOT_FOUND )
               m_IncludedHeaders.Add(MoreIncludedHeaders[i]);
 

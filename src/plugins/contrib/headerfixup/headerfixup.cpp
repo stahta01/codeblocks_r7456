@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
+ * $Revision: 4 $
+ * $Id: headerfixup.cpp 4 2013-11-02 15:53:52Z gerard $
  * $HeadURL$
  */
 

@@ -2,16 +2,20 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
+ * $Revision: 4 $
+ * $Id: protocol.cpp 4 2013-11-02 15:53:52Z gerard $
  * $HeadURL$
  */
 
 #include "protocol.h"
 
 //(*InternalHeaders(Protocol)
-#include <wx/string.h>
+#include <wx/sizer.h>
+#include <wx/stattext.h>
+#include <wx/textctrl.h>
 #include <wx/intl.h>
+#include <wx/button.h>
+#include <wx/string.h>
 //*)
 
 #include <wx/event.h>
@@ -68,24 +72,24 @@ void Protocol::OnBtnOKClick(wxCommandEvent& /*event*/)
   EndModal(wxID_OK);
 }// OnBtnOkClick
 
-void Protocol::SetProtocol(const wxArrayString& Protocol)
+void Protocol::SetProtocol(const wxArrayString& ProtocolIn)
 {
     if (m_Protocol)
     {
         m_Protocol->Freeze();
 
-        const size_t COUNT(Protocol.GetCount());
+        const size_t COUNT(ProtocolIn.GetCount());
         for ( size_t i(0); i != COUNT; ++i )
         {
-            if ( Protocol[i].StartsWith(wxT("+")) )
+            if ( ProtocolIn[i].StartsWith(wxT("+")) )
             {
                 m_Protocol->SetDefaultStyle(wxTextAttr(wxNullColour,wxColour(130,255,130)));
-                m_Protocol->AppendText(Protocol[i]);
+                m_Protocol->AppendText(ProtocolIn[i]);
             }
             else
             {
                 m_Protocol->SetDefaultStyle(wxTextAttr(wxNullColour,*wxWHITE));
-                m_Protocol->AppendText(Protocol[i]);
+                m_Protocol->AppendText(ProtocolIn[i]);
             }
         }
 

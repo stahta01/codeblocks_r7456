@@ -2,14 +2,20 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
+ * $Revision: 4 $
+ * $Id: execution.cpp 4 2013-11-02 15:53:52Z gerard $
  * $HeadURL$
  */
 
 //(*InternalHeaders(Execution)
-#include <wx/string.h>
+#include <wx/sizer.h>
+#include <wx/radiobox.h>
+#include <wx/checklst.h>
+#include <wx/checkbox.h>
 #include <wx/intl.h>
+#include <wx/button.h>
+#include <wx/string.h>
+#include <wx/gauge.h>
 //*)
 
 #include <wx/filename.h>
@@ -230,9 +236,9 @@ void Execution::OnBtnRunClick(wxCommandEvent& /*event*/)
   }
   else                              // workspace scope
   {
-    ProjectsArray* Projects = Manager::Get()->GetProjectManager()->GetProjects();
-    for ( size_t i=0; i<Projects->GetCount(); i++ )
-      AddFilesFromProject(FilesToProcess,(*Projects)[i]);
+    ProjectsArray* Projects2 = Manager::Get()->GetProjectManager()->GetProjects();
+    for ( size_t i = 0; i < Projects2->GetCount(); ++i )
+      AddFilesFromProject(FilesToProcess,(*Projects2)[i]);
   }
 
   if ( FilesToProcess.IsEmpty() )
@@ -244,8 +250,13 @@ void Execution::OnBtnRunClick(wxCommandEvent& /*event*/)
 
   // Generating list of header groups to use
   wxArrayString Groups;
-  for ( size_t i=0; i<m_Sets->GetCount(); i++ )
-    if ( m_Sets->IsChecked(i) ) Groups.Add(m_Sets->GetString(i));
+  for ( size_t i = 0; i < m_Sets->GetCount(); i++ )
+  {
+    if ( m_Sets->IsChecked(i) )
+    {
+      Groups.Add(m_Sets->GetString(i));
+    }
+  }
 
   if ( Groups.IsEmpty() )
   {
@@ -363,7 +374,7 @@ void Execution::LoadSettings()
   {
     for (size_t i=0; i<m_Sets->GetCount(); i++)
     {
-      wxString Sel; Sel.Printf(_T("/selection%d"), i);
+      wxString Sel; Sel.Printf(_T("/selection%lu"), static_cast<unsigned long>(i));
       m_Sets->Check(i, cfg->ReadBool(Sel, true));
     }
   }
@@ -405,7 +416,7 @@ void Execution::SaveSettings()
   {
     for (size_t i=0; i<m_Sets->GetCount(); i++)
     {
-      wxString Sel; Sel.Printf(_T("/selection%d"), i);
+      wxString Sel; Sel.Printf(_T("/selection%lu"), static_cast<unsigned long>(i));
       cfg->Write(Sel, m_Sets->IsChecked(i));
     }
   }
@@ -413,9 +424,9 @@ void Execution::SaveSettings()
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
-void Execution::ToggleControls(bool Disable)
+void Execution::ToggleControls(bool DisableIn)
 {
-  if ( Disable )
+  if ( DisableIn )
   {
     m_Options->Disable();
     m_Scope->Disable();
@@ -473,6 +484,7 @@ int Execution::RunScan(const wxArrayString& FilesToProcess,
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
+
 void Execution::AddFilesFromProject(wxArrayString& Files,cbProject* Project)
 {
   if (!Project)
@@ -500,7 +512,7 @@ void Execution::AddFilesFromProject(wxArrayString& Files,cbProject* Project)
 
 // ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- -----
 
-int Execution::ProcessFile(wxString& GlobalFileName, const wxArrayString& Groups)
+int Execution::ProcessFile(const wxString& GlobalFileName, const wxArrayString& Groups)
 {
   m_FileAnalysis.ReInit(GlobalFileName);
 
@@ -732,14 +744,14 @@ void Execution::OperateToken(const wxString&      Token,
   }
 
   // iterate through all groups for bindings
-  for ( size_t i=0; i<Groups.GetCount(); i++ )
+  for ( size_t Group = 0; Group < Groups.GetCount(); ++Group )
   {
     wxArrayString RequiredHeadersForToken;
-    m_Bindings.GetBindings(Groups[i],Token,RequiredHeadersForToken);
+    m_Bindings.GetBindings(Groups[Group],Token,RequiredHeadersForToken);
 
     if ( !RequiredHeadersForToken.IsEmpty() ) // -> found bindings
     {
-      for ( size_t i=0; i<RequiredHeadersForToken.GetCount(); i++ )
+      for ( size_t i = 0; i < RequiredHeadersForToken.GetCount(); ++i )
       {
         // check if required header file is already included
         if ( IncludedHeaders.Index(RequiredHeadersForToken[i]) == wxNOT_FOUND )

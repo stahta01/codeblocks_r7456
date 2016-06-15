@@ -2,8 +2,8 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
+ * $Revision: 4 $
+ * $Id: bindings.cpp 4 2013-11-02 15:53:52Z gerard $
  * $HeadURL$
  */
 
@@ -105,11 +105,11 @@ void Bindings::InitialiseBindingsFromConfig()
   {
     MappingsT& Map = m_Groups[Groups[i]];
 
-    wxArrayString Bindings = CfgMgr->EnumerateSubPaths(_T("/groups/") + Groups[i]);
-    for ( size_t j=0; j<Bindings.GetCount(); j++ )
+    const wxArrayString TheBindings = CfgMgr->EnumerateSubPaths(_T("/groups/") + Groups[i]);
+    for ( size_t j = 0; j < TheBindings.GetCount(); ++j )
     {
-      wxString Identifier = CfgMgr->Read(_T("/groups/")+Groups[i]+_T("/")+Bindings[j]+_T("/identifier"));
-      wxString Header     = CfgMgr->Read(_T("/groups/")+Groups[i]+_T("/")+Bindings[j]+_T("/header"));
+      const wxString Identifier = CfgMgr->Read(_T("/groups/") + Groups[i] + _T("/") + TheBindings[j] + _T("/identifier"));
+      const wxString Header     = CfgMgr->Read(_T("/groups/") + Groups[i] + _T("/") + TheBindings[j] + _T("/header"));
       if ( Identifier.IsEmpty() || Header.IsEmpty() ) continue;
       wxArrayString& Headers = Map[Identifier];
       if ( Headers.Index(Header) == wxNOT_FOUND )
