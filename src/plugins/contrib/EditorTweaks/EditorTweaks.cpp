@@ -1,4 +1,4 @@
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #include <algorithm> // std::sort
 #include <configurationpanel.h>
 #include "EditorTweaks.h"
@@ -20,7 +20,7 @@
 #include "cbstyledtextctrl.h"
 
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -48,7 +48,6 @@ int id_et_TabSize4 = wxNewId();
 int id_et_TabSize6 = wxNewId();
 int id_et_TabSize8 = wxNewId();
 int id_et_ShowEOL = wxNewId();
-int id_et_StripTrailingBlanks = wxNewId();
 int id_et_EnsureConsistentEOL = wxNewId();
 int id_et_EOLCRLF = wxNewId();
 int id_et_EOLCR = wxNewId();
@@ -77,7 +76,6 @@ BEGIN_EVENT_TABLE(EditorTweaks, cbPlugin)
     EVT_UPDATE_UI(id_et_TabSize6, EditorTweaks::OnUpdateUI)
     EVT_UPDATE_UI(id_et_TabSize8, EditorTweaks::OnUpdateUI)
     EVT_UPDATE_UI(id_et_ShowEOL, EditorTweaks::OnUpdateUI)
-    EVT_UPDATE_UI(id_et_StripTrailingBlanks, EditorTweaks::OnUpdateUI)
     EVT_UPDATE_UI(id_et_EnsureConsistentEOL, EditorTweaks::OnUpdateUI)
     EVT_UPDATE_UI(id_et_EOLCRLF, EditorTweaks::OnUpdateUI)
     EVT_UPDATE_UI(id_et_EOLCR, EditorTweaks::OnUpdateUI)
@@ -93,7 +91,6 @@ BEGIN_EVENT_TABLE(EditorTweaks, cbPlugin)
     EVT_MENU(id_et_TabSize6, EditorTweaks::OnTabSize6)
     EVT_MENU(id_et_TabSize8, EditorTweaks::OnTabSize8)
     EVT_MENU(id_et_ShowEOL, EditorTweaks::OnShowEOL)
-    EVT_MENU(id_et_StripTrailingBlanks, EditorTweaks::OnStripTrailingBlanks)
     EVT_MENU(id_et_EnsureConsistentEOL, EditorTweaks::OnEnsureConsistentEOL)
     EVT_MENU(id_et_EOLCRLF, EditorTweaks::OnEOLCRLF)
     EVT_MENU(id_et_EOLCR, EditorTweaks::OnEOLCR)
@@ -255,7 +252,6 @@ void EditorTweaks::BuildMenu(wxMenuBar* menuBar)
     eolmenu->AppendRadioItem( id_et_EOLLF, _( "LF" ), _( "Line Feed (Unix Default)" ) );
     submenu->Append(wxID_ANY,_("End-of-Line Mode"),eolmenu);
     submenu->AppendCheckItem( id_et_ShowEOL, _( "Show EOL Chars" ), _( "Show End-of-Line Characters" ) );
-    submenu->Append( id_et_StripTrailingBlanks, _( "Strip Trailing Blanks Now" ), _( "Strip trailing blanks from each line" ) );
     submenu->Append( id_et_EnsureConsistentEOL, _( "Make EOLs Consistent Now" ), _( "Convert End-of-Line Characters to the Active Setting" ) );
     submenu->AppendSeparator();
     submenu->AppendCheckItem( id_et_SuppressInsertKey, _("Suppress Insert Key"), _("Disable toggle between insert and overwrite mode using the insert key") );
@@ -497,8 +493,6 @@ void EditorTweaks::BuildModuleMenu(const ModuleType type, wxMenu* menu, const Fi
     if (ed->GetControl()->GetViewEOL())
         submenu->Check(id_et_ShowEOL,true);
 
-    submenu->Append( id_et_StripTrailingBlanks, _( "Strip Trailing Blanks Now" ), _( "Strip trailing blanks from each line" ) );
-
     submenu->Append( id_et_EnsureConsistentEOL, _( "Make EOLs Consistent Now" ), _( "Convert End-of-Line Characters to the Active Setting" ) );
 
     menu->Append(wxID_ANY, _T("Editor Tweaks"), submenu);
@@ -622,14 +616,6 @@ void EditorTweaks::OnShowEOL(wxCommandEvent &/*event*/)
     ed->GetControl()->SetViewEOL(!ed->GetControl()->GetViewEOL());
 }
 
-void EditorTweaks::OnStripTrailingBlanks(wxCommandEvent &/*event*/)
-{
-    cbEditor* ed = Manager::Get()->GetEditorManager()->GetBuiltinActiveEditor();
-    if (!ed || !ed->GetControl())
-        return;
-
-    wxMessageBox(_("Not Implemented"));
-}
 
 void EditorTweaks::OnEnsureConsistentEOL(wxCommandEvent &/*event*/)
 {
@@ -898,4 +884,3 @@ bool EditorTweaks::GetSelectionLines(int& LineStart, int& LineEnd)
     // done
     return found_lines;
 }
-
