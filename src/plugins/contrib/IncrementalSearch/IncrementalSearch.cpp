@@ -1,12 +1,12 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
  * Copyright: 2008 Jens Lody
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: IncrementalSearch.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/IncrementalSearch/IncrementalSearch.cpp $
  */
 
 #include "sdk.h"
@@ -27,7 +27,7 @@
 #include "IncrementalSearch.h"
 #include "IncrementalSearchConfDlg.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -118,7 +118,7 @@ void IncrementalSearch::OnAttach()
 void IncrementalSearch::OnRelease(bool /*appShutDown*/)
 {
     // do de-initialization for your plugin
-    // if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
+    // if appShutDown is true, the plugin is unloaded because Em::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...
@@ -170,12 +170,14 @@ void IncrementalSearch::BuildMenu(wxMenuBar* menuBar)
     {
         wxMenu* menu = menuBar->GetMenu(idx);
         wxMenuItemList& items = menu->GetMenuItems();
+
         wxMenuItem* itemTmp = new wxMenuItem(   menu,
                                                 idIncSearchFocus,
                                                 _("&Incremental search\tCtrl-I"),
                                                 _("Set focus on Incremental Search input and show the toolbar, if hidden") );
 
         itemTmp->SetBitmap(wxBitmap(wxXmlResource::Get()->LoadBitmap(_T("MenuBitmap"))));
+
         // find "Find previous" and insert after it
         size_t i = 0;
         for (i = 0; i < items.GetCount(); ++i)
@@ -228,22 +230,22 @@ void IncrementalSearch::OnEditorEvent(CodeBlocksEvent& event)
         m_pToolbar->EnableTool(XRCID("idIncSearchPrev"), false);
         m_pToolbar->EnableTool(XRCID("idIncSearchNext"), false);
     }
+    m_pToolbar->Refresh();
     event.Skip();
 }
 
-bool IncrementalSearch::BuildToolBar(wxToolBar* toolBar)
+bool IncrementalSearch::BuildToolBar(wxAuiToolBar* toolBar)
 {
     //The application is offering its toolbar for your plugin,
     //to add any toolbar items you want...
     //Append any items you need on the toolbar...
-//    return false;
+    //return false;
     //Build toolbar
     if (!m_IsAttached || !toolBar)
     {
         return false;
     }
-    wxString is16x16 = Manager::isToolBar16x16(toolBar) ? _T("_16x16") : _T("");
-    Manager::Get()->AddonToolBar(toolBar,_T("incremental_search_toolbar") + is16x16);
+    Manager::Get()->AuiToolBar(toolBar,_T("incremental_search_toolbar"));
     toolBar->Realize();
     m_pToolbar  =toolBar;
     m_pToolbar->EnableTool(XRCID("idIncSearchClear"), false);
@@ -305,6 +307,10 @@ void IncrementalSearch::OnKeyDown(wxKeyEvent& event)
         control->SetIndicatorCurrent(m_IndicHighlight);
         control->IndicatorClearRange(0, control->GetLength());
         control->GotoPos(m_NewPos);
+
+        CodeBlocksEvent evt(cbEVT_CURSOR_POS_SAVE);
+        Manager::Get()->GetPluginManager()->NotifyPlugins(evt);
+
         if(Manager::Get()->GetConfigManager(_T("editor"))->ReadBool(_T("/incremental_search/select_found_text_on_escape"),false))
         {
             m_SelStart = m_NewPos;
@@ -351,7 +357,7 @@ void IncrementalSearch::DoFocusToolbar()
 
 void IncrementalSearch::OnToggleHighlight(wxCommandEvent& /*event*/)
 {
-    DoToggleHighlight(m_pToolbar->GetToolState(XRCID("idIncSearchHighlight")));
+    DoToggleHighlight(m_pToolbar->GetToolEnabled((XRCID("idIncSearchHighlight"))));
 }
 
 void IncrementalSearch::DoToggleHighlight(bool checked)
@@ -366,7 +372,7 @@ void IncrementalSearch::DoToggleHighlight(bool checked)
 
 void IncrementalSearch::OnToggleSelectedOnly(wxCommandEvent& /*event*/)
 {
-    DoToggleSelectedOnly(m_pToolbar->GetToolState(XRCID("idIncSearchSelectOnly")));
+    DoToggleSelectedOnly(m_pToolbar->GetToolEnabled(XRCID("idIncSearchSelectOnly")));
 }
 
 void IncrementalSearch::DoToggleSelectedOnly(bool checked)
@@ -381,7 +387,7 @@ void IncrementalSearch::DoToggleSelectedOnly(bool checked)
 
 void IncrementalSearch::OnToggleMatchCase(wxCommandEvent& /*event*/)
 {
-    DoToggleMatchCase(m_pToolbar->GetToolState(XRCID("idIncSearchMatchCase")));
+    DoToggleMatchCase(m_pToolbar->GetToolEnabled(XRCID("idIncSearchMatchCase")));
 }
 
 void IncrementalSearch::DoToggleMatchCase(bool checked)
@@ -403,7 +409,7 @@ void IncrementalSearch::DoToggleMatchCase(bool checked)
 
 void IncrementalSearch::OnToggleUseRegex(wxCommandEvent& /*event*/)
 {
-    DoToggleUseRegex(m_pToolbar->GetToolState(XRCID("idIncSearchUseRegex")));
+    DoToggleUseRegex(m_pToolbar->GetToolEnabled(XRCID("idIncSearchUseRegex")));
 }
 
 void IncrementalSearch::DoToggleUseRegex(bool checked)
@@ -507,6 +513,7 @@ void IncrementalSearch::SearchText()
         m_pTextCtrl->Update();
         #endif
     }
+    m_pToolbar->Refresh();
     HighlightText();
 }
 
@@ -583,10 +590,16 @@ void IncrementalSearch::HighlightText()
             control->GotoLine(l1);          // center selection on screen
             control->GotoLine(l2);
         }
+
         // make sure found text is visible, even if it's in a column far right
+
         control->GotoPos(m_NewPos+m_SearchText.length());
         control->EnsureCaretVisible();
         control->GotoPos(m_NewPos);
+
+        CodeBlocksEvent evt(cbEVT_CURSOR_POS_SAVE);
+        Manager::Get()->GetPluginManager()->NotifyPlugins(evt);
+
         control->SearchAnchor();
         // and highlight it
         cbStyledTextCtrl* ctrlLeft = m_pEditor->GetLeftSplitViewControl();

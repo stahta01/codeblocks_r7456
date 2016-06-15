@@ -1,12 +1,12 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
  * Copyright: 2008 Jens Lody
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: IncrementalSearch.h 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/IncrementalSearch/IncrementalSearch.h $
  */
 
 #ifndef INCREMENTAL_SEARCH_H_INCLUDED
@@ -37,7 +37,7 @@ public:
     }
     void BuildMenu(wxMenuBar* menuBar);
     void BuildModuleMenu(const ModuleType /*type*/, wxMenu* /*menu*/, const FileTreeData* /*data*/ = 0) {}
-    bool BuildToolBar(wxToolBar* toolBar);
+    bool BuildToolBar(wxAuiToolBar* toolBar);
 
 private:
     void OnAttach();
@@ -70,7 +70,7 @@ private:
     void SetRange();
     wxString m_SearchText;
     wxColour m_textCtrlBG_Default;
-    wxToolBar* m_pToolbar;
+    wxAuiToolBar* m_pToolbar;
     wxTextCtrl* m_pTextCtrl;
     cbEditor* m_pEditor;
     int m_NewPos;

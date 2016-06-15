@@ -1,12 +1,12 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
  * Copyright: 2008 Jens Lody
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: IncrementalSearchConfDlg.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/IncrementalSearch/IncrementalSearchConfDlg.cpp $
  */
 
 #include "sdk.h"
@@ -88,4 +88,3 @@ void IncrementalSearchConfDlg::SaveSettings()
     cfg->Write(_T("/incremental_search/text_not_found_colour"),         XRCCTRL(*this, "btnIncSearchConfNotFoundBG", wxButton)->GetBackgroundColour());
     cfg->Write(_T("/incremental_search/wrapped_colour"),                XRCCTRL(*this, "btnIncSearchConfWrappedBG", wxButton)->GetBackgroundColour());
 }
-
