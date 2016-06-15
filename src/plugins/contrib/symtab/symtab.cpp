@@ -1,10 +1,10 @@
 /*
- * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
+ * This file is part of the Em::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: symtab.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/symtab/symtab.cpp $
  */
 
 #include "sdk.h"
@@ -73,7 +73,7 @@ void SymTab::OnAttach()
 void SymTab::OnRelease(bool /*appShutDown*/)
 {
   // do de-initialization for your plugin
-  // if appShutDown is false, the plugin is unloaded because Code::Blocks is being shut down,
+  // if appShutDown is false, the plugin is unloaded because Em::Blocks is being shut down,
   // which means you must not use any of the SDK Managers
   // NOTE: after this function, the inherited member variable
   // IsAttached() will be FALSE...
