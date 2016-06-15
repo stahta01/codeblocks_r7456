@@ -2,7 +2,6 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="All contrib plugins ewx28-win32">
 		<Project filename="plugins/contrib/AutoVersioning/AutoVersioning_ewx28-win32.cbp" />
-		<Project filename="plugins/contrib/BrowseTracker/BrowseTracker_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/Cccc/Cccc_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/CppCheck/CppCheck_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/codesnippets/codesnippets_ewx28-win32.cbp" />
@@ -15,37 +14,23 @@
 		<Project filename="plugins/contrib/EditorTweaks/EditorTweaks_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/envvars/envvars_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/source_exporter/Exporter_ewx28-win32.cbp" />
+		<Project filename="plugins/contrib/FileDiff/ebDiff_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/FileManager/FileManager_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/byogames/byogames_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/headerfixup/headerfixup_ewx28-win32.cbp" />
-		<Project filename="plugins/contrib/help_plugin/help-plugin_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/HexEditor/HexEditor-win_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/IncrementalSearch/IncrementalSearch_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/keybinder/keybinder_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/cb_koders/cb_koders_ewx28-win32.cbp" />
-		<Project filename="plugins/contrib/lib_finder/lib_finder_ewx28-win32.cbp">
-			<Depends filename="plugins/contrib/wxSmithContribItems/wxSmithContribItems_ewx28-win32.cbp" />
-		</Project>
 		<Project filename="plugins/contrib/MouseSap/MouseSap_ewx28-win32.cbp" />
-		<Project filename="plugins/contrib/NassiShneiderman/NassiShneiderman_ewx28-win32.cbp" />
+		<Project filename="plugins/contrib/Navigation/Navigation_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/profiler/cbprofiler_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/regex_testbed/RegExTestbed_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/ReopenEditor/ReopenEditor_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/SpellChecker/SpellChecker_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/symtab/symtab_ewx28-win32.cbp" />
-		<Project filename="plugins/contrib/ThreadSearch/ThreadSearch_ewx28-win32.cbp">
-			<Depends filename="plugins/contrib/wxSmithContribItems/wxSmithContribItems_ewx28-win32.cbp" />
-		</Project>
 		<Project filename="plugins/contrib/ToolsPlus/ToolsPlus_ewx28-win32.cbp" />
 		<Project filename="plugins/contrib/wxSmith/wxSmith_ewx28-win32.cbp" />
-		<Project filename="plugins/contrib/wxSmithContribItems/wxSmithContribItems_ewx28-win32.cbp">
-			<Depends filename="plugins/contrib/wxSmith/wxSmith_ewx28-win32.cbp" />
-		</Project>
-		<Project filename="plugins/contrib/wxSmithAui/wxSmithAui_ewx28-win32.cbp">
-			<Depends filename="plugins/contrib/wxSmith/wxSmith_ewx28-win32.cbp" />
-		</Project>
 		<Project filename="tools/cb_share_config/cb_share_config_ewx28-win32.cbp" />
-		<Project filename="plugins/contrib/FileDiff/ebDiff_ewx28-win32.cbp" />
-		<Project filename="plugins/contrib/Navigation/Navigation_ewx28-win32.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
