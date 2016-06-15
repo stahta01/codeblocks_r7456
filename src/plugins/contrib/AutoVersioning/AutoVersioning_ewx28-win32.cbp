@@ -39,7 +39,7 @@
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
 					<Add option="-mthreads" />
-					<Add library="wxmsw$(WX_VERSION)" />
+					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="emblocks" />
 					<Add directory="../../../build" />
 					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
@@ -52,7 +52,7 @@
 			<Environment>
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
-				<Variable name="WX_VERSION" value="1" />
+				<Variable name="WX_VERSION" value="28" />
 			</Environment>
 		</Build>
 		<VirtualTargets>
