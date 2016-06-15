@@ -1,5 +1,5 @@
 /*
-* This file is part of SpellChecker plugin for Code::Blocks Studio
+* This file is part of SpellChecker plugin for Em::Blocks Studio
 * Copyright (C) 2009 Daniel Anselmi
 *
 * SpellChecker plugin is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 * along with SpellChecker. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     #include <configmanager.h>
     #include <cbeditor.h>
@@ -43,7 +43,7 @@
 #include "StatusField.h"
 #include "DictionariesNeededDialog.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -183,7 +183,7 @@ void SpellCheckerPlugin::ConfigurePersonalDictionary()
 void SpellCheckerPlugin::OnRelease(bool appShutDown)
 {
     // do de-initialization for your plugin
-    // if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
+    // if appShutDown is true, the plugin is unloaded because Em::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...
@@ -226,7 +226,7 @@ void SpellCheckerPlugin::SavePersonalDictionary()
 int SpellCheckerPlugin::Configure()
 {
     //create and display the configuration dialog for your plugin
-    cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY, _("Your dialog title"));
+    cbConfigurationDialog dlg(Manager::Get()->GetAppWindow(), wxID_ANY, _("Spell checker"));
     cbConfigurationPanel* panel = GetConfigurationPanel(&dlg);
     if (panel)
     {
@@ -281,7 +281,6 @@ void SpellCheckerPlugin::BuildModuleMenu(const ModuleType type, wxMenu* menu, co
     else if ( stc->IndicatorValueAt( m_pOnlineChecker->GetIndicator(), pos) )
     {
         // indicator is on -> check if we can find a suggestion or show that there are no suggestions
-        menu->AppendSeparator();
         wxString misspelledWord;
 
         int wordstart = pos, wordend = pos;
@@ -310,7 +309,10 @@ void SpellCheckerPlugin::BuildModuleMenu(const ModuleType type, wxMenu* menu, co
             if ( m_suggestions.size() > MaxSuggestEntries )
                 SuggestionsMenu->Append(idMoreSuggestions, _("more..."));
             SuggestionsMenu->Append(idAddToDictionary, _T("Add '") + misspelledWord + _T("' to dictionary"));
-            menu->AppendSubMenu(SuggestionsMenu, _("Spelling suggestions for '") + misspelledWord + _T("'") );
+
+            // Put this suggestion at the top of the list
+            menu->Insert(0, wxID_ANY,  _("Spelling suggestions for '") + misspelledWord + _T("'"), SuggestionsMenu);
+            menu->Insert(1,wxID_SEPARATOR, wxEmptyString);
         }
         else
         {
@@ -320,7 +322,7 @@ void SpellCheckerPlugin::BuildModuleMenu(const ModuleType type, wxMenu* menu, co
     }
 }
 
-bool SpellCheckerPlugin::BuildToolBar(wxToolBar* toolBar)
+bool SpellCheckerPlugin::BuildToolBar(wxAuiToolBar* toolBar)
 {
     //The application is offering its toolbar for your plugin,
     //to add any toolbar items you want...

@@ -1,5 +1,5 @@
 /*
-* This file is part of SpellChecker plugin for Code::Blocks Studio
+* This file is part of SpellChecker plugin for Em::Blocks Studio
 * Copyright (C) 2009 Daniel Anselmi
 *
 * SpellChecker plugin is free software; you can redistribute it and/or modify
@@ -75,8 +75,8 @@ class SpellCheckerPlugin : public cbPlugin
           */
         virtual cbConfigurationPanel* GetProjectConfigurationPanel(wxWindow* parent, cbProject* project){ return 0; }
 
-        /** This method is called by Code::Blocks and is used by the plugin
-          * to add any menu items it needs on Code::Blocks's menu bar.\n
+        /** This method is called by Em::Blocks and is used by the plugin
+          * to add any menu items it needs on Em::Blocks's menu bar.\n
           * It is a pure virtual method that needs to be implemented by all
           * plugins. If the plugin does not need to add items on the menu,
           * just do nothing ;)
@@ -84,7 +84,7 @@ class SpellCheckerPlugin : public cbPlugin
           */
         virtual void BuildMenu(wxMenuBar* menuBar);
 
-        /** This method is called by Code::Blocks core modules (EditorManager,
+        /** This method is called by Em::Blocks core modules (EditorManager,
           * ProjectManager etc) and is used by the plugin to add any menu
           * items it needs in the module's popup menu. For example, when
           * the user right-clicks on a project file in the project tree,
@@ -101,15 +101,15 @@ class SpellCheckerPlugin : public cbPlugin
           */
         virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0);
 
-        /** This method is called by Code::Blocks and is used by the plugin
-          * to add any toolbar items it needs on Code::Blocks's toolbar.\n
+        /** This method is called by Em::Blocks and is used by the plugin
+          * to add any toolbar items it needs on Em::Blocks's toolbar.\n
           * It is a pure virtual method that needs to be implemented by all
           * plugins. If the plugin does not need to add items on the toolbar,
           * just do nothing ;)
-          * @param toolBar the wxToolBar to create items on
+          * @param toolBar the wxAuiToolBar to create items on
           * @return The plugin should return true if it needed the toolbar, false if not
           */
-        virtual bool BuildToolBar(wxToolBar* toolBar);
+        virtual bool BuildToolBar(wxAuiToolBar* toolBar);
 
         #ifdef wxUSE_STATUSBAR
         virtual void CreateStatusField(cbStatusBar *bar);
@@ -118,8 +118,8 @@ class SpellCheckerPlugin : public cbPlugin
     protected:
         /** Any descendent plugin should override this virtual method and
           * perform any necessary initialization. This method is called by
-          * Code::Blocks (PluginManager actually) when the plugin has been
-          * loaded and should attach in Code::Blocks. When Code::Blocks
+          * Em::Blocks (PluginManager actually) when the plugin has been
+          * loaded and should attach in Em::Blocks. When Em::Blocks
           * starts up, it finds and <em>loads</em> all plugins but <em>does
           * not</em> activate (attaches) them. It then activates all plugins
           * that the user has selected to be activated on start-up.\n
@@ -130,8 +130,8 @@ class SpellCheckerPlugin : public cbPlugin
 
         /** Any descendent plugin should override this virtual method and
           * perform any necessary de-initialization. This method is called by
-          * Code::Blocks (PluginManager actually) when the plugin has been
-          * loaded, attached and should de-attach from Code::Blocks.\n
+          * Em::Blocks (PluginManager actually) when the plugin has been
+          * loaded, attached and should de-attach from Em::Blocks.\n
           * Think of this method as the actual destructor...
           * @param appShutDown If true, the application is shutting down. In this
           *         case *don't* use Manager::Get()->Get...() functions or the

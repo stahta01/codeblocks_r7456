@@ -1,5 +1,5 @@
 /*
-* This file is part of SpellChecker plugin for Code::Blocks Studio
+* This file is part of SpellChecker plugin for Em::Blocks Studio
 * Copyright (C) 2009 Daniel Anselmi
 *
 * SpellChecker plugin is free software; you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 */
 #include "SpellCheckerConfig.h"
 #include "SpellCheckerPlugin.h"
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     #include <wx/dir.h>
     #include <macrosmanager.h>
@@ -142,14 +142,14 @@ const wxString SpellCheckerConfig::GetPersonalDictionaryFilename()const
 void SpellCheckerConfig::Load()
 {
     m_EnableOnlineChecker = true;
-    m_strDictionaryName = _T("de_CH");
+    m_strDictionaryName = _T("en_US");
     m_DictPath = m_pPlugin->GetOnlineCheckerConfigPath();
     m_ThesPath = m_pPlugin->GetOnlineCheckerConfigPath();
     m_BitmPath = m_pPlugin->GetOnlineCheckerConfigPath();
     if (ConfigManager* cfg = Manager::Get()->GetConfigManager(_T("editor")))
     {
         m_EnableOnlineChecker = cfg->ReadBool(CFG_SPELLCHECK_ENABLE_ONLINE_CHECK, true);
-        m_strDictionaryName = cfg->Read(CFG_SPELLCHECK_DICTIONARY_NAME, _T("de_CH") );
+        m_strDictionaryName = cfg->Read(CFG_SPELLCHECK_DICTIONARY_NAME, _T("en_US") );
         m_DictPath = cfg->Read(CFG_SPELLCHECK_DICTIONARY_PATH, m_pPlugin->GetOnlineCheckerConfigPath());
         m_ThesPath = cfg->Read(CFG_SPELLCHECK_THESAURI_PATH, m_pPlugin->GetOnlineCheckerConfigPath());
         m_BitmPath = cfg->Read(CFG_SPELLCHECK_BITMAPS_PATH, m_pPlugin->GetOnlineCheckerConfigPath());

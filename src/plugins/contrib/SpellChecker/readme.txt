@@ -1,9 +1,9 @@
 SpellChecker plugin
 
 It can be configured (through OnlineSpellChecking.xml file) which lexer-styles have to be spell-checked. Sample config file provides: spell-check only comments in C/C++, VHDL and Verilog and spell-check sources for LaTeX.
-It needs dictionaries (from OpenOffice) to work correctly. 
+It needs dictionaries (from OpenOffice) to work correctly.
 
-Hunspell is used for the spell checker and wxSpellChecker (from wxCode) for the GUI. Code::Blocks project files (msw and linux) are provided (tested on winXP-sp3 and fedora 11). For linux, hunspell is assumed to be installed as a system library.
+Hunspell is used for the spell checker and wxSpellChecker (from wxCode) for the GUI. Em::Blocks project files (msw and linux) are provided (tested on winXP-sp3 and fedora 11). For linux, hunspell is assumed to be installed as a system library.
 MyThes is used for the thesaurus.
 
 Dictionaries for hunspell and MyThes can be downloaded from "http://wiki.services.openoffice.org/wiki/Dictionaries" OOo 2.x files. OOo 3.x Extensions (.oxt) are zip'ed archives containing these files. The

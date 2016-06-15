@@ -7,6 +7,7 @@
 #include <wx/msgdlg.h>
 
 #include <vector>
+#include <cbstatusbar.h>
 
 #include "SpellCheckerConfig.h"
 #include "SpellCheckerPlugin.h"
@@ -18,6 +19,7 @@ namespace
     const int idEditPersonalDictionary = wxNewId();
 };
 
+
 SpellCheckerStatusField::SpellCheckerStatusField(wxWindow* parent, SpellCheckerPlugin *plugin, SpellCheckerConfig *sccfg)
     :wxPanel(parent, wxID_ANY),
     m_sccfg(sccfg),
@@ -28,6 +30,9 @@ SpellCheckerStatusField::SpellCheckerStatusField(wxWindow* parent, SpellCheckerP
 
     wxBitmap bm(wxImage( m_sccfg->GetBitmapPath() + wxFILE_SEP_PATH + m_sccfg->GetDictionaryName() + _T(".png"), wxBITMAP_TYPE_PNG ));
     m_bitmap = new wxStaticBitmap(this, wxID_ANY, bm);
+
+    SetBackgroundColour( ((cbStatusBar*)parent)->GetBackgroundColour() );
+    m_text->SetForegroundColour(((cbStatusBar*)parent)->GetForegroundColour());
 
     if ( bm.IsOk() )
         m_text->Hide();
@@ -78,13 +83,23 @@ void SpellCheckerStatusField::OnSize(wxSizeEvent &event)
 {
     DoSize();
 }
+
 void SpellCheckerStatusField::DoSize()
 {
     //m_bitmap->SetSize(this->GetSize());
+
     wxSize msize = this->GetSize();
     wxSize bsize = m_bitmap->GetSize();
 
     m_text->SetSize(msize);
+
+    if(m_text->IsShown())
+    {
+        wxSize wSize = this->GetSize();
+        wSize.SetHeight(wSize.GetHeight()+4);
+        this->SetSize(wSize);
+    }
+
     m_bitmap->Move(msize.x/2 - bsize.x/2, msize.y/2 - bsize.y/2);
 }
 

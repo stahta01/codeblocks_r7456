@@ -1,5 +1,5 @@
 /*
-* This file is part of SpellChecker plugin for Code::Blocks Studio
+* This file is part of SpellChecker plugin for Em::Blocks Studio
 * Copyright (C) 2009 Daniel Anselmi
 *
 * SpellChecker plugin is free software; you can redistribute it and/or modify
@@ -114,8 +114,6 @@ void SpellCheckSettingsPanel::InitDictionaryChoice()
     m_checkEnableOnlineSpellChecker->Enable(!dics.empty());
 }
 wxString SpellCheckSettingsPanel::GetTitle() const {return _T("SpellChecker");}
-
-wxString SpellCheckSettingsPanel::GetBitmapBaseName() const {return _T("SpellChecker");}
 
 void SpellCheckSettingsPanel::PostConfig()
 {
