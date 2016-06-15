@@ -3,7 +3,7 @@
  * \author    Gary Harris
  * \date      01-02-2010
  *
- * DoxyBlocks - doxygen integration for Code::Blocks. \n
+ * DoxyBlocks - doxygen integration for Em::Blocks. \n
  * Copyright (C) 2010 Gary Harris.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,8 @@ class ConfigPanel: public cbConfigurationPanel
         ConfigPanel(wxWindow* parent, DoxyBlocks *pOwner, wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
         virtual ~ConfigPanel();
         void Init();
+
+        virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_doxyblocks"));}
 
         // Setters and getters.
         // Comments.

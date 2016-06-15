@@ -3,7 +3,7 @@
  * \author	Gary Harris
  * \date		01-02-2010
  *
- * DoxyBlocks - doxygen integration for Code::Blocks.					\n
+ * DoxyBlocks - doxygen integration for Em::Blocks.					\n
  * Copyright (C) 2010 Gary Harris.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ VS_VERSION_INFO		VERSIONINFO
       VALUE "Comments",			"Free to all.\0"
       VALUE "CompanyName",	"\0"
       VALUE "Developer",				"Gary Harris\0"
-      VALUE "FileDescription",		"Doxygen integration for Code::Blocks.\0"
+      VALUE "FileDescription",		"Doxygen integration for Em::Blocks.\0"
 	  VALUE "FileVersion",			RC_FILEVERSION_STRING
       VALUE "InternalName",		"DoxyBlocks\0"
       VALUE "LegalCopyright",		"Copyright 2010 Gary Harris.\0"
@@ -66,4 +66,4 @@ VS_VERSION_INFO		VERSIONINFO
   } // BLOCK "VarFileInfo"
 }
 
-
+

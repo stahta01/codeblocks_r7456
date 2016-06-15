@@ -3,7 +3,7 @@
  * \author      Gary Harris
  * \date        01-02-2010
  *
- * DoxyBlocks - doxygen integration for Code::Blocks. \n
+ * DoxyBlocks - doxygen integration for Em::Blocks. \n
  * Copyright (C) 2010 Gary Harris.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
  *****************************************************************************/
 #include "DoxyBlocks.h"
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     #include <wx/menu.h>
     #include <wx/process.h>
@@ -48,11 +48,31 @@
 #include "ConfigPanel.h"
 #include "DoxyBlocksLogger.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
     PluginRegistrant<DoxyBlocks> reg(wxT("DoxyBlocks"));
+
+    int ID_TB_WIZARD  = XRCID("ID_TB_WIZARD");
+    int ID_TB_EXTRACTPROJECT = XRCID("ID_TB_EXTRACTPROJECT");
+    int ID_TB_BLOCKCOMMENT = XRCID("ID_TB_BLOCKCOMMENT");
+    int ID_TB_LINECOMMENT = XRCID("ID_TB_LINECOMMENT");
+    int ID_TB_RUNHTML = XRCID("ID_TB_RUNHTML");
+    int ID_TB_RUNCHM = XRCID("ID_TB_RUNCHM");
+    int ID_TB_CONFIG = XRCID("ID_TB_CONFIG");
+
+    int ID_MENU_DOXYBLOCKS = wxNewId();
+    int ID_MENU_DOXYWIZARD = XRCID("ID_MENU_DOXYWIZARD");
+    int ID_MENU_EXTRACTPROJECT = XRCID("ID_MENU_EXTRACTPROJECT");
+    int ID_MENU_BLOCKCOMMENT = XRCID("ID_MENU_BLOCKCOMMENT");
+    int ID_MENU_LINECOMMENT = XRCID("ID_MENU_LINECOMMENT");
+    int ID_MENU_RUNHTML = XRCID("ID_MENU_RUNHTML");
+    int ID_MENU_RUNCHM = XRCID("ID_MENU_RUNCHM");
+    int ID_MENU_CONFIG = XRCID("ID_MENU_CONFIG");
+
+    int ID_MENU_SAVE_TEMPLATE = XRCID("ID_MENU_SAVE_TEMPLATE");
+    int ID_MENU_LOAD_TEMPLATE = XRCID("ID_MENU_LOAD_TEMPLATE");
 }
 
 // events handling
@@ -110,6 +130,18 @@ void DoxyBlocks::OnAttach()
     }
 }
 
+void DoxyBlocks::EnableAllTools(bool enable)
+{
+    m_pToolbar->EnableTool(ID_TB_BLOCKCOMMENT, enable);
+    m_pToolbar->EnableTool(ID_TB_LINECOMMENT, enable);
+    m_pToolbar->EnableTool(ID_TB_WIZARD, enable);
+    m_pToolbar->EnableTool(ID_TB_EXTRACTPROJECT, enable);
+    m_pToolbar->EnableTool(ID_TB_RUNHTML, enable);
+    m_pToolbar->EnableTool(ID_TB_RUNCHM, enable);
+    m_pToolbar->EnableTool(ID_TB_CONFIG, enable);
+}
+
+
 /*! \brief Hooks the IDE's project activated event.
  *
  * \param event CodeBlocksEvent&    A CodeBlocks event object.
@@ -131,7 +163,7 @@ void DoxyBlocks::OnProjectActivate(CodeBlocksEvent& WXUNUSED(event))
     }
 
        // Enable the menu and toolbar...
-    m_pToolbar->Enable(true);
+    EnableAllTools(true);
     wxMenuBar *menuBar =  Manager::Get()->GetAppFrame()->GetMenuBar();
     menuBar->FindItem(ID_MENU_DOXYWIZARD)->Enable(true);
     menuBar->FindItem(ID_MENU_EXTRACTPROJECT)->Enable(true);
@@ -151,6 +183,7 @@ void DoxyBlocks::OnProjectActivate(CodeBlocksEvent& WXUNUSED(event))
         menuBar->FindItem(ID_MENU_BLOCKCOMMENT)->Enable(false);
         menuBar->FindItem(ID_MENU_LINECOMMENT)->Enable(false);
     }
+    m_pToolbar->Refresh();
 }
 
 /*! \brief Hooks the editor open event.
@@ -171,6 +204,7 @@ void DoxyBlocks::OnEditorOpen(CodeBlocksEvent& WXUNUSED(event))
             wxMenuBar *menuBar =  Manager::Get()->GetAppFrame()->GetMenuBar();
             menuBar->FindItem(ID_MENU_BLOCKCOMMENT)->Enable(true);
             menuBar->FindItem(ID_MENU_LINECOMMENT)->Enable(true);
+            m_pToolbar->Refresh();
         }
     }
 }
@@ -191,6 +225,7 @@ void DoxyBlocks::OnEditorClose(CodeBlocksEvent& WXUNUSED(event))
             wxMenuBar *menuBar =  Manager::Get()->GetAppFrame()->GetMenuBar();
             menuBar->FindItem(ID_MENU_BLOCKCOMMENT)->Enable(false);
             menuBar->FindItem(ID_MENU_LINECOMMENT)->Enable(false);
+            m_pToolbar->Refresh();
         }
     }
 }
@@ -205,7 +240,8 @@ void DoxyBlocks::OnEditorClose(CodeBlocksEvent& WXUNUSED(event))
 void DoxyBlocks::OnUpdateUI(wxUpdateUIEvent& WXUNUSED(event))
 {
     if(Manager::Get()->GetProjectManager()->GetProjects()->GetCount() == 0){
-        m_pToolbar->Enable(false);
+        EnableAllTools(false);
+
         wxMenuBar *menuBar =  Manager::Get()->GetAppFrame()->GetMenuBar();
         menuBar->FindItem(ID_MENU_DOXYWIZARD)->Enable(false);
         menuBar->FindItem(ID_MENU_EXTRACTPROJECT)->Enable(false);
@@ -216,13 +252,14 @@ void DoxyBlocks::OnUpdateUI(wxUpdateUIEvent& WXUNUSED(event))
         menuBar->FindItem(ID_MENU_CONFIG)->Enable(false);
         menuBar->FindItem(ID_MENU_LOAD_TEMPLATE)->Enable(false);
         menuBar->FindItem(ID_MENU_SAVE_TEMPLATE)->Enable(false);
+        m_pToolbar->Refresh();
     }
 }
 
 void DoxyBlocks::OnRelease(bool /*appShutDown*/)
 {
     // do de-initialization for your plugin
-    // if appShutDown is true, the plugin is unloaded because Code::Blocks is being shut down,
+    // if appShutDown is true, the plugin is unloaded because Em::Blocks is being shut down,
     // which means you must not use any of the SDK Managers
     // NOTE: after this function, the inherited member variable
     // m_IsAttached will be FALSE...
@@ -409,44 +446,15 @@ void DoxyBlocks::BuildMenu(wxMenuBar *menuBar)
     //NOTE: Be careful in here... The application's menubar is at your disposal.
 //    NotImplemented(wxT("DoxyBlocks::BuildMenu()"));
 
+    if (!IsAttached())
+        return;
+
+    wxMenu *submenu  = Manager::Get()->LoadMenu(_T("doxyblocks_menu"),true);
+
     int idx = menuBar->FindMenu(_("P&lugins"));
-    if(idx != wxNOT_FOUND){
-        wxMenu *submenu = new wxMenu;
-        wxString sDataFolder(ConfigManager::GetDataFolder());
-        wxString prefix = sDataFolder + wxT("/images/DoxyBlocks/16x16/");
 
-        wxMenuItem *MenuItemDoxywizard = new wxMenuItem(submenu, ID_MENU_DOXYWIZARD, _("&Doxywizard...\tCtrl-Alt-D"), _("Run doxywizard."));
-        MenuItemDoxywizard->SetBitmap(wxBitmap(prefix + wxT("doxywizard.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemDoxywizard);
-        wxMenuItem *MenuItemExtract = new wxMenuItem(submenu, ID_MENU_EXTRACTPROJECT, _("&Extract documentation\tCtrl-Alt-E"), _("Extract documentation for the current project."));
-        MenuItemExtract->SetBitmap(wxBitmap(prefix + wxT("extract.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemExtract);
-        submenu->AppendSeparator();
-        wxMenuItem *MenuItemBlockComment = new wxMenuItem(submenu, ID_MENU_BLOCKCOMMENT, _("&Block comment\tCtrl-Alt-B"), _("Insert a comment block at the current line."));
-        MenuItemBlockComment->SetBitmap(wxBitmap(prefix + wxT("comment_block.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemBlockComment);
-        wxMenuItem *MenuItemLineComment = new wxMenuItem(submenu, ID_MENU_LINECOMMENT, _("&Line comment\tCtrl-Alt-L"), _("Insert a line comment at the current cursor position."));
-        MenuItemLineComment->SetBitmap(wxBitmap(prefix + wxT("comment_line.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemLineComment);
-        submenu->AppendSeparator();
-        wxMenuItem *MenuItemRunHTML = new wxMenuItem(submenu, ID_MENU_RUNHTML, _("Run &HTML\tCtrl-Alt-H"), _("Run HTML documentation."));
-        MenuItemRunHTML->SetBitmap(wxBitmap(prefix + wxT("html.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemRunHTML);
-        wxMenuItem *MenuItemRunCHM = new wxMenuItem(submenu, ID_MENU_RUNCHM, _("Run &CHM\tCtrl-Alt-C"), _("Insert a comment block at the current line."));
-        MenuItemRunCHM->SetBitmap(wxBitmap(prefix + wxT("chm.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemRunCHM);
-        submenu->AppendSeparator();
-        wxMenuItem *MenuItemConfig = new wxMenuItem(submenu, ID_MENU_CONFIG, _("Open &preferences...\tCtrl-Alt-P"), _("Open DoxyBlocks' preferences."));
-        MenuItemConfig->SetBitmap(wxBitmap(prefix + wxT("configure.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemConfig);
-        submenu->AppendSeparator();
-        wxMenuItem *MenuItemLoadTemplate = new wxMenuItem(submenu, ID_MENU_LOAD_TEMPLATE, _("L&oad settings template"), _("Load saved settings template."));
-        MenuItemLoadTemplate->SetBitmap(wxBitmap(sDataFolder + wxT("/images/16x16/fileopen.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemLoadTemplate);
-        wxMenuItem *MenuItemSaveTemplate = new wxMenuItem(submenu, ID_MENU_SAVE_TEMPLATE, _("&Save settings template"), _("Save current settings for future use."));
-        MenuItemSaveTemplate->SetBitmap(wxBitmap(sDataFolder + wxT("/images/16x16/filesave.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemSaveTemplate);
-
+    if(idx != wxNOT_FOUND)
+    {
         Connect(ID_MENU_DOXYWIZARD, wxEVT_COMMAND_TOOL_CLICKED, (wxObjectEventFunction)&DoxyBlocks::RunDoxywizard);
         Connect(ID_MENU_EXTRACTPROJECT, wxEVT_COMMAND_TOOL_CLICKED, (wxObjectEventFunction)&DoxyBlocks::ExtractProject);
         Connect(ID_MENU_BLOCKCOMMENT, wxEVT_COMMAND_TOOL_CLICKED, (wxObjectEventFunction)&DoxyBlocks::BlockComment);
@@ -470,52 +478,35 @@ void DoxyBlocks::BuildModuleMenu(const ModuleType type, wxMenu *menu, const File
     // Add the comment functions to the editor's context-sensitive menu.
     if(type == mtEditorManager){
         wxMenu *submenu = new wxMenu;
-        wxString prefix = ConfigManager::GetDataFolder() + wxT("/images/DoxyBlocks/16x16/");
+
+        wxMenuItem *MenuItemBlockComment = new wxMenuItem(submenu, ID_MENU_BLOCKCOMMENT, _("&Block Comment"), _("Insert a comment block at the current line."));
+        MenuItemBlockComment->SetBitmap(Manager::Get()->GetMenuBitmap(ID_MENU_BLOCKCOMMENT));
+        submenu->Append(MenuItemBlockComment);
+
+        wxMenuItem *MenuItemLineComment = new wxMenuItem(submenu, ID_MENU_LINECOMMENT, _("&Line Comment"), _("Insert a line comment at the current cursor position."));
+        MenuItemLineComment->SetBitmap(Manager::Get()->GetMenuBitmap(ID_MENU_LINECOMMENT));
+        submenu->Append(MenuItemLineComment);
 
         menu->AppendSeparator();
-        wxMenuItem *MenuItemBlockComment = new wxMenuItem(submenu, ID_MENU_BLOCKCOMMENT, _("&Block Comment"), _("Insert a comment block at the current line."));
-        MenuItemBlockComment->SetBitmap(wxBitmap(prefix + wxT("comment_block.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemBlockComment);
-        wxMenuItem *MenuItemLineComment = new wxMenuItem(submenu, ID_MENU_LINECOMMENT, _("&Line Comment"), _("Insert a line comment at the current cursor position."));
-        MenuItemLineComment->SetBitmap(wxBitmap(prefix + wxT("comment_line.png"), wxBITMAP_TYPE_PNG));
-        submenu->Append(MenuItemLineComment);
         menu->AppendSubMenu(submenu, wxT("Do&xyBlocks"));
         // Events are already attached to these IDs in BuildMenu().
     }
 }
 
-bool DoxyBlocks::BuildToolBar(wxToolBar *toolBar)
+bool DoxyBlocks::BuildToolBar(wxAuiToolBar *toolBar)
 {
     if(!IsAttached() || !toolBar)
         return false;
 
+    wxString is16x16 = Manager::isToolBar16x16(toolBar) ? _T("_16x16") : _T("");
+    Manager::Get()->AuiToolBar(toolBar,_T("doxyblocks_toolbar") + is16x16);
     m_pToolbar = toolBar;
-    wxString prefix;
-    ConfigManager *cfg = Manager::Get()->GetConfigManager(wxT("app"));
-    if(cfg->ReadBool(wxT("/environment/toolbar_size"), true)){
-        prefix = ConfigManager::GetDataFolder() + wxT("/images/DoxyBlocks/16x16/");
-        m_pToolbar->SetToolBitmapSize(wxSize(16, 16));
-    }
-    else{
-        prefix = ConfigManager::GetDataFolder() + wxT("/images/DoxyBlocks/");
-        m_pToolbar->SetToolBitmapSize(wxSize(22, 22));
-    }
 
-    m_pToolbar->AddTool(ID_TB_WIZARD, _("Doxywizard"), wxBitmap(prefix + wxT("doxywizard.png"), wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL, _("Run doxywizard"));
-    m_pToolbar->AddTool(ID_TB_EXTRACTPROJECT, _("Document project"), wxBitmap(prefix + wxT("extract.png"), wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL, _("Extract documentation for the current project"));
-    m_pToolbar->AddSeparator();
-    m_pToolbar->AddTool(ID_TB_BLOCKCOMMENT, _("Block Comment"), wxBitmap(prefix + wxT("comment_block.png"), wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL, _("Insert a comment block at the current line"));
-    m_pToolbar->AddTool(ID_TB_LINECOMMENT, _("Line Comment"), wxBitmap(prefix + wxT("comment_line.png"), wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL, _("Insert a line comment at the current cursor position"));
-    m_pToolbar->AddSeparator();
-    m_pToolbar->AddTool(ID_TB_RUNHTML, _("Run HTML"), wxBitmap(prefix + wxT("html.png"), wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL, _("Run HTML documentation"));
-    m_pToolbar->AddTool(ID_TB_RUNCHM, _("Run CHM"), wxBitmap(prefix + wxT("chm.png"), wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL, _("Run HTML Help documentation"));
-    m_pToolbar->AddSeparator();
-    m_pToolbar->AddTool(ID_TB_CONFIG, _("Open Preferences"), wxBitmap(prefix + wxT("configure.png"), wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL, _("Open DoxyBlocks' preferences"));
-    m_pToolbar->Realize();
+
 #if wxCHECK_VERSION(2, 8, 0)
-    m_pToolbar->SetInitialSize();
+ //   m_pToolbar->SetInitialSize();
 #else
-    m_pToolbar->SetBestFittingSize();
+ //   m_pToolbar->SetBestFittingSize();
 #endif
 
     Connect(ID_TB_WIZARD, wxEVT_COMMAND_TOOL_CLICKED, (wxObjectEventFunction)&DoxyBlocks::RunDoxywizard);
@@ -1234,5 +1225,4 @@ void DoxyBlocks::ReadPrefsTemplate()
         AppendToLog(_("Settings template not found."), LOG_WARNING);
     }
 }
-
 

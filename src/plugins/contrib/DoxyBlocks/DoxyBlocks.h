@@ -3,7 +3,7 @@
  * \author    Gary Harris
  * \date        01-02-2010
  *
- * DoxyBlocks - doxygen integration for Code::Blocks.                    \n
+ * DoxyBlocks - doxygen integration for Em::Blocks.                    \n
  * Copyright (C) 2010 Gary Harris.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,17 +31,11 @@
 
 /*! \brief Toolbar control IDs
  */
+
+/*
 enum eControlIds
 {
-    ID_TB_WIZARD = wxID_HIGHEST + 9000,
-    ID_TB_EXTRACTPROJECT,
-    ID_TB_BLOCKCOMMENT,
-    ID_TB_LINECOMMENT,
-    ID_TB_RUNHTML,
-    ID_TB_RUNCHM,
-    ID_TB_CONFIG,
-
-    ID_MENU_DOXYBLOCKS,
+    ID_MENU_DOXYBLOCKS = wxID_HIGHEST + 9000,
     ID_MENU_DOXYWIZARD,
     ID_MENU_EXTRACTPROJECT,
     ID_MENU_BLOCKCOMMENT,
@@ -52,6 +46,7 @@ enum eControlIds
     ID_MENU_SAVE_TEMPLATE,
     ID_MENU_LOAD_TEMPLATE
 };
+*/
 
 /*! \brief Log entry style IDs
  */
@@ -114,8 +109,8 @@ class DoxyBlocks : public cbPlugin
           */
         virtual cbConfigurationPanel* GetProjectConfigurationPanel(wxWindow* parent, cbProject* project);
 
-        /** This method is called by Code::Blocks and is used by the plugin
-          * to add any menu items it needs on Code::Blocks's menu bar.\n
+        /** This method is called by Em::Blocks and is used by the plugin
+          * to add any menu items it needs on Em::Blocks's menu bar.\n
           * It is a pure virtual method that needs to be implemented by all
           * plugins. If the plugin does not need to add items on the menu,
           * just do nothing ;)
@@ -123,7 +118,7 @@ class DoxyBlocks : public cbPlugin
           */
         virtual void BuildMenu(wxMenuBar* menuBar);
 
-        /** This method is called by Code::Blocks core modules (EditorManager,
+        /** This method is called by Em::Blocks core modules (EditorManager,
           * ProjectManager etc) and is used by the plugin to add any menu
           * items it needs in the module's popup menu. For example, when
           * the user right-clicks on a project file in the project tree,
@@ -140,22 +135,22 @@ class DoxyBlocks : public cbPlugin
           */
         virtual void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0);
 
-        /** This method is called by Code::Blocks and is used by the plugin
-          * to add any toolbar items it needs on Code::Blocks's toolbar.\n
+        /** This method is called by Em::Blocks and is used by the plugin
+          * to add any toolbar items it needs on Em::Blocks's toolbar.\n
           * It is a pure virtual method that needs to be implemented by all
           * plugins. If the plugin does not need to add items on the toolbar,
           * just do nothing ;)
-          * @param toolBar the wxToolBar to create items on
+          * @param toolBar the wxAuiToolBar to create items on
           * @return The plugin should return true if it needed the toolbar, false if not
           */
-        virtual bool BuildToolBar(wxToolBar* toolBar);
+        virtual bool BuildToolBar(wxAuiToolBar* toolBar);
         void OnDialogueDone(ConfigPanel* pDlg);
 
     protected:
         /** Any descendent plugin should override this virtual method and
           * perform any necessary initialization. This method is called by
-          * Code::Blocks (PluginManager actually) when the plugin has been
-          * loaded and should attach in Code::Blocks. When Code::Blocks
+          * Em::Blocks (PluginManager actually) when the plugin has been
+          * loaded and should attach in Em::Blocks. When Em::Blocks
           * starts up, it finds and <em>loads</em> all plugins but <em>does
           * not</em> activate (attaches) them. It then activates all plugins
           * that the user has selected to be activated on start-up.\n
@@ -166,8 +161,8 @@ class DoxyBlocks : public cbPlugin
 
         /** Any descendent plugin should override this virtual method and
           * perform any necessary de-initialization. This method is called by
-          * Code::Blocks (PluginManager actually) when the plugin has been
-          * loaded, attached and should de-attach from Code::Blocks.\n
+          * Em::Blocks (PluginManager actually) when the plugin has been
+          * loaded, attached and should de-attach from Em::Blocks.\n
           * Think of this method as the actual destructor...
           * @param appShutDown If true, the application is shutting down. In this
           *         case *don't* use Manager::Get()->Get...() functions or the
@@ -177,6 +172,7 @@ class DoxyBlocks : public cbPlugin
 
 
     private:
+        void EnableAllTools(bool enable);
         bool RunDoxywizard(void);
         void BlockComment(void);
         void LineComment(void);
@@ -214,7 +210,7 @@ class DoxyBlocks : public cbPlugin
         void ReadPrefsTemplate();
         void WritePrefsTemplate();
 
-        wxToolBar               *m_pToolbar;       //!< The plug-in toolbar.
+        wxAuiToolBar            *m_pToolbar;       //!< The plug-in toolbar.
         DoxyBlocksLogger        *m_DoxyBlocksLog;  //!< The log tab in the message pane.
         int                     m_LogPageIndex;    //!< The index of the log tab.
         bool                    m_bAutoVersioning; //!< Whether Autoversioning is active for the current project.
@@ -238,15 +234,15 @@ class DoxyBlocks : public cbPlugin
  * \date        6 February, 2011
  *
  * \section intro Introduction
- * DoxyBlocks is a plugin for Code::Blocks that integrates doxygen into the IDE. It allows you to create documentation, insert comment blocks and run HTML or CHM documents.
+ * DoxyBlocks is a plugin for Em::Blocks that integrates doxygen into the IDE. It allows you to create documentation, insert comment blocks and run HTML or CHM documents.
  * It also provides configuration of some of the more commonly used settings and access to doxywizard for more detailed configuration.
  *
- * DoxyBlocks has been built with SVN version 6130 and later of <a href="http://www.codeblocks.org">Code::Blocks</a> and requires a recent version of wxSmith which includes the "extra code" feature.
+ * DoxyBlocks has been built with SVN version 6130 and later of <a href="http://www.codeblocks.org">Em::Blocks</a> and requires a recent version of wxSmith which includes the "extra code" feature.
  *
  * You can download DoxyBlocks from http://sourceforge.net/projects/doxyblocks/.
  *
  * \section changing Changing DoxyBlocks
- *    DoxyBlocks is intended to be an example of good practice using doxygen in Code::Blocks. If you make changes to DoxyBlocks, please respect the work that has gone into making it what it is
+ *    DoxyBlocks is intended to be an example of good practice using doxygen in Em::Blocks. If you make changes to DoxyBlocks, please respect the work that has gone into making it what it is
  * and do the following:
  * \li Please document your changes using doxygen!
  * \li Run doxygen over the code with all warnings enabled and make sure that you correct all errors and warnings that your documentation generates before submission.
@@ -256,7 +252,7 @@ class DoxyBlocks : public cbPlugin
  * \li Thanks for your contribution.
  *
  * \section comments Comments & Feedback
- * Your input is welcomed. Please direct all comments, suggestions and feedback to the Code::Blocks forum thread at: http://forums.codeblocks.org/index.php/topic,12052.
+ * Your input is welcomed. Please direct all comments, suggestions and feedback to the Em::Blocks forum thread at: http://forums.codeblocks.org/index.php/topic,12052.
  *
  * \section changes Changes
  * \li Fixed:     Hard coded doxygen directory name.
@@ -319,7 +315,7 @@ class DoxyBlocks : public cbPlugin
  * \li Updated:   Changed the generated doxyfile to doxygen 1.6.3.
  * \li Updated:   For consistency, changed HTML_TIMESTAMP default to YES.
  * \li Updated:   For consistency, changed EXTRACT_LOCAL_METHODS default to NO.
- * \li Added:     Macro expansion in path prefs so that you can use things like "$(CODEBLOCKS)" in paths. Requested by Codeur.
+ * \li Added:     Macro expansion in path prefs so that you can use things like "$(EMBLOCKS)" in paths. Requested by Codeur.
  *
  * Version 1.2.223 - 21 March, 2010.
  * \li Fixed:     Bug in the config. panel that caused the OUTPUT_DIRECTORY label to be obscured on Linux.

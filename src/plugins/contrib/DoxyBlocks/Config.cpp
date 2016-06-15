@@ -3,7 +3,7 @@
  * \author    Gary Harris
  * \date      7/3/10
  *
- * DoxyBlocks - doxygen integration for Code::Blocks. \n
+ * DoxyBlocks - doxygen integration for Em::Blocks. \n
  * Copyright (C) 2010 Gary Harris.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -86,7 +86,7 @@ DoxyBlocksConfig::DoxyBlocksConfig()
  *
  * \return bool    True if the data is flushed to the file successfully, false otherwise.
  *
- * This function looks for a settings template file in the global configuration directory for Code::Blocks.
+ * This function looks for a settings template file in the global configuration directory for Em::Blocks.
  * If not found, it creates a new file. It then writes the current values of the data member variables to the file.
  * Since default values are supplied when this class is instantiated, the data members should always
  * contain valid values.
@@ -181,7 +181,7 @@ bool DoxyBlocksConfig::WritePrefsTemplate()
  *
  * \return bool    True if a template file was found, false otherwise.
  *
- * This function looks for a settings template file in the global configuration directory for Code::Blocks
+ * This function looks for a settings template file in the global configuration directory for Em::Blocks
  * and reads the data into the correct member variables. Default values are supplied for entries that
  * don't contain values, although this should never happen unless the file is manually edited.
  */

@@ -95,7 +95,7 @@
         -Updated: Changed the generated doxyfile to doxygen 1.6.3.
         -Updated: For consistency, changed HTML_TIMESTAMP default to YES.
         -Updated: For consistency, changed EXTRACT_LOCAL_METHODS default to NO.
-        -Added: Macro expansion in path prefs so that you can use things like "$(CODEBLOCKS)" in paths. Requested by Codeur.
+        -Added: Macro expansion in path prefs so that you can use things like "$(EMBLOCKS)" in paths. Requested by Codeur.
 
 22 March 2010
    released version 1.2.223 of DoxyBlocks
@@ -254,4 +254,3 @@
         -Added: Access to configuration from toolbar.
         -Added: Ability to overwrite doxyfile either silently or after prompt.
         -Added: Option to control whether CHM is run after compilation.
-

@@ -3,7 +3,7 @@
  * \author    Gary Harris
  * \date      02-03-2010
  *
- * DoxyBlocks - doxygen integration for Code::Blocks. \n
+ * DoxyBlocks - doxygen integration for Em::Blocks. \n
  * Copyright (C) 2010 Gary Harris.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *
  *****************************************************************************/
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
   #include <cbeditor.h>
   #include <configmanager.h>

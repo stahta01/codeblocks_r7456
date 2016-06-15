@@ -3,7 +3,7 @@
  * \author    Gary Harris
  * \date      01-02-2010
  *
- * DoxyBlocks - doxygen integration for Code::Blocks. \n
+ * DoxyBlocks - doxygen integration for Em::Blocks. \n
  * Copyright (C) 2010 Gary Harris.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *
  *****************************************************************************/
 #include "ConfigPanel.h"
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 
 //(*InternalHeaders(ConfigPanel)
 #include <wx/intl.h>
@@ -403,7 +403,7 @@ ConfigPanel::ConfigPanel(wxWindow* parent, DoxyBlocks *pOwner, wxWindowID /*id*/
     StaticText2 = new wxStaticText(Panel1, ID_STATICTEXT2, _("Path To doxygen"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT2"));
     BoxSizer8->Add(StaticText2, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     TextCtrlPathDoxygen = new wxTextCtrl(Panel1, ID_TEXTCTRL_PATHDOXYGEN, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL_PATHDOXYGEN"));
-    TextCtrlPathDoxygen->SetToolTip(_("The path to the doxygen executable file.\nIf this field is blank, DoxyBlocks will assume that doxygen\nis available somewhere in your environment\'s path.\nYou can use macros such as $(CODEBLOCKS) in your path\nand they will be expanded automatically."));
+    TextCtrlPathDoxygen->SetToolTip(_("The path to the doxygen executable file.\nIf this field is blank, DoxyBlocks will assume that doxygen\nis available somewhere in your environment\'s path.\nYou can use macros such as $(EMBLOCKS) in your path\nand they will be expanded automatically."));
     BoxSizer8->Add(TextCtrlPathDoxygen, 3, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     ButtonBrowseDoxygen = new wxButton(Panel1, ID_BUTTON_BROWSEDOXYGEN, _("Browse"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON_BROWSEDOXYGEN"));
     ButtonBrowseDoxygen->SetToolTip(_("Browse for doxygen."));
@@ -413,7 +413,7 @@ ConfigPanel::ConfigPanel(wxWindow* parent, DoxyBlocks *pOwner, wxWindowID /*id*/
     StaticText4 = new wxStaticText(Panel1, ID_STATICTEXT4, _("Path To doxywizard"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT4"));
     BoxSizer9->Add(StaticText4, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     TextCtrlPathDoxywizard = new wxTextCtrl(Panel1, ID_TEXTCTRL_PATHDOXYWIZARD, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL_PATHDOXYWIZARD"));
-    TextCtrlPathDoxywizard->SetToolTip(_("The path to the doxywizard executable file.\nIf this field is blank, DoxyBlocks will assume that doxywizard\nis available somewhere in your environment\'s path.\nYou can use macros such as $(CODEBLOCKS) in your path\nand they will be expanded automatically."));
+    TextCtrlPathDoxywizard->SetToolTip(_("The path to the doxywizard executable file.\nIf this field is blank, DoxyBlocks will assume that doxywizard\nis available somewhere in your environment\'s path.\nYou can use macros such as $(EMBLOCKS) in your path\nand they will be expanded automatically."));
     BoxSizer9->Add(TextCtrlPathDoxywizard, 3, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     ButtonBrowseDoxywizard = new wxButton(Panel1, ID_BUTTON_BROWSEDOXYWIZARD, _("Browse"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON_BROWSEDOXYWIZARD"));
     ButtonBrowseDoxywizard->SetToolTip(_("Browse for doxywizard."));
@@ -423,7 +423,7 @@ ConfigPanel::ConfigPanel(wxWindow* parent, DoxyBlocks *pOwner, wxWindowID /*id*/
     StaticText3 = new wxStaticText(Panel1, ID_STATICTEXT3, _("Path To HHC"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT3"));
     BoxSizer3->Add(StaticText3, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     TextCtrlPathHHC = new wxTextCtrl(Panel1, ID_TEXTCTRL_PATHHHC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL_PATHHHC"));
-    TextCtrlPathHHC->SetToolTip(_("The path to the HTML Help Compiler executable file.\nIf this field is blank, DoxyBlocks will assume that HHC\nis available somewhere in your environment\'s path.\nYou can use macros such as $(CODEBLOCKS) in your path\nand they will be expanded automatically."));
+    TextCtrlPathHHC->SetToolTip(_("The path to the HTML Help Compiler executable file.\nIf this field is blank, DoxyBlocks will assume that HHC\nis available somewhere in your environment\'s path.\nYou can use macros such as $(EMBLOCKS) in your path\nand they will be expanded automatically."));
     BoxSizer3->Add(TextCtrlPathHHC, 3, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     ButtonBrowseHHC = new wxButton(Panel1, ID_BUTTON_BROWSEHHC, _("Browse"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON_BROWSEHHC"));
     ButtonBrowseHHC->SetToolTip(_("Browse for HHC."));
@@ -433,7 +433,7 @@ ConfigPanel::ConfigPanel(wxWindow* parent, DoxyBlocks *pOwner, wxWindowID /*id*/
     StaticText6 = new wxStaticText(Panel1, ID_STATICTEXT6, _("Path To Dot"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT6"));
     BoxSizer13->Add(StaticText6, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     TextCtrlPathDot = new wxTextCtrl(Panel1, ID_TEXTCTRL_PATHDOT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL_PATHDOT"));
-    TextCtrlPathDot->SetToolTip(_("The path to the dot executable file.\nIf this field is blank, DoxyBlocks will assume that dot\nis available somewhere in your environment\'s path.\nYou can use macros such as $(CODEBLOCKS) in your path\nand they will be expanded automatically."));
+    TextCtrlPathDot->SetToolTip(_("The path to the dot executable file.\nIf this field is blank, DoxyBlocks will assume that dot\nis available somewhere in your environment\'s path.\nYou can use macros such as $(EMBLOCKS) in your path\nand they will be expanded automatically."));
     BoxSizer13->Add(TextCtrlPathDot, 3, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     ButtonBrowseDot = new wxButton(Panel1, ID_BUTTON_BROWSEDOT, _("Browse"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON_BROWSEDOT"));
     ButtonBrowseDot->SetToolTip(_("Browse for Dot."));
@@ -443,7 +443,7 @@ ConfigPanel::ConfigPanel(wxWindow* parent, DoxyBlocks *pOwner, wxWindowID /*id*/
     StaticText7 = new wxStaticText(Panel1, ID_STATICTEXT7, _("Path To CHM Viewer"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_STATICTEXT7"));
     BoxSizer19->Add(StaticText7, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     TextCtrlPathCHMViewer = new wxTextCtrl(Panel1, ID_TEXTCTRL_PATHCHMVIEWER, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL_PATHCHMVIEWER"));
-    TextCtrlPathCHMViewer->SetToolTip(_("The path to the CHM viewer executable file.\nOn Windows, if this field is blank, DoxyBlocks will use\nthe operating system\'s standard viewer.\nOn other operating systems, if this field is blank,\nDoxyBlocks will assume that a viewer is available\nsomewhere in your environment\'s path.\nYou can use macros such as $(CODEBLOCKS) in your path\nand they will be expanded automatically."));
+    TextCtrlPathCHMViewer->SetToolTip(_("The path to the CHM viewer executable file.\nOn Windows, if this field is blank, DoxyBlocks will use\nthe operating system\'s standard viewer.\nOn other operating systems, if this field is blank,\nDoxyBlocks will assume that a viewer is available\nsomewhere in your environment\'s path.\nYou can use macros such as $(EMBLOCKS) in your path\nand they will be expanded automatically."));
     BoxSizer19->Add(TextCtrlPathCHMViewer, 3, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     ButtonBrowseCHMViewer = new wxButton(Panel1, ID_BUTTON_BROWSECHMVIEWER, _("Browse"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON_BROWSECHMVIEWER"));
     ButtonBrowseCHMViewer->SetToolTip(_("Browse for a CHM viewer."));
@@ -479,7 +479,7 @@ ConfigPanel::ConfigPanel(wxWindow* parent, DoxyBlocks *pOwner, wxWindowID /*id*/
     StaticBoxSizer12->Add(CheckBoxUseInternalViewer, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     CheckBoxRunHTML = new wxCheckBox(Panel1, ID_CHECKBOX_RUNHTML, _("Run HTML After Compilation"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX_RUNHTML"));
     CheckBoxRunHTML->SetValue(false);
-    CheckBoxRunHTML->SetToolTip(_("Run the HTML docs after compilation.\nIf \"Use Internal Viewer\" is set DoxyBlocks will use Code::Blocks\' internal\nviewer. If not, it will use the system\'s default browser.\nThis setting has no effect if GENERATE_HTML is not set."));
+    CheckBoxRunHTML->SetToolTip(_("Run the HTML docs after compilation.\nIf \"Use Internal Viewer\" is set DoxyBlocks will use Em::Blocks\' internal\nviewer. If not, it will use the system\'s default browser.\nThis setting has no effect if GENERATE_HTML is not set."));
     StaticBoxSizer12->Add(CheckBoxRunHTML, 1, wxALL|wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
     CheckBoxRunCHM = new wxCheckBox(Panel1, ID_CHECKBOX_RUNCHM, _("Run CHM After Compilation"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX_RUNCHM"));
     CheckBoxRunCHM->SetValue(false);
@@ -788,6 +788,8 @@ wxString ConfigPanel::GetBitmapBaseName() const
     return pngName;
 }
 
+
+
 /*! \brief The doxygen path browse button was clicked.
  *
  * \param     event    A wxCommandEvent reference.
@@ -836,7 +838,8 @@ void ConfigPanel::OnButtonBrowseDotClick(wxCommandEvent& WXUNUSED(event))
 {
     wxString sPathDot = GetApplicationPath();
     if(!sPathDot.empty()){
-        TextCtrlPathDot->SetValue(sPathDot);
+        wxFileName fname = sPathDot;
+        TextCtrlPathDot->SetValue(fname.GetPath());
     }
 }
 
@@ -986,4 +989,3 @@ void ConfigPanel::OnCheckBoxUseAtInTagsClick(wxCommandEvent& WXUNUSED(event))
     WriteBlockComment(TextCtrlBlockComment, iBlockComment, bUseAltInTags);
     TextCtrlBlockComment->SetReadOnly(true);
 }
-

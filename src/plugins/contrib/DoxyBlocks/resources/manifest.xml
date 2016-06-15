@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_plugin_manifest_file>
-    <SdkVersion major="1" minor="11"  release="12" />
+<EmBlocks_plugin_manifest_file>
+    <SdkVersion major="1" minor="0"  release="0" />
     <Plugin name="DoxyBlocks">
         <Value title="DoxyBlocks" />
-        <Value version="1.7.658" />
+        <Value version="1.7.718" />
         <Value description="
-Doxygen integration for Code::Blocks.
+Doxygen integration for Em::Blocks.
 Supported doxygen version: 1.7.3" />
         <Value author="Gary Harris" />
         <Value authorEmail="garyjharris@sourceforge.net" />
@@ -23,4 +23,4 @@ http://www.icon-king.com/
 Codeur for testing and feedback." />
         <Value license="GPL" />
     </Plugin>
-</CodeBlocks_plugin_manifest_file>
+</EmBlocks_plugin_manifest_file>
