@@ -34,12 +34,11 @@
 					<Add directory="$(#EWX.include)" />
 					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 					<Add directory="../../../sdk/include" />
-					<Add directory="../../../sdk/wxscintilla/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
 					<Add option="-mthreads" />
-					<Add library="wxmsw$(WX_VERSION)" />
+					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="emblocks" />
 					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 					<Add directory="../../../build" />
@@ -52,7 +51,7 @@
 			<Environment>
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
-				<Variable name="WX_VERSION" value="1" />
+				<Variable name="WX_VERSION" value="28" />
 			</Environment>
 		</Build>
 		<VirtualTargets>

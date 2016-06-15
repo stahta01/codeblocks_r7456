@@ -29,7 +29,6 @@
 					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
 					<Add directory="../../../sdk/include" />
-					<Add directory="../../../sdk/wxscintilla/include" />
 					<Add directory="$(#EWX.include)" />
 					<Add directory="$(#EWX.lib)" />
 					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
@@ -46,7 +45,7 @@
 			<Environment>
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
-				<Variable name="WX_VERSION" value="1" />
+				<Variable name="WX_VERSION" value="28" />
 			</Environment>
 		</Build>
 		<VirtualTargets>
@@ -55,7 +54,7 @@
 		<Linker>
 			<Add option="-Wl,--enable-auto-import" />
 			<Add option="-mthreads" />
-			<Add library="wxmsw$(WX_VERSION)" />
+			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 			<Add library="emblocks" />
 		</Linker>
 		<Unit filename="bindings.cpp" />
