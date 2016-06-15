@@ -21,7 +21,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 
-BEGIN_EVENT_TABLE(CmdConfigDialog, wxDialog)
+BEGIN_EVENT_TABLE(CmdConfigDialog, cbConfigurationPanel)
   EVT_BUTTON(ID_NEW, CmdConfigDialog::New)
   EVT_BUTTON(ID_COPY, CmdConfigDialog::Copy)
   EVT_BUTTON(ID_DELETE, CmdConfigDialog::Delete)
@@ -34,15 +34,17 @@ BEGIN_EVENT_TABLE(CmdConfigDialog, wxDialog)
 END_EVENT_TABLE()
 
 
-CmdConfigDialog::CmdConfigDialog( wxWindow* parent, ToolsPlus* plugin) : wxDialog(parent,wxID_ANY,GetTitle(),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
+CmdConfigDialog::CmdConfigDialog( wxWindow* parent, ToolsPlus* plugin) //: wxDialog(parent,wxID_ANY,GetTitle(),wxDefaultPosition,wxDefaultSize,wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER)
 {
     m_plugin=plugin;
     m_icperm=&(plugin->m_ic);
     m_ic.interps=plugin->m_ic.interps; //holds temporary interpreter properties for editing in the dialog (actual properties are not overwritten until user presses APPLY/OK)
 
-    wxSizer *button_sizer=this->CreateStdDialogButtonSizer(wxOK|wxCANCEL);
+   // wxSizer *button_sizer=this->CreateStdDialogButtonSizer(wxOK|wxCANCEL);
 
     //SetSizeHints(600, 500);
+
+    Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
 
 	wxBoxSizer* main_sizer;
 	main_sizer = new wxBoxSizer( wxVERTICAL );
@@ -65,7 +67,7 @@ CmdConfigDialog::CmdConfigDialog( wxWindow* parent, ToolsPlus* plugin) : wxDialo
 
     m_replace_tools=new wxCheckBox(settings_panel,wxID_ANY,_("Replace Tools menu with Tools Plus"));
     ConfigManager* cfg = Manager::Get()->GetConfigManager(_T("ShellExtensions"));
-    m_replace_tools->SetValue(cfg->ReadBool(_T("HideToolsMenu"),false));
+    m_replace_tools->SetValue(cfg->ReadBool(_T("HideToolsMenu"),true));
     settings_sizer->Add(m_replace_tools);
 
     m_prop_panel=new wxPanel(tools_panel);
@@ -78,9 +80,6 @@ CmdConfigDialog::CmdConfigDialog( wxWindow* parent, ToolsPlus* plugin) : wxDialo
 
 	wxBoxSizer* bSizer43;
 	bSizer43 = new wxBoxSizer( wxVERTICAL );
-
-	wxBoxSizer* bSizer_toprow;
-	bSizer_toprow = new wxBoxSizer( wxHORIZONTAL );
 
 	m_staticText27 = new wxStaticText( tools_panel, wxID_ANY, _("Known Tools"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer43->Add( m_staticText27, 0, wxALL, 5 );
@@ -214,16 +213,18 @@ CmdConfigDialog::CmdConfigDialog( wxWindow* parent, ToolsPlus* plugin) : wxDialo
 	wxBoxSizer* output_sizer = new wxBoxSizer( wxHORIZONTAL);
 	m_staticText111 = new wxStaticText( m_prop_panel, wxID_ANY, _("Output to:"), wxDefaultPosition, wxDefaultSize, 0 );
 	output_sizer->Add( m_staticText111, 0, wxALIGN_LEFT|wxALL, 5 );
-	wxString m_modeChoices[] = { _("Tools Output Window"), _("Code::Blocks Console"), _("Standard Shell") };
+	wxString m_modeChoices[] = { _("Tools Output Window"), _("Em::Blocks Console"), _("Standard Shell") };
 	int m_modeNChoices = sizeof( m_modeChoices ) / sizeof( wxString );
 	m_mode = new wxChoice( m_prop_panel, ID_MODE, wxDefaultPosition, wxDefaultSize, m_modeNChoices, m_modeChoices, 0 );
 	m_mode->SetToolTip(_("Select how the command is spawned:\n1. Tools Output Window: redirects input and output "
-                       "to the Tools Window\n2. Code::Blocks Console: Runs as an external app in a terminal window, "
+                       "to the Tools Window\n2. Em::Blocks Console: Runs as an external app in a terminal window, "
                        "reports elapsed time and pause after execution.\n3. Standard Shell execution: will either "
                        "spawn the command in a standard terminal window (windows) or spawn the command hidden (mac/linux)."));
 	output_sizer->Add( m_mode, 0, wxALL|wxEXPAND, 1 );
 	prop_sizer->Add( output_sizer, 0, wxEXPAND, 5 );
 
+
+/*
 	wxBoxSizer* env_sizer = new wxBoxSizer( wxHORIZONTAL);
 	m_staticText1111 = new wxStaticText( m_prop_panel, wxID_ANY, _("Environment Vars:"), wxDefaultPosition, wxDefaultSize, 0 );
 	env_sizer->Add( m_staticText1111, 0, wxALIGN_LEFT|wxALL, 5 );
@@ -233,10 +234,10 @@ CmdConfigDialog::CmdConfigDialog( wxWindow* parent, ToolsPlus* plugin) : wxDialo
 	m_envvars->SetToolTip(_("Not implemented."));
 	env_sizer->Add( m_envvars, 0, wxALL|wxEXPAND, 1 );
 	prop_sizer->Add( env_sizer, 0, wxEXPAND, 5 );
+*/
 
-	
-	main_sizer->Add(button_sizer,0,wxALIGN_CENTER);
-	
+	//main_sizer->Add(button_sizer,0,wxALIGN_CENTER);
+
 	this->SetSizer( main_sizer );
 	this->Layout();
 	this->Fit();
@@ -290,7 +291,7 @@ void CmdConfigDialog::SetDialogItems()
         m_cmenuloc->Enable();
         m_cmenulocpriority->Enable();
         m_mode->Enable();
-        m_envvars->Enable();
+     //   m_envvars->Enable();
 
         ShellCommand &interp=m_ic.interps[m_activeinterp];
         m_commandname->SetValue(interp.name);
@@ -307,7 +308,7 @@ void CmdConfigDialog::SetDialogItems()
             m_mode->SetSelection(1);
         else
             m_mode->SetSelection(2);
-        m_envvars->SetSelection(m_envvars->FindString(interp.envvarset));
+       // m_envvars->SetSelection(m_envvars->FindString(interp.envvarset));
     } else
     {
         m_commandname->SetValue(_T(""));
@@ -319,7 +320,7 @@ void CmdConfigDialog::SetDialogItems()
         m_cmenuloc->SetValue(_T(""));
         m_cmenulocpriority->SetValue(0);
         m_mode->SetSelection(0);
-        m_envvars->SetSelection(0);
+       // m_envvars->SetSelection(0);
 
         m_commandname->Disable();
         m_command->Disable();
@@ -330,7 +331,7 @@ void CmdConfigDialog::SetDialogItems()
         m_cmenuloc->Disable();
         m_cmenulocpriority->Disable();
         m_mode->Disable();
-        m_envvars->Disable();
+      //  m_envvars->Disable();
     }
 }
 
@@ -360,7 +361,7 @@ void CmdConfigDialog::GetDialogItems()
             interp.mode=_T("");
             break;
     }
-    interp.envvarset=m_envvars->GetStringSelection();
+  //  interp.envvarset=m_envvars->GetStringSelection();
 }
 
 void CmdConfigDialog::New(wxCommandEvent &event)
@@ -467,4 +468,3 @@ void CmdConfigDialog::OnExport(wxCommandEvent &event)
         return;
     m_ic.ExportConfig(fd.GetPath());
 }
-

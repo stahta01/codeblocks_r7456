@@ -779,7 +779,7 @@
                             <property name="proportion">0</property>
                             <object class="wxChoice" expanded="1">
                                 <property name="bg"></property>
-                                <property name="choices">&apos;Windowed Console Notepage&apos; &apos;Code::Blocks Console&apos; &apos;Standard Shell&apos;</property>
+                                <property name="choices">&apos;Windowed Console Notepage&apos; &apos;Em::Blocks Console&apos; &apos;Standard Shell&apos;</property>
                                 <property name="enabled">1</property>
                                 <property name="fg"></property>
                                 <property name="font"></property>
@@ -863,4 +863,4 @@
             </object>
         </object>
     </object>
-</wxFormBuilder_Project>
+</wxFormBuilder_Project>

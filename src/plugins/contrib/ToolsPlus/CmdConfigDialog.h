@@ -56,7 +56,7 @@
 class ToolsPlus;
 class CommandCollection;
 
-class CmdConfigDialog : public wxDialog
+class CmdConfigDialog : public cbConfigurationPanel
 {
     public:
         CmdConfigDialog(CmdConfigDialog &dlg) {}
@@ -64,7 +64,7 @@ class CmdConfigDialog : public wxDialog
         virtual ~CmdConfigDialog() {}
 
         wxString GetTitle() const { return _("User-defined Tools"); }
-        wxString GetBitmapBaseName() const { return _("ToolsPlus"); }
+        virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_toolsplus"));}
         void OnApply();
         void OnCancel(){}
 

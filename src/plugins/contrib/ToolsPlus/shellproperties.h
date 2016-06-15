@@ -10,7 +10,7 @@
 	#include <wx/wx.h>
 #endif
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 
 #include <wx/dynarray.h>
 

@@ -1,7 +1,7 @@
 #include "ToolsPlus.h"
 #include "se_globals.h"
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -157,11 +157,11 @@ void ToolsPlus::OnRemoveTerminated(wxCommandEvent& event)
 void ToolsPlus::OnConfigure(wxCommandEvent& event)
 {
     // Open the configuration dialog (global settings/add+remove tools)
-    CmdConfigDialog *dlg = new CmdConfigDialog(NULL, this);
-    int result=dlg->ShowModal();
-    if (result==wxID_OK)
-        dlg->OnApply();
-    dlg->Destroy();
+ //   CmdConfigDialog *dlg = new CmdConfigDialog(NULL, this);
+//    int result=dlg->ShowModal();
+//    if (result==wxID_OK)
+ //       dlg->OnApply();
+ //   dlg->Destroy();
 }
 
 
@@ -432,11 +432,8 @@ ToolsPlus::ToolsPlus()
 
 cbConfigurationPanel* ToolsPlus::GetConfigurationPanel(wxWindow* parent)
 {
-//    MyDialog* dlg = new MyDialog(this, *m_pKeyProfArr, parent,
-//        wxT("Keybindings"), mode);
-
-//    return new CmdConfigDialog(parent, this);
-    return NULL;
+    return new CmdConfigDialog(parent, this);
+//    return NULL;
 }
 
 // destructor
@@ -476,7 +473,7 @@ void ToolsPlus::OnAttach()
 void ToolsPlus::OnRelease(bool appShutDown)
 {
 	// do de-initialization for your plugin
-	// if appShutDown is false, the plugin is unloaded because Code::Blocks is being shut down,
+	// if appShutDown is false, the plugin is unloaded because Em::Blocks is being shut down,
 	// which means you must not use any of the SDK Managers
 	// NOTE: after this function, the inherited member variable
 	// m_IsAttached will be FALSE...
@@ -632,7 +629,7 @@ void ToolsPlus::BuildMenu(wxMenuBar* menuBar)
 	m_ToolMenu=new wxMenu;
 	CreateMenu();
     ConfigManager* cfg = Manager::Get()->GetConfigManager(_T("ShellExtensions"));
-    bool replace_old_tools=cfg->ReadBool(_T("HideToolsMenu"),false);
+    bool replace_old_tools=cfg->ReadBool(_T("HideToolsMenu"),true);
     if (replace_old_tools)
     {
         int pos = menuBar->FindMenu(_("&Tools"));
@@ -856,4 +853,3 @@ void ToolsPlus::BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileT
 	    }
     }
 }
-
