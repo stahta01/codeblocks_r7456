@@ -2,7 +2,7 @@
 #include <wx/txtstrm.h>
 
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     #include <cbeditor.h>
 #endif
@@ -49,7 +49,7 @@
 #include "rc/sourceToggletool22.xpm"
 
 
-// Register the plugin with Code::Blocks.
+// Register the plugin with Em::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
 namespace
 {
@@ -126,9 +126,10 @@ NassiPlugin::NassiPlugin():
     /*// Make sure our resources are available.
     // In the generated boilerplate code we have no resources but when
     // we add some, it will be nice that this code is in place already ;)
-    if(!Manager::LoadResource(_T("NassiPlugin.zip")))
+
+    if(!Manager::LoadResource(_T("NassiShneiderman.zip")))
     {
-        NotifyMissingFile(_T("NassiPlugin.zip"));
+        NotifyMissingFile(_T("NassiShneiderman.zip"));
     }*/
 }
 
@@ -307,7 +308,7 @@ void NassiPlugin::BuildModuleMenu(const ModuleType type, wxMenu* menu, const Fil
 
 }
 
-bool NassiPlugin::BuildToolBar(wxToolBar* toolBar)
+bool NassiPlugin::BuildToolBar(wxAuiToolBar* toolBar)
 {
     //The application is offering its toolbar for your plugin,
     //to add any toolbar items you want...
@@ -321,6 +322,7 @@ bool NassiPlugin::BuildToolBar(wxToolBar* toolBar)
         PopulateToolbar16(toolBar);
     else
         PopulateToolbar22(toolBar);
+
     toolBar->Realize();
     toolBar->SetInitialSize();
     return true;
@@ -454,7 +456,7 @@ void NassiPlugin::OnUpdateTools(wxUpdateUIEvent &event)
     event.Enable( IsNassiEditorPanelActive() );
 }
 
-void NassiPlugin::PopulateToolbar16(wxToolBar* toolBar)
+void NassiPlugin::PopulateToolbar16(wxAuiToolBar* toolBar)
 {
     toolBar->AddTool(NASSI_ID_ESC, _("Select"),  wxBitmap(selecttool16_xpm), wxNullBitmap, wxITEM_NORMAL, _("Select"), _("Change the tool for selections"));
     toolBar->AddSeparator();
@@ -479,7 +481,7 @@ void NassiPlugin::PopulateToolbar16(wxToolBar* toolBar)
     toolBar->AddTool(NASSI_ID_TOGGLE_SOURCE, _("Toggle Source"), wxBitmap( sourceToggletool16_xpm ), wxNullBitmap, wxITEM_CHECK, _("Toggle Source"), _("Show source-code in the diagram") );
     toolBar->AddTool(NASSI_ID_TOGGLE_COMMENT, _("Toggle Comments"), wxBitmap( commentToggletool16_xpm ), wxNullBitmap, wxITEM_CHECK, _("Toggle Comments"), _("Show comments in the diagram") );
 }
-void NassiPlugin::PopulateToolbar22(wxToolBar* toolBar)
+void NassiPlugin::PopulateToolbar22(wxAuiToolBar* toolBar)
 {
     toolBar->AddTool(NASSI_ID_ESC, _("Select"),  wxBitmap(selecttool22_xpm), wxNullBitmap, wxITEM_NORMAL, _("Select"), _("Change the tool for selections"));
     toolBar->AddSeparator();
@@ -605,4 +607,3 @@ void NassiPlugin::OnExport(wxCommandEvent &event)
 }
 
 //} export end
-
