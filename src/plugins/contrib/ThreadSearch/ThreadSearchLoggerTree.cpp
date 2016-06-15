@@ -8,7 +8,7 @@
  * License:   GPL
  **************************************************************/
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     // Required extra includes
 #endif

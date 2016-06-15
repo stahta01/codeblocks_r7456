@@ -10,7 +10,7 @@
  **************************************************************/
 
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     #include "configmanager.h"
     #include "manager.h"

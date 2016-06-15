@@ -6,28 +6,27 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="../../../devel/share/CodeBlocks/plugins/ThreadSearch.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="../../../.objs/plugins/contrib/ThreadSearch" />
-				<Option external_deps="../../../devel/wxcustombutton.dll;" />
+				<Option output="..\..\..\build\share\CodeBlocks\plugins\ThreadSearch.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\..\.objs\plugins\contrib\ThreadSearch" />
+				<Option external_deps="..\..\..\build\wxcustombutton.dll;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance -na -ns -nd" />
-				<Option host_application="../../../devel/codeblocks.exe" />
-				<Option run_host_application_in_terminal="0" />
+				<Option host_application="..\..\..\build\codeblocks.exe" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="codeblocks" />
+					<Add library="emblocks" />
 					<Add library="wxmsw28$(WX_SUFFIX)" />
 					<Add library="wxcustombutton" />
-					<Add directory="../../../devel" />
-					<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)" />
+					<Add directory="..\..\..\build" />
+					<Add directory="$(#wx.lib)\gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="WX_CFG" value="" />
 				<Variable name="WX_SUFFIX" value="u" />
+				<Variable name="WX_CFG" value="" />
 			</Environment>
 		</Build>
 		<VirtualTargets>
@@ -51,18 +50,18 @@
 			<Add option="-DNO_LOGGING" />
 			<Add option="-DWXMAKINGDLL_PROPGRID" />
 			<Add option="-DwxPG_USE_WXMODULE=0" />
-			<Add directory="../../../sdk/include" />
-			<Add directory="../../../wxscintilla/include" />
-			<Add directory="../../../sdk/include/mozilla_chardet" />
+			<Add directory="..\..\..\sdk\include" />
+			<Add directory="..\..\..\sdk\wxscintilla\include" />
+			<Add directory="..\..\..\sdk\include\mozilla_chardet" />
 			<Add directory="$(#wx.include)" />
-			<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-			<Add directory="../wxSmithContribItems/wxthings/wxthings/include" />
+			<Add directory="$(#wx.lib)\gcc_dll$(WX_CFG)\msw$(WX_SUFFIX)" />
+			<Add directory="..\wxSmithContribItems\wxthings\wxthings\include" />
 		</Compiler>
 		<Linker>
 			<Add option="-mthreads" />
 		</Linker>
 		<ExtraCommands>
-			<Add after="zip -j9 ..\..\..\devel\share\codeblocks\ThreadSearch.zip manifest.xml" />
+			<Add after="zip -j9 ..\..\..\build\share\codeblocks\ThreadSearch.zip manifest.xml" />
 			<Add after="update.bat" />
 			<Mode after="always" />
 		</ExtraCommands>

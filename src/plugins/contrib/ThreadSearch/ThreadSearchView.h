@@ -1,7 +1,7 @@
 /***************************************************************
  * Name:      ThreadSearchView
  * Purpose:   This class implements the panel that is added to
- *            Code::Blocks Message notebook or layout.
+ *            Em::Blocks Message notebook or layout.
  *            It runs the search worker thread and receives
  *            ThreadSearchEvent from it to update the list log.
  * Author:    Jerome ANTOINE

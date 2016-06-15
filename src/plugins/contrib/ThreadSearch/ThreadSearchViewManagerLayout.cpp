@@ -10,7 +10,7 @@
  **************************************************************/
 
 
-#include <sdk.h> // Code::Blocks SDK
+#include <sdk.h> // Em::Blocks SDK
 #ifndef CB_PRECOMP
     #include "globals.h"
     #include "manager.h"
@@ -87,4 +87,3 @@ bool ThreadSearchViewManagerLayout::IsViewShown()
     // so we use IsWindowReallyShown to give correct result.
     return m_IsShown && IsWindowReallyShown((wxWindow*)m_pThreadSearchView);
 }
-
