@@ -1,5 +1,5 @@
 /*
-* This file is part of wxSmith plugin for Code::Blocks Studio
+* This file is part of wxSmith plugin for Em::Blocks Studio
 * Copyright (C) 2010  Gary Harris
 *
 * wxSmith is free software; you can redistribute it and/or modify
@@ -122,4 +122,3 @@ void wxsAnimationCtrl::OnEnumWidgetProperties(long flags)
 	WXS_BITMAP(wxsAnimationCtrl, m_bmpInactive, _("Inactive Bitmap"), _T("inactive_bitmap"), _T("wxART_OTHER"));
 	WXS_BOOL(wxsAnimationCtrl, m_bPlay, _("Play"), _T("play"), false)
 }
-

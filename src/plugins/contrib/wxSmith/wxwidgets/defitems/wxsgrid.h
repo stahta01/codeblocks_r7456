@@ -1,6 +1,6 @@
 /**  \file wxsgrid.h
 *
-* This file is part of wxSmith plugin for Code::Blocks Studio
+* This file is part of wxSmith plugin for Em::Blocks Studio
 * Copyright (C) 2006-2008  Bartlomiej Swiecki
 * Copyright (C) 2008 Ron Collins
 *
@@ -17,9 +17,9 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision$
-* $Id$
-* $HeadURL$
+* $Revision: 4 $
+* $Id: wxsgrid.h 4 2013-11-02 15:53:52Z gerard $
+* $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/wxSmith/wxwidgets/defitems/wxsgrid.h $
 */
 
 #ifndef WXSGRID_H

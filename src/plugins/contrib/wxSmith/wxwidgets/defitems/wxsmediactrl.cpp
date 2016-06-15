@@ -1,5 +1,5 @@
 /*
-* This file is part of wxSmith plugin for Code::Blocks Studio
+* This file is part of wxSmith plugin for Em::Blocks Studio
 * Copyright (C) 2010  Gary Harris
 *
 * wxSmith is free software; you can redistribute it and/or modify
@@ -204,4 +204,3 @@ void wxsMediaCtrl::OnEnumWidgetProperties(long flags)
 	WXS_ENUM(wxsMediaCtrl, m_iControls, _("Controls"), _T("controls"), ControlStates, ControlNames, wxMEDIACTRLPLAYERCONTROLS_DEFAULT)
 	WXS_ENUM(wxsMediaCtrl, m_iVolume,  _("Volume"), _T("volume"), VolumeLevels, VolumeNames, 5)
 }
-

@@ -1,5 +1,5 @@
 /*
-* This file is part of wxSmith plugin for Code::Blocks Studio
+* This file is part of wxSmith plugin for Em::Blocks Studio
 * Copyright (C) 2010  Gary Harris
 *
 * wxSmith is free software; you can redistribute it and/or modify
@@ -99,4 +99,3 @@ void wxsHtmlEasyPrinting::OnEnumToolProperties(long flags)
     WXS_ENUM(wxsHtmlEasyPrinting, m_iHeaderPages, _("Header Pages"), _T("header_pages"), arrHeaderPages, arrHeaderPageNames, wxPAGE_ALL);
     WXS_ENUM(wxsHtmlEasyPrinting, m_iFooterPages, _("Footer Pages"), _T("footer_pages"), arrHeaderPages, arrHeaderPageNames, wxPAGE_ALL);
 }
-

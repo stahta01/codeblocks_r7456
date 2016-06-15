@@ -1,6 +1,6 @@
 /** \file wxsimagelist.h
 *
-* This file is part of wxSmith plugin for Code::Blocks Studio
+* This file is part of wxSmith plugin for Em::Blocks Studio
 * Copyright (C) 2010 Gary Harris
 *
 * wxSmith is free software; you can redistribute it and/or modify

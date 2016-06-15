@@ -6,8 +6,8 @@ datarootdir = @datarootdir@
 sharedir=@datadir@
 
 Name: wxSmith
-Description: RAD-tool for the Code::Blocks IDE
+Description: RAD-tool for the Em::Blocks IDE
 Version: @VERSION@
 Libs: -L${libdir} -lwxsmithlib
 Cflags: -fPIC -I${includedir}/wxsmith \
-			-I${includedir}/wxsmith/contrib/include
+			-I${includedir}/wxsmith/contrib/include

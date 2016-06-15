@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_plugin_manifest_file>
+<EmBlocks_plugin_manifest_file>
     <SdkVersion major="1" minor="10" release="0" />
     <Plugin name="wxSmith">
         <Value title="wxSmith" />
@@ -26,4 +26,4 @@ Jaakko Salli for wxPropertyGrid" />
         <Value thanksTo="" />
         <Value license="GPL" />
     </Plugin>
-</CodeBlocks_plugin_manifest_file>
+</EmBlocks_plugin_manifest_file>

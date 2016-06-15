@@ -1,5 +1,5 @@
 /*
-* This file is part of wxSmith plugin for Code::Blocks Studio
+* This file is part of wxSmith plugin for Em::Blocks Studio
 * Copyright (C) 2006-2007  Bartlomiej Swiecki
 *
 * wxSmith is free software; you can redistribute it and/or modify
@@ -15,9 +15,9 @@
 * You should have received a copy of the GNU General Public License
 * along with wxSmith. If not, see <http://www.gnu.org/licenses/>.
 *
-* $Revision$
-* $Id$
-* $HeadURL$
+* $Revision: 4 $
+* $Id: wxssettings.cpp 4 2013-11-02 15:53:52Z gerard $
+* $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/wxSmith/wxssettings.cpp $
 */
 
 #include <wx/colordlg.h>
@@ -97,7 +97,7 @@ wxsSettings::wxsSettings(wxWindow* parent,wxWindowID id)
 	wxStaticText* StaticText12;
 	wxBoxSizer* BoxSizer3;
 	wxStaticText* StaticText4;
-	
+
 	Create(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("wxID_ANY"));
 	FlexGridSizer1 = new wxFlexGridSizer(0, 1, 0, 0);
 	FlexGridSizer1->AddGrowableCol(0);
@@ -236,14 +236,14 @@ wxsSettings::wxsSettings(wxWindow* parent,wxWindowID id)
 	SetSizer(FlexGridSizer1);
 	FlexGridSizer1->Fit(this);
 	FlexGridSizer1->SetSizeHints(this);
-	
+
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxsSettings::OnDragTargetColClick);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&wxsSettings::OnDragParentColClick);
 	Connect(ID_CHECKBOX7,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&wxsSettings::OnUseGridClick);
 	//*)
 
     ConfigManager* cfg = Manager::Get()->GetConfigManager(_T("wxsmith"));
-    
+
     m_UniqueIDsOnly->SetValue(cfg->ReadBool(_T("/uniqueids"),true));
     m_InitialPlacement = cfg->ReadInt(_T("/browserplacements"),0);
     m_BrowserPlacements->SetSelection(m_InitialPlacement);
