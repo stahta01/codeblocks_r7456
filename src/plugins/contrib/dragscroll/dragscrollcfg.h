@@ -32,7 +32,7 @@ class cbDragScrollCfg: public cbConfigurationPanel
     public:
         // virtual routines required by cbConfigurationPanel
         wxString GetTitle() const { return _("Mouse Drag Scrolling"); }
-        wxString GetBitmapBaseName() const;
+        virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_dragscroll"));}
         void OnApply();
         void OnCancel(){}
 

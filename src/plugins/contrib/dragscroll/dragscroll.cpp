@@ -1,6 +1,6 @@
 /***************************************************************
  * Name:      dragscroll.cpp
- * Purpose:   Code::Blocks plugin
+ * Purpose:   Em::Blocks plugin
  * Author:    Pecan<>
  * Copyright: (c) Pecan
  * License:   GPL
@@ -89,6 +89,13 @@ cbDragScroll::cbDragScroll()
 	// anchor to this one and only object
     pDragScroll = this;
     m_pMouseEventsHandler = new MouseEventsHandler();
+
+    // Make sure our resources are available.
+    // In the generated boilerplate code we have no resources but when
+    // we add some, it will be nice that this code is in place already ;)
+    if(!Manager::LoadResource(wxT("dragscroll.zip"))){
+        NotifyMissingFile(wxT("dragscroll.zip"));
+    }
 }
 // ----------------------------------------------------------------------------
 cbDragScroll::~cbDragScroll()
@@ -264,7 +271,7 @@ void cbDragScroll::OnRelease(bool /*appShutDown*/)
 // ----------------------------------------------------------------------------
 {
 	// do de-initialization for your plugin
-	// if appShutDown is false, the plugin is unloaded because Code::Blocks is being shut down,
+	// if appShutDown is false, the plugin is unloaded because Em::Blocks is being shut down,
 	// which means you must not use any of the SDK Managers
 	// NOTE: after this function, the inherited member variable
 	// IsAttached() will be FALSE...
