@@ -47,7 +47,6 @@
 			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="$(#WX)/contrib/include" />
 			<Add directory="../../../sdk/include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
 			<Add directory="../../../sdk/include/tinyxml" />
 			<Add directory="../../../sdk/include/scripting/include" />
 			<Add directory="../../../sdk/include/scripting/sqplus" />

@@ -16,6 +16,10 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-fpermissive" />
+					<Add directory="../../../wxpropgrid/include" />
+				</Compiler>
 			</Target>
 			<Target title="wxSmith">
 				<Option platforms="Windows;" />
@@ -30,14 +34,11 @@
 				<Linker>
 					<Add library="wxsmithlib" />
 				</Linker>
-				<Environment>
-					<Variable name="WX_VERSION" value="1" />
-				</Environment>
 			</Target>
 			<Environment>
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
-				<Variable name="WX_VERSION" value="1" />
+				<Variable name="WX_VERSION" value="28" />
 			</Environment>
 		</Build>
 		<VirtualTargets>
@@ -66,8 +67,6 @@
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="$(#EWX.include)" />
 			<Add directory="../../../sdk/include" />
-			<Add directory="../../../sdk/wxpropgrid/include" />
-			<Add directory="../../../sdk/wxscintilla/include" />
 			<Add directory="../../../sdk/include/scripting/include" />
 			<Add directory="../../../sdk/include/scripting/squirrel" />
 			<Add directory="../../../sdk/include/scripting/sqplus" />
@@ -84,7 +83,7 @@
 			<Add option="-Wl,--enable-auto-import" />
 			<Add option="-mthreads" />
 			<Add library="wxpropgrid" />
-			<Add library="wxmsw$(WX_VERSION)" />
+			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 			<Add library="emblocks" />
 			<Add directory="$(#EWX.lib)" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />

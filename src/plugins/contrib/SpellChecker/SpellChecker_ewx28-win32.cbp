@@ -83,7 +83,6 @@
 					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add option="-D_no_WXDEBUG__" />
 					<Add directory="../../../sdk/include" />
-					<Add directory="../../../sdk/wxscintilla/include" />
 					<Add directory="$(#ewx.include)" />
 					<Add directory="$(#ewx)/contrib/include" />
 					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
@@ -94,7 +93,7 @@
 					<Add library="wxSpellChecker" />
 					<Add library="hunspell" />
 					<Add library="emblocks" />
-					<Add library="wxmsw$(WX_VERSION)" />
+					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="../../../build" />
 					<Add directory="../../../foo/lib" />
 					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)" />
@@ -106,7 +105,7 @@
 				<Environment>
 					<Variable name="WX_CFG" value="_wxeb" />
 					<Variable name="WX_SUFFIX" value="u" />
-					<Variable name="WX_VERSION" value="1" />
+					<Variable name="WX_VERSION" value="28" />
 				</Environment>
 			</Target>
 		</Build>
