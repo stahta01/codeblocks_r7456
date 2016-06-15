@@ -34,7 +34,7 @@
 
 # This CB Project folders
 /src/.objs*
-/src/devel*
 /src/output*
 /downloads/
 /patches/
+/src/build/
