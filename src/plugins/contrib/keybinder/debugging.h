@@ -1,6 +1,6 @@
 #ifndef __WX_DEBUGGING_H__
 #define __WX_DEBUGGING_H__
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: debugging.h 4 2013-11-02 15:53:52Z gerard $
 
 //#include <manager.h>
 //#include <logmanager.h>

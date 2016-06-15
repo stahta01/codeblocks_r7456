@@ -1,11 +1,11 @@
 /***************************************************************
  * Name:      cbkeybinder.h
- * Purpose:   Code::Blocks plugin
+ * Purpose:   Em::Blocks plugin
  * Author:    Pecan Heber
  * Copyright: (c) Pecan Heber
  * License:   GPL
  **************************************************************/
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: cbkeybinder.h 4 2013-11-02 15:53:52Z gerard $
 
 #ifndef CBKEYBINDER_H
 #define CBKEYBINDER_H
@@ -46,11 +46,11 @@ class cbKeyBinder : public cbPlugin
 	public:
 		cbKeyBinder();
 		~cbKeyBinder();
-		int GetConfigurationGroup() const { return cgEditor; }
+		int GetConfigurationGroup() const { return (cgUnknown|cgEditor); }
         cbConfigurationPanel* GetConfigurationPanel(wxWindow* parent);
 		void BuildMenu(wxMenuBar* menuBar);
 		void BuildModuleMenu(const ModuleType type, wxMenu* menu, const FileTreeData* data = 0);
-		bool BuildToolBar(wxToolBar* toolBar);
+		bool BuildToolBar(wxAuiToolBar* toolBar);
 		void OnAttach(); // fires when the plugin is attached to the application
 		void OnRelease(bool appShutDown); // fires when the plugin is released from the application
 
@@ -154,7 +154,7 @@ public:
 
 
     wxString GetTitle() const { return _("Keyboard shortcuts"); }
-    wxString GetBitmapBaseName() const { return _T("onekeytobindthem"); }
+    virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_keytobind"));}
 	void OnApply();
 	void OnCancel(){}
 
@@ -169,7 +169,7 @@ private:
 // C::B KeyBinder
 // 2005 Nov 17
 // ----------------------------------------------------------------------------
-//cbKeyBinder is an adaptation of wxKeyBinder as a Code::Blocks plugin.
+//cbKeyBinder is an adaptation of wxKeyBinder as a Em::Blocks plugin.
 //
 //It provides the C::B user an ability to bind custom key combinations to
 //the C::B menu items.
@@ -500,7 +500,7 @@ private:
 //          Primary keys work ok.
 //          The following does *not* solve the problem
 //          if ( pcbWindow->GetName() eq _T("frame") )
-//              pcbWindow->SetName(_T("Code::Blocks"));
+//              pcbWindow->SetName(_T("Em::Blocks"));
 // -----------------------------------------------------------------------------
 //  commit  2006/07/29 v0.4.23
 //          reverted  2006/07/29 to v0.4.20 CB 2761

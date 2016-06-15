@@ -7,7 +7,7 @@
 // Copyright:   (c) Aleksandras Gluchovas and (c) Francesco Montorsi
 // Licence:     wxWidgets licence
 /////////////////////////////////////////////////////////////////////////////
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: keybinder.h 4 2013-11-02 15:53:52Z gerard $
 
 #define NOT !
 

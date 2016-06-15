@@ -1,11 +1,11 @@
 /***************************************************************
  * Name:      cbkeybinder.cpp
- * Purpose:   Code::Blocks plugin
+ * Purpose:   Em::Blocks plugin
  * Author:    Pecan
  * Copyright: (c) Pecan Heber etal.
  * License:   GPL
  **************************************************************/
-// RCS-ID:      $Id$
+// RCS-ID:      $Id: cbkeybinder.cpp 4 2013-11-02 15:53:52Z gerard $
 
 // The majority of this code was lifted from wxKeyBinder and
 // its "minimal.cpp" sample program
@@ -64,6 +64,11 @@ cbKeyBinder::cbKeyBinder()
 {
 	//ctor
 	m_menuPreviouslyBuilt = false;
+
+    if(!Manager::LoadResource(_T("keybinder.zip")))
+    {
+        NotifyMissingFile(_T("keybinder.zip"));
+    }
 }
 // ----------------------------------------------------------------------------
 cbKeyBinder::~cbKeyBinder()
@@ -169,7 +174,7 @@ void cbKeyBinder::OnRelease(bool /*appShutDown*/)
 // ----------------------------------------------------------------------------
 {
 	// do de-initialization for your plugin
-	// if appShutDown is false, the plugin is unloaded because Code::Blocks is being shut down,
+	// if appShutDown is false, the plugin is unloaded because Em::Blocks is being shut down,
 	// which means you must not use any of the SDK Managers
 	// NOTE: after this function, the inherited member variable
 	// IsAttached() will be FALSE...
@@ -314,7 +319,7 @@ void cbKeyBinder::BuildModuleMenu(const ModuleType /*type*/, wxMenu* /*menu*/, c
 	return;
 }
 // ----------------------------------------------------------------------------
-bool cbKeyBinder::BuildToolBar(wxToolBar* /*toolBar*/)
+bool cbKeyBinder::BuildToolBar(wxAuiToolBar* /*toolBar*/)
 // ----------------------------------------------------------------------------
 {
 	//The application is offering its toolbar for your plugin,
@@ -406,7 +411,7 @@ int cbKeyBinder::EnableMerge(bool allow)
         return m_mergeEnabled;
     }
     // enable Merge
-    m_mergeEnabled  = (m_mergeEnabled < 0 ? 1 : ++m_mergeEnabled );
+    m_mergeEnabled  = (m_mergeEnabled < 0 ? 1 : m_mergeEnabled+1 );
     // StartMergetTimer removed for testing 2007/05/10
     //  re-enables 2007/05/31 to record plugin menu key changes
     StartMergeTimer( 15 );
@@ -518,10 +523,8 @@ void cbKeyBinder::OnKeyConfigDialogDone(MyDialog* dlg)
     // stop dynamic menu merges
     EnableMerge(false);
 
-    bool modified = false;
     dlg->m_p->ApplyChanges();
 
-        modified = true;
         *m_pKeyProfArr = dlg->m_p->GetProfiles();
     // don't delete "dlg" variable; CodeBlocks will destroy it
 
@@ -658,12 +661,14 @@ void cbKeyBinder::OnSave(bool backitup)
     // Save the key profile(s) to a file
 
     // delete the key definition file (removes invalid menuitem id's)
-    bool done = false;
-    done = ::wxRemoveFile(m_sKeyFilename);
+
+    if (::wxRemoveFile(m_sKeyFilename))
+    {
     #if LOGGING
-      if (done)
-       LOGIT(_T("cbKB:File %s deleted."),m_sKeyFilename.GetData());
+        LOGIT(_T("cbKB:File %s deleted."),m_sKeyFilename.GetData());
     #endif
+    }
+
 
 	wxString path = m_sKeyFilename;
 	#ifdef LOGGING
@@ -683,14 +688,14 @@ void cbKeyBinder::OnSave(bool backitup)
               m_pKeyProfArr->GetCount(), total) );
 
         // copy the .ini file to a .ini.bak file
-        done = false;
         if ( backitup && ::wxFileExists(m_sKeyFilename) )
         {
-            done = ::wxCopyFile(m_sKeyFilename, m_sKeyFilename+_T(".bak"));
-            #if LOGGING
-              if ( done )
-                LOGIT(_T("cbKB:File %s copied to .bak"),m_sKeyFilename.GetData());
-            #endif
+              if ( ::wxCopyFile(m_sKeyFilename, m_sKeyFilename+_T(".bak")) )
+              {
+                #if LOGGING
+                    LOGIT(_T("cbKB:File %s copied to .bak"),m_sKeyFilename.GetData());
+                #endif
+              }
     }//if (done..
 
 
@@ -889,7 +894,7 @@ void cbKeyBinder::OnEditorOpen(CodeBlocksEvent& event)
          wxWindow* thisWindow = event.GetEditor();
          wxWindow* thisEditor = thisWindow->FindWindowByName(_T("SCIwindow"),thisWindow);
 
-         // find editor window the Code::Blocks way
+         // find editor window the Em::Blocks way
          // find the cbStyledTextCtrl wxScintilla "SCIwindow" to this EditorBase
          cbEditor* ed = 0;
          EditorBase* eb = event.GetEditor();
@@ -930,7 +935,7 @@ void cbKeyBinder::OnEditorClose(CodeBlocksEvent& event)
         wxWindow*
             thisEditor = thisWindow->FindWindowByName(_T("SCIwindow"), thisWindow);
 
-        // find editor window the Code::Blocks way
+        // find editor window the Em::Blocks way
         // find the cbStyledTextCtrl wxScintilla "SCIwindow" to this EditorBase
         cbEditor* ed = 0;
         EditorBase* eb = event.GetEditor();
@@ -1005,13 +1010,10 @@ void cbKeyBinder::OnWindowCreateEvent(wxEvent& event)
     {
         wxWindow* pWindow = (wxWindow*)(event.GetEventObject());
         cbEditor* ed = 0;
-        cbStyledTextCtrl* p_cbStyledTextCtrl = 0;
-        cbStyledTextCtrl* pLeftSplitWin = 0;
         cbStyledTextCtrl* pRightSplitWin = 0;
         ed  = Manager::Get()->GetEditorManager()->GetBuiltinActiveEditor();
         if (ed)
-        {   p_cbStyledTextCtrl = ed->GetControl();
-            pLeftSplitWin = ed->GetLeftSplitViewControl();
+        {
             pRightSplitWin = ed->GetRightSplitViewControl();
             //Has this window been split?
             //**This is a temporary hack until some cbEvents are defined**
