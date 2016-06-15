@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Code::Blocks" />
+		<Option title="Em::Blocks" />
 		<Option pch_mode="2" />
 		<Option default_target="src" />
 		<Option compiler="gcc" />
@@ -157,7 +157,7 @@
 				</Linker>
 			</Target>
 			<Target title="sdk">
-				<Option output="build/codeblocks" prefix_auto="1" extension_auto="1" />
+				<Option output="build/emblocks" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build" />
 				<Option external_deps="base/tinyxml/libtxml.a;sdk/scripting/lib/libsquirrel.a;sdk/scripting/lib/libsqstdlib.a;sdk/scripting/lib/libsqplus.a;build/libwxscintilla_cb.a;" />
 				<Option type="3" />
