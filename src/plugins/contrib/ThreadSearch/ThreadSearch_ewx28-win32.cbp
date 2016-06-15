@@ -22,7 +22,7 @@
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="wxcustombutton" />
 					<Add directory="../../../build" />
-					<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Environment>
@@ -54,8 +54,8 @@
 			<Add option="-DwxPG_USE_WXMODULE=0" />
 			<Add directory="../../../sdk/include" />
 			<Add directory="../../../sdk/include/mozilla_chardet" />
-			<Add directory="$(#wx.include)" />
-			<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+			<Add directory="$(#EWX.include)" />
+			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="../wxSmithContribItems/wxthings/wxthings/include" />
 		</Compiler>
 		<Linker>

@@ -38,7 +38,7 @@
 					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="$(#wx.include)" />
+					<Add directory="$(#EWX.include)" />
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />

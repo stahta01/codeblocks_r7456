@@ -47,7 +47,7 @@
 			<Add directory="../../../sdk/include/tinyxml" />
 		</Compiler>
 		<ResourceCompiler>
-			<Add directory="$(#WX.include)" />
+			<Add directory="$(#EWX.include)" />
 		</ResourceCompiler>
 		<Linker>
 			<Add option="-Wl,--enable-auto-import" />

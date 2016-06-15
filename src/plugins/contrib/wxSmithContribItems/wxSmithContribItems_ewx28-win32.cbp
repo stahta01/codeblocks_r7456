@@ -101,8 +101,8 @@
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DWXMAKINGDLL_PROPGRID" />
 			<Add option="-DwxPG_USE_WXMODULE=0" />
-			<Add directory="$(#wx.include)" />
-			<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+			<Add directory="$(#EWX.include)" />
+			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="wxflatnotebook/wxFlatNotebook/include" />
 		</Compiler>
 		<Linker>
@@ -110,7 +110,7 @@
 			<Add library="wxpropgrid" />
 			<Add library="wxmsw28$(WX_SUFFIX)" />
 			<Add directory="../../../build" />
-			<Add directory="$(#wx.lib)/gcc_dll$(WX_CFG)" />
+			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
 		<Unit filename="manifest.xml">
 			<Option target="wxSmithContribItems" />

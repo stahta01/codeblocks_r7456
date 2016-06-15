@@ -46,7 +46,7 @@
 			<Add directory="../../../sdk/include" />
 		</Compiler>
 		<ResourceCompiler>
-			<Add directory="$(#WX.include)" />
+			<Add directory="$(#EWX.include)" />
 		</ResourceCompiler>
 		<Linker>
 			<Add option="-mthreads" />

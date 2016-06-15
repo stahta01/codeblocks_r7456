@@ -74,7 +74,7 @@
 			<Add directory="../../../sdk/include/mozilla_chardet" />
 		</Compiler>
 		<ResourceCompiler>
-			<Add directory="$(#WX.include)" />
+			<Add directory="$(#EWX.include)" />
 		</ResourceCompiler>
 		<Linker>
 			<Add option="-Wl,--enable-auto-image-base" />

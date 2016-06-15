@@ -597,23 +597,23 @@
 			<Add option="-DCB_PRECOMP" />
 			<Add option="-DWX_PRECOMP" />
 			<Add option="-DwxUSE_UNICODE" />
-			<Add directory="$(#WX.include)" />
-			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+			<Add directory="$(#EWX.include)" />
+			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="wxscintilla/include" />
 			<Add directory="wxpropgrid/include" />
 			<Add directory="sdk/include/tinyxml" />
 			<Add directory="wxcode/treelistctrl/include" />
 		</Compiler>
 		<ResourceCompiler>
-			<Add directory="$(#WX.include)" />
-			<Add directory="$(#WX)/contrib/include" />
-			<Add directory="$(#WX)/lib/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+			<Add directory="$(#EWX.include)" />
+			<Add directory="$(#EWX)/contrib/include" />
+			<Add directory="$(#EWX)/lib/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 		</ResourceCompiler>
 		<Linker>
 			<Add option="-mthreads" />
 			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 			<Add directory="base/tinyxml" />
-			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)" />
+			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
 		<Unit filename="base/exchndl/exchndl.c">
 			<Option compilerVar="CC" />
