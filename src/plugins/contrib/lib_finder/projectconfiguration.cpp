@@ -1,5 +1,5 @@
 /*
-* This file is part of lib_finder plugin for Code::Blocks Studio
+* This file is part of lib_finder plugin for Em::Blocks Studio
 * Copyright (C) 2007  Bartlomiej Swiecki
 *
 * wxSmith is free software; you can redistribute it and/or modify
@@ -16,9 +16,9 @@
 * along with wxSmith; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 *
-* $Revision$
-* $Id$
-* $HeadURL$
+* $Revision: 4 $
+* $Id: projectconfiguration.cpp 4 2013-11-02 15:53:52Z gerard $
+* $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/lib_finder/projectconfiguration.cpp $
 */
 
 #include "projectconfiguration.h"

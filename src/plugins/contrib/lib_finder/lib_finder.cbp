@@ -7,19 +7,18 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="../../../devel/share/CodeBlocks/plugins/lib_finder.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="../../../.objs/plugins/contrib/lib_finder" />
-				<Option external_deps="../../../devel/wxflatnotebook.dll;" />
+				<Option output="..\..\..\build\share\CodeBlocks\plugins\lib_finder.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output="..\..\..\.objs\plugins\contrib\lib_finder" />
+				<Option external_deps="..\..\..\build\wxflatnotebook.dll;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance -na -ns -nd" />
-				<Option host_application="../../../devel/codeblocks.exe" />
-				<Option run_host_application_in_terminal="0" />
+				<Option host_application="..\..\..\build\codeblocks.exe" />
 				<Option projectResourceIncludeDirsRelation="0" />
 			</Target>
 			<Environment>
-				<Variable name="WX_CFG" value="" />
 				<Variable name="WX_SUFFIX" value="u" />
+				<Variable name="WX_CFG" value="" />
 			</Environment>
 		</Build>
 		<VirtualTargets>
@@ -33,7 +32,6 @@
 			<Add option="-fexceptions" />
 			<Add option="-Winvalid-pch" />
 			<Add option="-mthreads" />
-			<Add option="-fpermissive" />
 			<Add option="-DcbDEBUG" />
 			<Add option="-DCB_PRECOMP" />
 			<Add option="-DHAVE_W32API_H" />
@@ -45,14 +43,17 @@
 			<Add option="-DWXMAKINGDLL_PROPGRID" />
 			<Add option="-DwxPG_USE_WXMODULE=0" />
 			<Add directory="$(#WX.include)" />
-			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-			<Add directory="../../../sdk/include" />
-			<Add directory="../../../wxscintilla/include" />
-			<Add directory="../../../sdk/include/scripting/include" />
-			<Add directory="../../../sdk/include/scripting/sqplus" />
-			<Add directory="../../../sdk/include/scripting/bindings" />
-			<Add directory="../wxSmithContribItems/wxflatnotebook/wxFlatNotebook/include" />
-			<Add directory="../../../sdk/include/mozilla_chardet" />
+			<Add directory="$(#WX.lib)\gcc_dll$(WX_CFG)\msw$(WX_SUFFIX)" />
+			<Add directory="$(#WX)\contrib\include" />
+			<Add directory="..\..\..\sdk\include" />
+			<Add directory="..\..\..\sdk\wxscintilla\include" />
+			<Add directory="..\..\..\sdk\include\tinyxml" />
+			<Add directory="..\..\..\sdk\include\scripting\include" />
+			<Add directory="..\..\..\sdk\include\scripting\sqplus" />
+			<Add directory="..\..\..\sdk\include\scripting\squirrel" />
+			<Add directory="..\..\..\sdk\include\scripting\bindings" />
+			<Add directory="..\wxSmithContribItems\wxflatnotebook\wxFlatNotebook\include" />
+			<Add directory="..\..\..\sdk\include\mozilla_chardet" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="$(#WX.include)" />
@@ -62,10 +63,10 @@
 			<Add option="-mthreads" />
 			<Add library="wxflatnotebook" />
 			<Add library="wxmsw28$(WX_SUFFIX)" />
-			<Add library="codeblocks" />
-			<Add directory="$(#WX.lib)/gcc_dll$(WX_CFG)" />
-			<Add directory="../../../devel" />
-			<Add directory="../../../base/tinyxml" />
+			<Add library="emblocks" />
+			<Add directory="$(#WX.lib)\gcc_dll$(WX_CFG)" />
+			<Add directory="..\..\..\build" />
+			<Add directory="..\..\..\base\tinyxml" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="update.bat" />
@@ -79,10 +80,10 @@
 		<Unit filename="headersdetectordlg.h" />
 		<Unit filename="lib_finder.cpp" />
 		<Unit filename="lib_finder.h" />
-		<Unit filename="lib_finder/codeblocks_sdk.xml" />
-		<Unit filename="lib_finder/glfw.xml" />
-		<Unit filename="lib_finder/readme.txt" />
-		<Unit filename="lib_finder/wxwidgets.xml" />
+		<Unit filename="lib_finder\codeblocks_sdk.xml" />
+		<Unit filename="lib_finder\glfw.xml" />
+		<Unit filename="lib_finder\readme.txt" />
+		<Unit filename="lib_finder\wxwidgets.xml" />
 		<Unit filename="librariesdlg.cpp" />
 		<Unit filename="librariesdlg.h" />
 		<Unit filename="librarydetectionconfig.h" />
@@ -107,14 +108,14 @@
 		<Unit filename="resultmap.h" />
 		<Unit filename="webresourcesmanager.cpp" />
 		<Unit filename="webresourcesmanager.h" />
-		<Unit filename="wxsmith/DefsDownloadDlg.wxs" />
-		<Unit filename="wxsmith/DirListDlg.wxs" />
-		<Unit filename="wxsmith/HeadersDetectorDlg.wxs" />
-		<Unit filename="wxsmith/LibSelectDlg.wxs" />
-		<Unit filename="wxsmith/LibrariesDlg.wxs" />
-		<Unit filename="wxsmith/ProcessingDlg.wxs" />
-		<Unit filename="wxsmith/ProjectConfigurationPanel.wxs" />
-		<Unit filename="wxsmith/ProjectMissingLibs.wxs" />
+		<Unit filename="wxsmith\DefsDownloadDlg.wxs" />
+		<Unit filename="wxsmith\DirListDlg.wxs" />
+		<Unit filename="wxsmith\HeadersDetectorDlg.wxs" />
+		<Unit filename="wxsmith\LibSelectDlg.wxs" />
+		<Unit filename="wxsmith\LibrariesDlg.wxs" />
+		<Unit filename="wxsmith\ProcessingDlg.wxs" />
+		<Unit filename="wxsmith\ProjectConfigurationPanel.wxs" />
+		<Unit filename="wxsmith\ProjectMissingLibs.wxs" />
 		<Extensions>
 			<code_completion />
 			<wxsmith version="1">

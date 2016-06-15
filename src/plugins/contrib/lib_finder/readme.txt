@@ -1,6 +1,6 @@
 WARNING: Outdated
 
-This Code::Blocks plugin was created to automatically find libraries installed in system.
+This Em::Blocks plugin was created to automatically find libraries installed in system.
 Each library is represented as global variable. If this global variable is configured by
 this plugin, all necessary steps to use such library is to:
 
@@ -10,7 +10,7 @@ this plugin, all necessary steps to use such library is to:
   - add $(#GLOBAL_VAR_NAME.cflags) in other compiler options
   - add $(#GLOBAL_VAR_NAME.lflags) in other linker options
   (where GLOBAL_VAR_NAME should be changed to variable associated with given library,
-   f.ex. WX will be used for wxWidgets, cb for Code::Blocks SDK. There's no rule describing
+   f.ex. WX will be used for wxWidgets, cb for Em::Blocks SDK. There's no rule describing
    how these global variables are named. But it should be short and easy to guess ;)
 
 These variables define all necessary directories and libraries needed during linkage.

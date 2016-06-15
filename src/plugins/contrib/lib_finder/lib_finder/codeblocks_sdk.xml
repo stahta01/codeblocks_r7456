@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<library name="Code::Blocks SDK" short_code="cb">
+<library name="Em::Blocks SDK" short_code="cb">
 
-    <config description="Code::Blocks SDK (pkg-config)">
+    <config description="Em::Blocks SDK (pkg-config)">
         <pkgconfig name="codeblocks"/>
     </config>
 
@@ -30,7 +30,7 @@
         <flags lflags="-ltxml -lcodeblocks"/>
     </config>
 
-    <config description="Code::Blocks SDK (Standalone Development SDK)">
+    <config description="Em::Blocks SDK (Standalone Development SDK)">
         <file name="include/sdk.h"/>
         <file name="include/cbplugin.h"/>
         <file name="include/tinyxml/tinyxml.h"/>

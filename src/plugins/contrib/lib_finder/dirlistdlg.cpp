@@ -1,5 +1,5 @@
 /*
-* This file is part of lib_finder plugin for Code::Blocks Studio
+* This file is part of lib_finder plugin for Em::Blocks Studio
 * Copyright (C) 2006-2007  Bartlomiej Swiecki
 *
 * wxSmith is free software; you can redistribute it and/or modify
@@ -16,9 +16,9 @@
 * along with wxSmith; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 *
-* $Revision$
-* $Id$
-* $HeadURL$
+* $Revision: 4 $
+* $Id: dirlistdlg.cpp 4 2013-11-02 15:53:52Z gerard $
+* $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/lib_finder/dirlistdlg.cpp $
 */
 
 #include "dirlistdlg.h"
@@ -57,7 +57,7 @@ DirListDlg::DirListDlg(wxWindow* parent,wxWindowID id)
 	wxButton* Button1;
 	wxButton* Button2;
 	wxStaticBoxSizer* StaticBoxSizer1;
-	
+
 	Create(parent, id, _("List of directories with libraries"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("id"));
 	FlexGridSizer1 = new wxFlexGridSizer(0, 1, 0, 0);
 	StaticBoxSizer1 = new wxStaticBoxSizer(wxHORIZONTAL, this, _("Scanned directories:"));
@@ -80,7 +80,7 @@ DirListDlg::DirListDlg(wxWindow* parent,wxWindowID id)
 	SetSizer(FlexGridSizer1);
 	FlexGridSizer1->Fit(this);
 	FlexGridSizer1->SetSizeHints(this);
-	
+
 	Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&DirListDlg::OnButton1Click);
 	Connect(ID_BUTTON2,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&DirListDlg::OnButton2Click);
 	Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&DirListDlg::OnButton3Click);

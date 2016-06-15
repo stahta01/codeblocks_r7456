@@ -1,5 +1,5 @@
 /*
-* This file is part of lib_finder plugin for Code::Blocks Studio
+* This file is part of lib_finder plugin for Em::Blocks Studio
 * Copyright (C) 2006-2008  Bartlomiej Swiecki
 *
 * wxSmith is free software; you can redistribute it and/or modify
@@ -16,9 +16,9 @@
 * along with wxSmith; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
 *
-* $Revision$
-* $Id$
-* $HeadURL$
+* $Revision: 4 $
+* $Id: lib_finder.cpp 4 2013-11-02 15:53:52Z gerard $
+* $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/lib_finder/lib_finder.cpp $
 */
 
 
@@ -351,11 +351,6 @@ bool lib_finder::TryAddLibrary(CompileTargetBase* Target,LibraryResult* Result)
     for ( size_t i=0; i<Result->LibPath.Count(); i++ )
     {
         Target->AddLibDir(Result->LibPath[i]);
-    }
-
-    for ( size_t i=0; i<Result->ObjPath.Count(); i++ )
-    {
-        Target->AddResourceIncludeDir(Result->ObjPath[i]);
     }
 
     for ( size_t i=0; i<Result->Libs.Count(); i++ )
