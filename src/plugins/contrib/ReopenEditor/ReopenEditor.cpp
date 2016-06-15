@@ -4,9 +4,9 @@
  *
  * Copyright: 2010 Jens Lody
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: ReopenEditor.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/ReopenEditor/ReopenEditor.cpp $
  */
 
 #include "sdk.h"
@@ -109,7 +109,7 @@ void ReopenEditor::OnRelease(bool appShutDown)
         }
 //        m_pListLog->Destroy();
     }
-    m_pListLog = nullptr;
+    m_pListLog = _nullptr;
 }
 
 cbConfigurationPanel* ReopenEditor::GetConfigurationPanel(wxWindow* parent)
@@ -196,7 +196,7 @@ void ReopenEditor::OnEditorClosed(CodeBlocksEvent& event)
 
     if(eb && eb->IsBuiltinEditor())
     {
-        cbProject* prj = nullptr;
+        cbProject* prj = _nullptr;
         bool isPrjClosing = false;
 
         ProjectFile* prjf = ((cbEditor*)eb)->GetProjectFile();
@@ -330,10 +330,7 @@ void ReopenEditor::ShowList()
 
     if(m_IsManaged)
     {
-        wxString prefix = ConfigManager::GetDataFolder() + _T("/images/16x16/");
-        wxBitmap * bmp = new wxBitmap(cbLoadBitmap(prefix + _T("undo.png"), wxBITMAP_TYPE_PNG));
-
-        CodeBlocksLogEvent evt1(cbEVT_ADD_LOG_WINDOW, m_pListLog, _("Closed files list"), bmp);
+        CodeBlocksLogEvent evt1(cbEVT_ADD_LOG_WINDOW, m_pListLog, _("Closed files list"), new wxBitmap(wxXmlResource::Get()->LoadBitmap(_T("bmp_clfile_log"))));
         Manager::Get()->ProcessEvent(evt1);
         CodeBlocksLogEvent evt2(cbEVT_SWITCH_TO_LOG_WINDOW, m_pListLog);
         Manager::Get()->ProcessEvent(evt2);

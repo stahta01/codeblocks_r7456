@@ -2,9 +2,9 @@
  * This file is part of the Code::Blocks IDE and licensed under the GNU General Public License, version 3
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: ReopenEditorListView.cpp 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/ReopenEditor/ReopenEditorListView.cpp $
  */
 
 #include "sdk.h"
@@ -145,7 +145,7 @@ wxString ReopenEditorListView::GetFilename(long item) const
 cbProject* ReopenEditorListView::GetProject(long item) const
 {
     if (!m_pListControl || m_pListControl->GetItemCount() == 0)
-        return nullptr;
+        return _nullptr;
 
     return (cbProject*)m_pListControl->GetItemData(item);
 }

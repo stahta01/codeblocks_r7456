@@ -4,9 +4,9 @@
  *
  * Copyright: 2010 Jens Lody
  *
- * $Revision$
- * $Id$
- * $HeadURL$
+ * $Revision: 4 $
+ * $Id: ReopenEditor.h 4 2013-11-02 15:53:52Z gerard $
+ * $HeadURL: svn://svn.berlios.de/codeblocks/trunk/src/plugins/contrib/ReopenEditor/ReopenEditor.h $
  */
 
 #ifndef REOPEN_EDITOR_H_INCLUDED
@@ -39,7 +39,7 @@ class ReopenEditor : public cbPlugin
         }
         void BuildMenu(wxMenuBar* menuBar);
         void BuildModuleMenu(const ModuleType /*type*/, wxMenu* /*menu*/, const FileTreeData* /*data*/ = 0) {}
-        bool BuildToolBar(wxToolBar* /*toolBar*/) {return false;}
+        bool BuildToolBar(wxAuiToolBar* /*toolBar*/) {return false;}
         virtual void SetManaged(bool managed = true);
         virtual void ShowList();
 

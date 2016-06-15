@@ -15,6 +15,8 @@ class ReopenEditorConfDLg: public cbConfigurationPanel
 		ReopenEditorConfDLg(wxWindow* parent);
 		virtual ~ReopenEditorConfDLg();
 
+        virtual wxBitmap GetBitmap() { return wxXmlResource::Get()->LoadBitmap(_T("bmp_reopen"));}
+
 		//(*Declarations(ReopenEditorConfDLg)
 		wxRadioBox* RadioBox1;
 		//*)
@@ -28,8 +30,8 @@ class ReopenEditorConfDLg: public cbConfigurationPanel
 
 		//(*Handlers(ReopenEditorConfDLg)
 		//*)
-        wxString GetTitle() const { return _("Reopen editor settings"); }
-        wxString GetBitmapBaseName() const { return _T("reopeneditor"); }
+        wxString GetTitle() const { return _("Reopen editor"); }
+
         void OnApply() { SaveSettings(); }
         void OnCancel() {}
         void SaveSettings();
