@@ -23,8 +23,6 @@
 					<Add option="-Winvalid-pch" />
 					<Add option="-DHUNSPELL_STATIC" />
 					<Add directory="wxspellchecker/include" />
-					<Add directory="$(#EWX.include)" />
-					<Add directory="$(#EWX.lib)/gcc_dll/mswu" />
 					<Add directory="hunspell/src/hunspell" />
 					<Add directory="hunspell/" />
 				</Compiler>
@@ -54,7 +52,7 @@
 					<Add directory="wxspellchecker/include" />
 					<Add directory="hunspell/src" />
 					<Add directory="$(#EWX.include)" />
-					<Add directory="$(#EWX.lib)/gcc_dll/mswu" />
+					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 				</Compiler>
 				<Linker>
 					<Add library="hunspell" />
@@ -84,7 +82,6 @@
 					<Add option="-D_no_WXDEBUG__" />
 					<Add directory="../../../sdk/include" />
 					<Add directory="$(#ewx.include)" />
-					<Add directory="$(#ewx)/contrib/include" />
 					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 					<Add directory="wxspellchecker/include" />
 				</Compiler>
