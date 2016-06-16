@@ -45,7 +45,7 @@
 			</Environment>
 		</Build>
 		<VirtualTargets>
-			<Add alias="All" targets="Plugin - Win32;App - Win32;" />
+			<Add alias="All" targets="Plugin - Win32;" />
 		</VirtualTargets>
 		<Compiler>
 			<Add option="-Wall" />
