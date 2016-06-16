@@ -8,7 +8,7 @@
 		<Build>
 			<Target title="default">
 				<Option output="../../../build/share/EmBlocks/plugins/DragScroll.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="../../../foo/.objs" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib/dragscroll" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance -na -ns -nd" />
@@ -16,6 +16,7 @@
 				<Option run_host_application_in_terminal="0" />
 			</Target>
 			<Environment>
+				<Variable name="EB_OBJ" value="../../../.objs28" />
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
 				<Variable name="WX_VERSION" value="28" />
@@ -32,16 +33,14 @@
 			<Add option="-mthreads" />
 			<Add option="-fmessage-length=0" />
 			<Add option="-fexceptions" />
+			<Add option="-iquote$(EB_OBJ)/sdk/include" />
+			<Add option='-include &quot;sdk.h&quot;' />
 			<Add option="-DBUILDING_PLUGIN" />
 			<Add option="-DCB_PRECOMP" />
-			<Add option="-DWX_PRECOMP" />
-			<Add option="-DHAVE_W32API_H" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DcbDEBUG" />
 			<Add option="-DwxUSE_UNICODE" />
-			<Add option="-DWXMAKINGDLL_PROPGRID" />
-			<Add option="-DwxPG_USE_WXMODULE=0" />
 			<Add directory="$(#EWX.include)" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="$(#EWX)/contrib/include" />

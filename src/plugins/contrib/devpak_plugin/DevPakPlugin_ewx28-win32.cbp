@@ -10,7 +10,7 @@
 			<Target title="libbz2">
 				<Option output="bzip2/libbz2.a" prefix_auto="0" extension_auto="0" />
 				<Option working_dir="" />
-				<Option object_output="../../../.objs/plugins/contrib/devpak_plugin" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib/devpak_plugin" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -35,10 +35,10 @@
 					<Add option="-Winvalid-pch" />
 					<Add option="-mthreads" />
 					<Add option="-fexceptions" />
+					<Add option="-iquote$(EB_OBJ)/sdk/include" />
+					<Add option='-include &quot;sdk.h&quot;' />
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add option="-DCB_PRECOMP" />
-					<Add option="-DWX_PRECOMP" />
-					<Add option="-DHAVE_W32API_H" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
 					<Add option="-DcbDEBUG" />
@@ -58,6 +58,7 @@
 				</ExtraCommands>
 			</Target>
 			<Environment>
+				<Variable name="EB_OBJ" value="../../../.objs28" />
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
 				<Variable name="WX_VERSION" value="28" />
