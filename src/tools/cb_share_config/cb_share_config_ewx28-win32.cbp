@@ -9,7 +9,7 @@
 			<Target title="default">
 				<Option output="../../build/cb_share_config" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="../../../build" />
-				<Option object_output="../../.objs/tools/cb_share_config" />
+				<Option object_output="../../.objs28/tools/cb_share_config" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 			</Target>
@@ -28,7 +28,7 @@
 			<Add option="-fmessage-length=0" />
 			<Add option="-fexceptions" />
 			<Add option="-Winvalid-pch" />
-			<Add option="-DUSE_PCH" />
+			<Add option="-DNOPCH" />
 			<Add option="-D__GNUWIN32__" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DHAVE_W32API_H" />
