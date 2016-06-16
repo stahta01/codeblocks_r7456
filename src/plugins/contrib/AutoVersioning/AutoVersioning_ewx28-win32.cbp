@@ -8,7 +8,7 @@
 		<Build>
 			<Target title="default">
 				<Option output="../../../build/share/emblocks/plugins/AutoVersioning.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="../../../foo/.objs" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance -na -ns -nd" />
@@ -21,13 +21,14 @@
 					<Add option="-fmessage-length=0" />
 					<Add option="-fexceptions" />
 					<Add option="-Winvalid-pch" />
+					<Add option="-iquote$(EB_OBJ)/sdk/include" />
+					<Add option='-include &quot;sdk.h&quot;' />
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add option="-DHAVE_W32API_H" />
 					<Add option="-D__WXMSW__" />
 					<Add option="-DWXUSINGDLL" />
 					<Add option="-DcbDEBUG" />
 					<Add option="-DCB_PRECOMP" />
-					<Add option="-DWX_PRECOMP" />
 					<Add option="-DwxUSE_UNICODE" />
 					<Add option="-DWXMAKINGDLL_PROPGRID" />
 					<Add option="-DwxPG_USE_WXMODULE=0" />
@@ -49,6 +50,7 @@
 				</ExtraCommands>
 			</Target>
 			<Environment>
+				<Variable name="EB_OBJ" value="..\..\..\.objs28" />
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
 				<Variable name="WX_VERSION" value="28" />
