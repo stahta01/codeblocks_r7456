@@ -8,7 +8,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="wxPdfDocument">
-				<Option output="../../../foo/lib/wxPdfDocument" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../lib28/wxPdfDocument" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="$(EB_OBJ)/plugins/contrib/source_exporter" />
 				<Option type="2" />
@@ -22,7 +22,7 @@
 			<Target title="makefont">
 				<Option output="wxPdfDocument/makefont/makefont" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="wxPdfDocument/makefont" />
-				<Option object_output="../../../foo/.objs" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib/source_exporter" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Linker>
@@ -34,7 +34,7 @@
 			<Target title="minimal">
 				<Option output="wxPdfDocument/samples/minimal/minimal" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="wxPdfDocument/samples/minimal" />
-				<Option object_output="../../../foo/.objs" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib/source_exporter" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Linker>
@@ -46,7 +46,7 @@
 			<Target title="pdfdc">
 				<Option output="wxPdfDocument/samples/pdfdcl/pdfdc" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="wxPdfDocument/samples/pdfdc" />
-				<Option object_output="../../../foo/.objs" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib/source_exporter" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Linker>
@@ -79,7 +79,7 @@
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="gdi32" />
 					<Add directory="../../../build" />
-					<Add directory="../../../foo/lib" />
+					<Add directory="../../../lib28" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip -j9 ..\..\..\build\share\EmBlocks\Exporter.zip manifest.xml" />

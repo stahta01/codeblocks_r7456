@@ -20,7 +20,6 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="wxscintilla_cb" />
-					<Add directory="../../../foo/lib" />
 					<Add directory="../../../build" />
 					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
