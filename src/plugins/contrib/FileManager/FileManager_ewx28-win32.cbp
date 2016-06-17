@@ -53,8 +53,6 @@
 			<Add option="-DCB_PRECOMP" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DBUILDING_PLUGIN" />
-			<Add option="-DWXMAKINGDLL_PROPGRID" />
-			<Add option="-DwxPG_USE_WXMODULE=0" />
 			<Add directory="../../../sdk/include" />
 			<Add directory="../../../sdk/include/mozilla_chardet" />
 			<Add directory="$(#ewx.include)" />

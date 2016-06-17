@@ -34,13 +34,10 @@
 			<Add option="-mthreads" />
 			<Add option="-iquote$(EB_OBJ)/sdk/include" />
 			<Add option="-DCB_PRECOMP" />
-			<Add option="-DHAVE_W32API_H" />
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DBUILDING_PLUGIN" />
-			<Add option="-DWXMAKINGDLL_PROPGRID" />
-			<Add option="-DwxPG_USE_WXMODULE=0" />
 			<Add option="-DcbDEBUG" />
 			<Add directory="$(#EWX.include)" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
