@@ -8,7 +8,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="../../../build/share/emblocks/plugins/RegExTestbed" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../build28/share/emblocks/plugins/RegExTestbed" prefix_auto="1" extension_auto="1" />
 				<Option object_output="$(EB_OBJ)/plugins/contrib/regex_testbed" />
 				<Option external_deps="../../../build28/libemblocks.a;" />
 				<Option type="3" />
