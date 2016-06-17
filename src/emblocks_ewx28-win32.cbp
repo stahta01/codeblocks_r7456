@@ -296,6 +296,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="AStyle">
@@ -321,6 +322,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Autosave">
@@ -345,6 +347,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Compiler depslib">
@@ -387,6 +390,7 @@
 					<Add library="depslib" />
 					<Add directory="build28" />
 					<Add directory="lib" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Debugger">
@@ -414,6 +418,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Code-completion">
@@ -439,6 +444,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Class wizard">
@@ -463,6 +469,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Default MIME handler">
@@ -487,6 +494,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Open files list">
@@ -511,6 +519,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Projects-workspaces importer">
@@ -536,6 +545,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Scripted wizard">
@@ -563,6 +573,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="To-do">
@@ -588,6 +599,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="XP look &amp; feel">
@@ -612,6 +624,7 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Environment>
