@@ -9,3 +9,6 @@
 /src/build28/
 /src/lib/
 /src/lib28/
+
+# This CB Project files
+/src/build_tools/autorevision/autorevision.exe
