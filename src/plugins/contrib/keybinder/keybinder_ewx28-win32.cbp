@@ -33,7 +33,7 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="EB_OBJ" value="../../../.objs28" />
+				<Variable name="EB_OBJ" value="..\..\..\.objs28" />
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
 				<Variable name="WX_VERSION" value="28" />
@@ -53,7 +53,7 @@
 		<Linker>
 			<Add library="emblocks" />
 			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-			<Add directory="../../../build" />
+			<Add directory="../../../build28" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
 		<ExtraCommands>

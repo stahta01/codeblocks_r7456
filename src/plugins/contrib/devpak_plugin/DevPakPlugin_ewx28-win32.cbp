@@ -48,7 +48,7 @@
 				<Linker>
 					<Add option="-mthreads" />
 					<Add library="bz2" />
-					<Add directory="../../../build" />
+					<Add directory="../../../build28" />
 				</Linker>
 				<ExtraCommands>
 					<Add after="zip ..\..\..\build\share\CodeBlocks\devpakupdater.zip manifest.xml *.xrc" />
@@ -56,7 +56,7 @@
 				</ExtraCommands>
 			</Target>
 			<Environment>
-				<Variable name="EB_OBJ" value="../../../.objs28" />
+				<Variable name="EB_OBJ" value="..\..\..\.objs28" />
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
 				<Variable name="WX_VERSION" value="28" />

@@ -15,7 +15,7 @@
 				<Option run_host_application_in_terminal="0" />
 			</Target>
 			<Environment>
-				<Variable name="EB_OBJ" value="../../../.objs28" />
+				<Variable name="EB_OBJ" value="..\..\..\.objs28" />
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
 				<Variable name="WX_VERSION" value="28" />
@@ -52,7 +52,7 @@
 			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 			<Add library="emblocks" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
-			<Add directory="../../../build" />
+			<Add directory="../../../build28" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="zip -j9 ..\..\..\build\share\EmBlocks\copystrings.zip manifest.xml" />

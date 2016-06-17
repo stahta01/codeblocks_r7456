@@ -54,7 +54,7 @@
 			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 			<Add library="emblocks" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
-			<Add directory="../../../build" />
+			<Add directory="../../../build28" />
 		</Linker>
 		<ExtraCommands>
 			<Add after="zip -j9 ..\..\..\build\share\EmBlocks\byogames.zip manifest.xml" />

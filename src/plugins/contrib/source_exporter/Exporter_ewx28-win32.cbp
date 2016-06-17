@@ -78,7 +78,7 @@
 					<Add library="wxPdfDocument" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="gdi32" />
-					<Add directory="../../../build" />
+					<Add directory="../../../build28" />
 					<Add directory="../../../lib28" />
 				</Linker>
 				<ExtraCommands>
@@ -87,7 +87,7 @@
 				</ExtraCommands>
 			</Target>
 			<Environment>
-				<Variable name="EB_OBJ" value="../../../.objs28" />
+				<Variable name="EB_OBJ" value="..\..\..\.objs28" />
 				<Variable name="WX_CFG" value="_wxeb" />
 				<Variable name="WX_SUFFIX" value="u" />
 				<Variable name="WX_VERSION" value="28" />
