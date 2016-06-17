@@ -6,11 +6,12 @@
 /downloads/
 /patches/
 /src/.objs28/
-/src/build28/share/
 
 # This CB Project files
 /src/build_tools/autorevision/autorevision.exe
 /src/build28/*.exe
 /src/build28/*.dll
+/src/build28/share/emblocks/*.zip
+/src/build28/share/emblocks/plugins/*.dll
 /src/lib/*.a
 /src/lib28/*.a
