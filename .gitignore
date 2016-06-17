@@ -3,12 +3,14 @@
 *.layout
 
 # This CB Project folders
-/src/.objs28/
 /downloads/
 /patches/
-/src/build28/
-/src/lib/
-/src/lib28/
+/src/.objs28/
+/src/build28/share/
 
 # This CB Project files
 /src/build_tools/autorevision/autorevision.exe
+/src/build28/*.exe
+/src/build28/*.dll
+/src/lib/*.a
+/src/lib28/*.a
