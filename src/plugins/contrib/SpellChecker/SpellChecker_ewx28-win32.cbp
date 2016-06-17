@@ -10,7 +10,7 @@
 			<Target title="hunspell">
 				<Option output="../../../foo/lib/hunspell" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="../../../foo/.objs" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib/SpellChecker" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -34,7 +34,7 @@
 			<Target title="wxSpellChecker">
 				<Option output="../../../foo/lib/wxSpellChecker" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="../../../foo/.objs" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib/SpellChecker" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --no-check-associations -nd" />
@@ -62,7 +62,7 @@
 			</Target>
 			<Target title="plugin">
 				<Option output="../../../build/share/EmBlocks/plugins/SpellChecker" prefix_auto="1" extension_auto="1" />
-				<Option object_output="../../../foo/.objs" />
+				<Option object_output="$(EB_OBJ)/plugins/contrib/SpellChecker" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --no-check-associations -nd" />
@@ -75,11 +75,12 @@
 					<Add option="-fmessage-length=0" />
 					<Add option="-fexceptions" />
 					<Add option="-Winvalid-pch" />
+					<Add option="-iquote$(EB_OBJ)/sdk/include" />
+					<Add option='-include &quot;sdk.h&quot;' />
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add option="-DCB_PRECOMP" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add option="-D_no_WXDEBUG__" />
+					<Add option="-DcbDEBUG" />
 					<Add directory="../../../sdk/include" />
 					<Add directory="$(#ewx.include)" />
 					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
@@ -100,6 +101,7 @@
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
+					<Variable name="EB_OBJ" value="../../../.objs28" />
 					<Variable name="WX_CFG" value="_wxeb" />
 					<Variable name="WX_SUFFIX" value="u" />
 					<Variable name="WX_VERSION" value="28" />
@@ -110,9 +112,7 @@
 			<Add alias="All" targets="hunspell;wxSpellChecker;plugin;" />
 		</VirtualTargets>
 		<Compiler>
-			<Add option="-DHAVE_W32API_H" />
 			<Add option="-D__WXMSW__" />
-			<Add option="-DWX_PRECOMP" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
 		</Compiler>
