@@ -20,7 +20,7 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
+# *.a
 *.lib
 
 # Executables
@@ -37,3 +37,6 @@
 /downloads/
 /patches/
 /src/build/
+/src/build28/
+/src/lib/
+/src/lib28/
