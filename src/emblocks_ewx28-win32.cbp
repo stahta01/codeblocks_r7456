@@ -167,7 +167,7 @@
 				<Option output="build/emblocks" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="base/tinyxml/libtxml.a;sdk/scripting/lib/libsquirrel.a;sdk/scripting/lib/libsqstdlib.a;sdk/scripting/lib/libsqplus.a;build/libwxscintilla_cb.a;" />
+				<Option external_deps="lib/libtxml.a;sdk/scripting/lib/libsquirrel.a;sdk/scripting/lib/libsqstdlib.a;sdk/scripting/lib/libsqplus.a;build/libwxscintilla_cb.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --no-check-associations --multiple-instance -nd" />
@@ -215,7 +215,7 @@
 				<Option output="build/codeblocks" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --no-check-associations --multiple-instance -ns -nd" />
@@ -255,7 +255,7 @@
 				<Option output="build/share/CodeBlocks/plugins/abbreviations" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -280,7 +280,7 @@
 				<Option output="build/share/CodeBlocks/plugins/astyle" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -303,7 +303,7 @@
 				<Option output="build/share/CodeBlocks/plugins/autosave" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -338,7 +338,7 @@
 				<Option output="build/share/CodeBlocks/plugins/compiler" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;plugins/compilergcc/depslib/libdepslib.a;" />
+				<Option external_deps="build/libemblocks.a;plugins/compilergcc/depslib/libdepslib.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -365,7 +365,7 @@
 				<Option output="build/share/CodeBlocks/plugins/debugger" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -390,7 +390,7 @@
 				<Option output="build/share/CodeBlocks/plugins/codecompletion" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -413,7 +413,7 @@
 				<Option output="build/share/CodeBlocks/plugins/classwizard" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -435,7 +435,7 @@
 				<Option output="build/share/CodeBlocks/plugins/defaultmimehandler" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -457,7 +457,7 @@
 				<Option output="build/share/CodeBlocks/plugins/openfileslist" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/codeblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -479,7 +479,7 @@
 				<Option output="build/share/CodeBlocks/plugins/projectsimporter" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -502,7 +502,7 @@
 				<Option output="build/share/CodeBlocks/plugins/scriptedwizard" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -527,7 +527,7 @@
 				<Option output="build/share/CodeBlocks/plugins/todo" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -550,7 +550,7 @@
 				<Option output="build/share/CodeBlocks/plugins/xpmanifest" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build/share/CodeBlocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libcodeblocks.a;" />
+				<Option external_deps="build/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
