@@ -33,8 +33,7 @@
 *.layout
 
 # This CB Project folders
-/src/.objs*
-/src/output*
+/src/.objs28/
 /downloads/
 /patches/
 /src/build/
