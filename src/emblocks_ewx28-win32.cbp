@@ -8,8 +8,8 @@
 		<Build>
 			<Target title="exchndl">
 				<Option platforms="Windows;" />
-				<Option output="build/exchndl" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build" />
+				<Option output="build28/exchndl" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28" />
 				<Option object_output="$(EB_OBJ)" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -116,7 +116,7 @@
 				</Linker>
 			</Target>
 			<Target title="scintilla">
-				<Option output="build/wxscintilla_cb" prefix_auto="1" extension_auto="1" />
+				<Option output="build28/wxscintilla_cb" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="$(EB_OBJ)" />
 				<Option type="2" />
@@ -142,8 +142,8 @@
 				</Linker>
 			</Target>
 			<Target title="wxpropgrid">
-				<Option output="build/wxpropgrid" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build" />
+				<Option output="build28/wxpropgrid" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28" />
 				<Option object_output="$(EB_OBJ)" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -164,10 +164,10 @@
 				</Linker>
 			</Target>
 			<Target title="sdk">
-				<Option output="build/emblocks" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build" />
+				<Option output="build28/emblocks" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="lib/libtxml.a;sdk/scripting/lib/libsquirrel.a;sdk/scripting/lib/libsqstdlib.a;sdk/scripting/lib/libsqplus.a;build/libwxscintilla_cb.a;" />
+				<Option external_deps="lib/libtxml.a;sdk/scripting/lib/libsquirrel.a;sdk/scripting/lib/libsqstdlib.a;sdk/scripting/lib/libsqplus.a;build28/libwxscintilla_cb.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --no-check-associations --multiple-instance -nd" />
@@ -202,7 +202,7 @@
 					<Add library="squirrel" />
 					<Add library="gdi32" />
 					<Add directory="lib" />
-					<Add directory="build" />
+					<Add directory="build28" />
 					<Add directory="sdk/scripting/lib" />
 					<Add directory="sdk/propgrid" />
 				</Linker>
@@ -212,10 +212,10 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="src">
-				<Option output="build/codeblocks" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build" />
+				<Option output="build28/codeblocks" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --no-check-associations --multiple-instance -ns -nd" />
@@ -248,14 +248,14 @@
 					<Add library="rpcrt4" />
 					<Add library="advapi32" />
 					<Add library="wsock32" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Abbreviations">
-				<Option output="build/share/emblocks/plugins/abbreviations" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/abbreviations" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -273,14 +273,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="AStyle">
-				<Option output="build/share/emblocks/plugins/astyle" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/astyle" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -296,14 +296,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Autosave">
-				<Option output="build/share/emblocks/plugins/autosave" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/autosave" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -318,7 +318,7 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Compiler depslib">
@@ -335,10 +335,10 @@
 				</Linker>
 			</Target>
 			<Target title="Compiler">
-				<Option output="build/share/emblocks/plugins/compiler" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/compiler" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;plugins/compilergcc/depslib/libdepslib.a;" />
+				<Option external_deps="build28/libemblocks.a;plugins/compilergcc/depslib/libdepslib.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -357,15 +357,15 @@
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add library="depslib" />
-					<Add directory="build" />
+					<Add directory="build28" />
 					<Add directory="plugins/compilergcc/depslib" />
 				</Linker>
 			</Target>
 			<Target title="Debugger">
-				<Option output="build/share/emblocks/plugins/debugger" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/debugger" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -383,14 +383,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Code-completion">
-				<Option output="build/share/emblocks/plugins/codecompletion" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/codecompletion" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -406,14 +406,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Class wizard">
-				<Option output="build/share/emblocks/plugins/classwizard" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/classwizard" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -428,14 +428,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Default MIME handler">
-				<Option output="build/share/emblocks/plugins/defaultmimehandler" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/defaultmimehandler" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -450,14 +450,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Open files list">
-				<Option output="build/share/emblocks/plugins/openfileslist" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/openfileslist" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -472,14 +472,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Projects-workspaces importer">
-				<Option output="build/share/emblocks/plugins/projectsimporter" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/projectsimporter" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -495,14 +495,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="Scripted wizard">
-				<Option output="build/share/emblocks/plugins/scriptedwizard" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/scriptedwizard" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -520,14 +520,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="To-do">
-				<Option output="build/share/emblocks/plugins/todo" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/todo" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -543,14 +543,14 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Target title="XP look &amp; feel">
-				<Option output="build/share/emblocks/plugins/xpmanifest" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="build/share/emblocks/plugins" />
+				<Option output="build28/share/emblocks/plugins/xpmanifest" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="build28/share/emblocks/plugins" />
 				<Option object_output="$(EB_OBJ)" />
-				<Option external_deps="build/libemblocks.a;" />
+				<Option external_deps="build28/libemblocks.a;" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option projectLinkerOptionsRelation="1" />
@@ -565,7 +565,7 @@
 					<Add option="-mthreads" />
 					<Add library="emblocks" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-					<Add directory="build" />
+					<Add directory="build28" />
 				</Linker>
 			</Target>
 			<Environment>
