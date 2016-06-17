@@ -24,7 +24,7 @@
 				</Linker>
 			</Target>
 			<Target title="tinyXML">
-				<Option output="base/tinyxml/txml" prefix_auto="1" extension_auto="1" />
+				<Option output="lib/txml" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="$(EB_OBJ)" />
 				<Option type="2" />
@@ -53,7 +53,7 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="txml" />
-					<Add directory="base/tinyxml" />
+					<Add directory="lib" />
 				</Linker>
 			</Target>
 			<Target title="ConsoleRunner">
@@ -201,6 +201,7 @@
 					<Add library="sqstdlib" />
 					<Add library="squirrel" />
 					<Add library="gdi32" />
+					<Add directory="lib" />
 					<Add directory="build" />
 					<Add directory="sdk/scripting/lib" />
 					<Add directory="sdk/propgrid" />
@@ -607,7 +608,6 @@
 		<Linker>
 			<Add option="-mthreads" />
 			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-			<Add directory="base/tinyxml" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
 		<ExtraCommands>
