@@ -33,7 +33,6 @@
 					<Add option="-DEXPORT_LIB" />
 					<Add option="-DEXPORT_EVENTS" />
 					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add option="-DWXMAKINGDLL_SCI" />
 					<Add directory="sdk/include/tinyxml" />
 					<Add directory="sdk/include" />
@@ -261,8 +260,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/scripting/include" />
 					<Add directory="sdk/include/scripting/sqplus" />
@@ -288,8 +285,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 					<Add directory="plugins/astyle/astyle" />
 				</Compiler>
@@ -313,8 +308,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 				</Compiler>
 				<Linker>
@@ -350,8 +343,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 					<Add directory="plugins/compilergcc/depslib/src" />
 					<Add directory="sdk/include/scripting/include" />
@@ -380,8 +371,6 @@
 				<Compiler>
 					<Add option="-fpermissive" />
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/scripting/include" />
 					<Add directory="sdk/include/scripting/sqplus" />
@@ -406,8 +395,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/mozilla_chardet" />
 				</Compiler>
@@ -431,8 +418,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 				</Compiler>
 				<Linker>
@@ -455,8 +440,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 				</Compiler>
 				<Linker>
@@ -479,8 +462,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 				</Compiler>
 				<Linker>
@@ -503,8 +484,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/mozilla_chardet" />
 				</Compiler>
@@ -529,8 +508,6 @@
 				<Compiler>
 					<Add option="-fpermissive" />
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/scripting/include" />
 					<Add directory="sdk/include/scripting/sqplus" />
@@ -555,8 +532,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/mozilla_chardet" />
 				</Compiler>
@@ -580,8 +555,6 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
-					<Add option="-DWXMAKINGDLL_PROPGRID" />
-					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add directory="sdk/include" />
 				</Compiler>
 				<Linker>
