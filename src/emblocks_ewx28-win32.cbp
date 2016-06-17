@@ -130,6 +130,9 @@
 					<Add directory="wxscintilla/src/scintilla/include" />
 					<Add directory="wxscintilla/src/scintilla/src" />
 					<Add directory="wxscintilla/src/scintilla/lexlib" />
+					<Add directory="$(#EWX.include)" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="wxscintilla/include" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="sdk/wxscintilla/include" />
@@ -153,6 +156,8 @@
 					<Add option="-DwxPG_USE_WXMODULE=0" />
 					<Add option="-DwxPG_SUPPORT_TOOLTIPS" />
 					<Add directory="wxpropgrid/include" />
+					<Add directory="$(#EWX.include)" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="sdk/wxpropgrid/include" />
@@ -161,6 +166,8 @@
 					<Add option="-Wl,--enable-auto-image-base" />
 					<Add option="-Wl,--add-stdcall-alias" />
 					<Add option="-Wl,--enable-auto-import" />
+					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="sdk">
@@ -187,6 +194,10 @@
 					<Add directory="sdk/include/scripting/sqplus" />
 					<Add directory="sdk/include/mozilla_chardet" />
 					<Add directory="wxpropgrid/include" />
+					<Add directory="$(#EWX.include)" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="wxscintilla/include" />
+					<Add directory="wxcode/treelistctrl/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -201,10 +212,12 @@
 					<Add library="sqstdlib" />
 					<Add library="squirrel" />
 					<Add library="gdi32" />
+					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="lib" />
 					<Add directory="build28" />
 					<Add directory="sdk/scripting/lib" />
 					<Add directory="sdk/propgrid" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 				<ExtraCommands>
 					<Add before="CMD /C REM build_tools/autorevision/autorevision +wx +int +t . include/autorevision.h" />
@@ -229,6 +242,9 @@
 					<Add directory="sdk/include/mozilla_chardet" />
 					<Add directory="sdk" />
 				</Compiler>
+				<ResourceCompiler>
+					<Add directory="$(#EWX.include)" />
+				</ResourceCompiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-import" />
 					<Add library="emblocks" />
@@ -248,7 +264,9 @@
 					<Add library="rpcrt4" />
 					<Add library="advapi32" />
 					<Add library="wsock32" />
+					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 					<Add directory="build28" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 			</Target>
 			<Target title="Abbreviations">
@@ -593,22 +611,9 @@
 			<Add option="-DcbDEBUG" />
 			<Add option="-DCB_PRECOMP" />
 			<Add option="-DwxUSE_UNICODE" />
-			<Add directory="$(#EWX.include)" />
-			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-			<Add directory="wxscintilla/include" />
-			<Add directory="wxpropgrid/include" />
-			<Add directory="sdk/include/tinyxml" />
-			<Add directory="wxcode/treelistctrl/include" />
 		</Compiler>
-		<ResourceCompiler>
-			<Add directory="$(#EWX.include)" />
-			<Add directory="$(#EWX)/contrib/include" />
-			<Add directory="$(#EWX)/lib/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
-		</ResourceCompiler>
 		<Linker>
 			<Add option="-mthreads" />
-			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
-			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
 		<ExtraCommands>
 			<Add before='$(CMD_MKDIR) &quot;$(EB_OBJ)/sdk/include&quot; || exit 0' />
@@ -1787,6 +1792,15 @@
 			<Option weight="0" />
 			<Option target="sdk" />
 		</Unit>
+		<Unit filename="sdk/include/tinyxml/tinystr.h">
+			<Option target="tinyXML" />
+		</Unit>
+		<Unit filename="sdk/include/tinyxml/tinywxuni.h">
+			<Option target="sdk" />
+		</Unit>
+		<Unit filename="sdk/include/tinyxml/tinyxml.h">
+			<Option target="tinyXML" />
+		</Unit>
 		<Unit filename="sdk/incrementalselectlistdlg.cpp">
 			<Option target="sdk" />
 		</Unit>
@@ -2322,7 +2336,7 @@
 			<Option target="tinyXML" />
 		</Unit>
 		<Unit filename="sdk/tinyxml/tinywxuni.cpp">
-			<Option target="tinyXML" />
+			<Option target="sdk" />
 		</Unit>
 		<Unit filename="sdk/tinyxml/tinyxml.cpp">
 			<Option target="tinyXML" />
