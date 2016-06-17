@@ -241,6 +241,8 @@
 					<Add directory="sdk/include/scripting/sqplus" />
 					<Add directory="sdk/include/mozilla_chardet" />
 					<Add directory="sdk" />
+					<Add directory="$(#EWX.include)" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 				</Compiler>
 				<ResourceCompiler>
 					<Add directory="$(#EWX.include)" />
@@ -283,6 +285,8 @@
 					<Add directory="sdk/include/scripting/include" />
 					<Add directory="sdk/include/scripting/sqplus" />
 					<Add directory="sdk/include/scripting/bindings" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -306,6 +310,8 @@
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
 					<Add directory="plugins/astyle/astyle" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -328,6 +334,8 @@
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -366,6 +374,8 @@
 					<Add directory="plugins/compilergcc/depslib/src" />
 					<Add directory="sdk/include/scripting/include" />
 					<Add directory="sdk/include/scripting/sqplus" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -393,6 +403,8 @@
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/scripting/include" />
 					<Add directory="sdk/include/scripting/sqplus" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -416,6 +428,8 @@
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/mozilla_chardet" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -438,6 +452,8 @@
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -460,6 +476,8 @@
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -482,6 +500,8 @@
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -505,6 +525,8 @@
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/mozilla_chardet" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -530,6 +552,8 @@
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/scripting/include" />
 					<Add directory="sdk/include/scripting/sqplus" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -553,6 +577,8 @@
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
 					<Add directory="sdk/include/mozilla_chardet" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
@@ -575,6 +601,8 @@
 				<Compiler>
 					<Add option="-DBUILDING_PLUGIN" />
 					<Add directory="sdk/include" />
+					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
+					<Add directory="$(#EWX.include)" />
 				</Compiler>
 				<Linker>
 					<Add option="-Wl,--enable-auto-image-base" />
