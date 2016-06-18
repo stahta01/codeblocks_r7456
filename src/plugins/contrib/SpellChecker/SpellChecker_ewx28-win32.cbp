@@ -61,7 +61,7 @@
 				</Linker>
 			</Target>
 			<Target title="plugin">
-				<Option output="../../../build/share/EmBlocks/plugins/SpellChecker" prefix_auto="1" extension_auto="1" />
+				<Option output="../../../build28/share/EmBlocks/plugins/SpellChecker" prefix_auto="1" extension_auto="1" />
 				<Option object_output="$(EB_OBJ)/plugins/contrib/SpellChecker" />
 				<Option type="3" />
 				<Option compiler="gcc" />

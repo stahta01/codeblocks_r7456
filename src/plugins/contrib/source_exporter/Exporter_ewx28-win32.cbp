@@ -56,7 +56,7 @@
 				</Linker>
 			</Target>
 			<Target title="default">
-				<Option output="../../../build/share/EmBlocks/plugins/Exporter" prefix_auto="0" extension_auto="1" />
+				<Option output="../../../build28/share/EmBlocks/plugins/Exporter" prefix_auto="0" extension_auto="1" />
 				<Option object_output="$(EB_OBJ)/plugins/contrib/source_exporter" />
 				<Option external_deps="wxPdfDocument/lib/libwxPdfDocument.a;" />
 				<Option type="3" />
