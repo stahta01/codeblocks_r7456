@@ -7,6 +7,9 @@
 /patches/
 /src/.objs28/
 
+# This project source code folders I wish to not add to repo
+/src/plugins/contrib/source_exporter/wxPdfDocument/samples/
+
 # This CB Project files
 /src/build_tools/autorevision/autorevision.exe
 /src/build28/*.exe
