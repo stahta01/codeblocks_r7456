@@ -116,7 +116,7 @@
 				</Linker>
 			</Target>
 			<Target title="scintilla">
-				<Option output="build28/wxscintilla_cb" prefix_auto="1" extension_auto="1" />
+				<Option output="lib28/wxscintilla_cb" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="$(EB_OBJ)" />
 				<Option type="2" />
@@ -145,7 +145,7 @@
 				</Linker>
 			</Target>
 			<Target title="wxpropgrid">
-				<Option output="build28/wxpropgrid" prefix_auto="1" extension_auto="1" />
+				<Option output="build28/wxpropgrid" imp_lib="lib28/$(TARGET_OUTPUT_BASENAME)" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build28" />
 				<Option object_output="$(EB_OBJ)" />
 				<Option type="3" />
@@ -171,7 +171,7 @@
 				</Linker>
 			</Target>
 			<Target title="sdk">
-				<Option output="build28/emblocks" prefix_auto="1" extension_auto="1" />
+				<Option output="build28/emblocks" imp_lib="lib28/$(TARGET_OUTPUT_BASENAME)" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME)" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build28" />
 				<Option object_output="$(EB_OBJ)" />
 				<Option external_deps="lib/libtxml.a;lib/libsquirrel.a;lib/libsqstdlib.a;lib/libsqplus.a;build28/libwxscintilla_cb.a;" />
@@ -213,6 +213,7 @@
 					<Add library="squirrel" />
 					<Add library="gdi32" />
 					<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
+					<Add directory="lib28" />
 					<Add directory="lib" />
 					<Add directory="build28" />
 					<Add directory="sdk/scripting/lib" />
