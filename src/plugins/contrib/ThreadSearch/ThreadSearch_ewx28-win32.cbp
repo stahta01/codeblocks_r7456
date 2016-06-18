@@ -63,7 +63,6 @@
 		</Linker>
 		<ExtraCommands>
 			<Add after="zip -j9 ..\..\..\build28\share\emblocks\ThreadSearch.zip manifest.xml" />
-			<Add after="update.bat" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="DirectoryParamsPanel.cpp" />
@@ -105,8 +104,6 @@
 		<Unit filename="ThreadSearchViewManagerMessagesNotebook.h" />
 		<Unit filename="logging.h" />
 		<Unit filename="manifest.xml" />
-		<Unit filename="update" />
-		<Unit filename="update.bat" />
 		<Extensions>
 			<code_completion />
 			<envvars />

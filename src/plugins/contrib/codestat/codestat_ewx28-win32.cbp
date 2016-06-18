@@ -55,10 +55,6 @@
 			<Add directory="../../../build28" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
-		<ExtraCommands>
-			<Add after=".\resources\make_zip.bat" />
-			<Mode after="always" />
-		</ExtraCommands>
 		<Unit filename="codestat.cpp" />
 		<Unit filename="codestat.h" />
 		<Unit filename="codestatconfig.cpp" />

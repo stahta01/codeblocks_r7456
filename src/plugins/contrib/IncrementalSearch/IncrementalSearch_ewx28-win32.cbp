@@ -41,10 +41,6 @@
 					<Add directory="../../../build28" />
 					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
-				<ExtraCommands>
-					<Add after=".\resources\make_zip.bat" />
-					<Mode after="always" />
-				</ExtraCommands>
 				<Environment>
 					<Variable name="EB_OBJ" value="..\..\..\.objs28" />
 					<Variable name="WX_CFG" value="_wxeb" />
@@ -62,7 +58,6 @@
 		<Unit filename="IncrementalSearchConfDlg.h" />
 		<Unit filename="resources/IncrementalSearchConfDlg.xrc" />
 		<Unit filename="resources/IncrementalSearchToolbar.xrc" />
-		<Unit filename="resources/make_zip.bat" />
 		<Unit filename="resources/manifest.xml" />
 		<Extensions>
 			<code_completion />

@@ -69,10 +69,6 @@
 			<Add directory="../../../build" />
 			<Add directory="../../../base/tinyxml" />
 		</Linker>
-		<ExtraCommands>
-			<Add after="update.bat" />
-			<Mode after="always" />
-		</ExtraCommands>
 		<Unit filename="defsdownloaddlg.cpp" />
 		<Unit filename="defsdownloaddlg.h" />
 		<Unit filename="dirlistdlg.cpp" />

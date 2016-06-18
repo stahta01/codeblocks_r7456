@@ -54,10 +54,6 @@
 			<Add directory="../../../build28" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
-		<ExtraCommands>
-			<Add after=".\resources\make_zip.bat" />
-			<Mode after="always" />
-		</ExtraCommands>
 		<Unit filename="dragscroll.cpp" />
 		<Unit filename="dragscroll.h" />
 		<Unit filename="dragscrollcfg.cpp" />
@@ -65,7 +61,6 @@
 		<Unit filename="dragscrollevent.cpp" />
 		<Unit filename="dragscrollevent.h" />
 		<Unit filename="resources/dragscroll.xrc" />
-		<Unit filename="resources/make_zip.bat" />
 		<Unit filename="resources/manifest.xml" />
 		<Extensions>
 			<code_completion />

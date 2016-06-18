@@ -88,10 +88,6 @@
 			<Add directory="../../../build28" />
 			<Add directory="../../../base/tinyxml" />
 		</Linker>
-		<ExtraCommands>
-			<Add after="update.bat" />
-			<Mode after="always" />
-		</ExtraCommands>
 		<Unit filename="plugin/wxsmithpluginregistrants.cpp">
 			<Option target="wxSmith" />
 		</Unit>

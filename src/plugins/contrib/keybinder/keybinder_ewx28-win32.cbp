@@ -56,10 +56,6 @@
 			<Add directory="../../../build28" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
-		<ExtraCommands>
-			<Add after=".\resources\make_zip.bat" />
-			<Mode after="always" />
-		</ExtraCommands>
 		<Unit filename="cbkeybinder.cpp" />
 		<Unit filename="cbkeybinder.h" />
 		<Unit filename="debugging.h" />
@@ -68,7 +64,6 @@
 		<Unit filename="menuutils.cpp" />
 		<Unit filename="menuutils.h" />
 		<Unit filename="resources/bitmaps.xrc" />
-		<Unit filename="resources/make_zip.bat" />
 		<Unit filename="resources/manifest.xml" />
 		<Extensions>
 			<code_completion />

@@ -53,10 +53,6 @@
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 			<Add directory="../../../build28" />
 		</Linker>
-		<ExtraCommands>
-			<Add after=".\resources\make_zip.bat" />
-			<Mode after="always" />
-		</ExtraCommands>
 		<Unit filename="CscopeConfig.cpp" />
 		<Unit filename="CscopeConfig.h" />
 		<Unit filename="CscopeEntryData.cpp" />

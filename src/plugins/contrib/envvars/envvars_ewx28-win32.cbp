@@ -73,10 +73,6 @@
 			<Add directory="../../../build28" />
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
-		<ExtraCommands>
-			<Add after=".\resources\make_zip.bat" />
-			<Mode after="always" />
-		</ExtraCommands>
 		<Unit filename="envvars.cpp" />
 		<Unit filename="envvars.h" />
 		<Unit filename="envvars_cfgdlg.cpp" />

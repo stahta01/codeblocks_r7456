@@ -47,10 +47,6 @@
 					<Add directory="$(#ewx.lib)" />
 					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
-				<ExtraCommands>
-					<Add after=".\resources\make_zip.bat" />
-					<Mode after="always" />
-				</ExtraCommands>
 				<Environment>
 					<Variable name="EB_OBJ" value="..\..\..\.objs28" />
 					<Variable name="WX_CFG" value="_wxeb" />
@@ -79,7 +75,6 @@
 		<Unit filename="ExtractDocs.cpp" />
 		<Unit filename="resources/DoxyMenu.xrc" />
 		<Unit filename="resources/DoxyToolbar.xrc" />
-		<Unit filename="resources/make_zip.bat" />
 		<Unit filename="resources/manifest.xml" />
 		<Unit filename="version.h" />
 		<Extensions>
