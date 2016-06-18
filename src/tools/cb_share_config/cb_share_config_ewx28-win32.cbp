@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="../../build/cb_share_config" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="../../../build" />
+				<Option output="../../build28/cb_share_config" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="../../../build28" />
 				<Option object_output="../../.objs28/tools/cb_share_config" />
 				<Option type="0" />
 				<Option compiler="gcc" />
