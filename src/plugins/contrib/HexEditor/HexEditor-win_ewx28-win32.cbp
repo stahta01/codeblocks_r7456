@@ -43,7 +43,7 @@
 					<Add directory="../../../build28" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip -j9 ..\..\..\build\share\EmBlocks\HexEditor.zip manifest.xml" />
+					<Add after="zip -j9 ..\..\..\build28\share\EmBlocks\HexEditor.zip manifest.xml" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

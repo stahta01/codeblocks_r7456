@@ -55,7 +55,7 @@
 			<Add directory="../../../build28" />
 		</Linker>
 		<ExtraCommands>
-			<Add after="zip -j9 ..\..\..\build\share\EmBlocks\copystrings.zip manifest.xml" />
+			<Add after="zip -j9 ..\..\..\build28\share\EmBlocks\copystrings.zip manifest.xml" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="copystrings.cpp" />

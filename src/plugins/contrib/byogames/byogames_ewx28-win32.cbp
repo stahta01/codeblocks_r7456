@@ -57,7 +57,7 @@
 			<Add directory="../../../build28" />
 		</Linker>
 		<ExtraCommands>
-			<Add after="zip -j9 ..\..\..\build\share\EmBlocks\byogames.zip manifest.xml" />
+			<Add after="zip -j9 ..\..\..\build28\share\EmBlocks\byogames.zip manifest.xml" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="byocbtris.cpp" />

@@ -82,7 +82,7 @@
 					<Add directory="../../../lib28" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip -j9 ..\..\..\build\share\EmBlocks\Exporter.zip manifest.xml" />
+					<Add after="zip -j9 ..\..\..\build28\share\EmBlocks\Exporter.zip manifest.xml" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

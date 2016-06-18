@@ -46,8 +46,8 @@
 					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip -j9 ..\..\..\build\share\emblocks\Navigation.zip manifest.xml *.xrc" />
-					<Add after="zip -9 ..\..\..\build\share\emblocks\Navigation.zip  images\16x16\*.png" />
+					<Add after="zip -j9 ..\..\..\build28\share\emblocks\Navigation.zip manifest.xml *.xrc" />
+					<Add after="zip -9 ..\..\..\build28\share\emblocks\Navigation.zip  images\16x16\*.png" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

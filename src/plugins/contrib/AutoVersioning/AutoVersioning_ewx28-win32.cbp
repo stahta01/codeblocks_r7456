@@ -42,7 +42,7 @@
 					<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip -j9 ..\..\..\build\share\emblocks\AutoVersioning.zip manifest.xml" />
+					<Add after="zip -j9 ..\..\..\build28\share\emblocks\AutoVersioning.zip manifest.xml" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

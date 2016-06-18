@@ -41,7 +41,7 @@
 					<Add directory="$(#ewx.lib)/gcc_dll$(WX_CFG)" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip -j9 ..\..\..\build\share\EmBlocks\EditorTweaks.zip manifest.xml" />
+					<Add after="zip -j9 ..\..\..\build28\share\EmBlocks\EditorTweaks.zip manifest.xml" />
 				</ExtraCommands>
 			</Target>
 			<Environment>

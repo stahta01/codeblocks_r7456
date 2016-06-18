@@ -21,7 +21,7 @@
 				</Linker>
 			</Target>
 			<Target title="default">
-				<Option output="../../../build/share/CodeBlocks/plugins/devpakupdater.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="../../../build28/share/emblocks/plugins/devpakupdater.dll" prefix_auto="0" extension_auto="0" />
 				<Option object_output="$(EB_OBJ)/plugins/contrib/devpak_plugin" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -51,7 +51,7 @@
 					<Add directory="../../../build28" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="zip ..\..\..\build\share\CodeBlocks\devpakupdater.zip manifest.xml *.xrc" />
+					<Add after="zip ..\..\..\build28\share\emblocks\devpakupdater.zip manifest.xml *.xrc" />
 					<Mode after="always" />
 				</ExtraCommands>
 			</Target>

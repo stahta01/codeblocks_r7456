@@ -58,7 +58,7 @@
 			<Add directory="$(#EWX.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
 		<ExtraCommands>
-			<Add after="zip -j9 ..\..\..\build\share\emblocks\SymTab.zip resources\manifest.xml resources\*.xrc" />
+			<Add after="zip -j9 ..\..\..\build28\share\emblocks\SymTab.zip resources\manifest.xml resources\*.xrc" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="resources/config_dialog.xrc" />
