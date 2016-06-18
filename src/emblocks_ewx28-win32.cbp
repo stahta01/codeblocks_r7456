@@ -225,7 +225,7 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="src">
-				<Option output="build28/codeblocks" prefix_auto="1" extension_auto="1" />
+				<Option output="build28/emblocks" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="build28" />
 				<Option object_output="$(EB_OBJ)" />
 				<Option external_deps="build28/libemblocks.a;" />
